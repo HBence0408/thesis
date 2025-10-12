@@ -599,7 +599,7 @@ Transform:
   m_GameObject: {fileID: 816860741}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12, y: 0.54, z: -6.67}
+  m_LocalPosition: {x: 3.517, y: 3.1, z: 0.91}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -636,10 +636,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subdivisions: 5
   extrudes: 5
-  radius: 1
+  radius: 5
   parametricCurvePrefab: {fileID: 0}
   parametricCurveScript: {fileID: 0}
   pointTest: {fileID: 790047154}
+  tubeWidth: 0.1
 --- !u!4 &828282637
 Transform:
   m_ObjectHideFlags: 0
@@ -855,7 +856,7 @@ Transform:
   m_GameObject: {fileID: 2086657147}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.22305, y: 2.53, z: -5.07361}
+  m_LocalPosition: {x: -0.49, y: 0.48, z: -1.67}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []

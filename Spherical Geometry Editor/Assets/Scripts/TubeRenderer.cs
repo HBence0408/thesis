@@ -13,6 +13,7 @@ public class TubeRenderer : MonoBehaviour
 	[SerializeField] private ParametricCurve parametricCurveScript;
     private static TubeRenderer instance;
     [SerializeField] private GameObject pointTest;
+    [SerializeField] private float tubeWidth;
 
 	public static TubeRenderer Instance
 	{
@@ -55,32 +56,39 @@ public class TubeRenderer : MonoBehaviour
 
         List<Vector3> vertices = new List<Vector3>();
 		List<int> triangles = new List<int>();
-
+        
 		Vector3 PreviousPointInCircle;
 
-        float FirstxPosition = 0 + radius * Mathf.Cos(angleStep * subdivisions - 1) * u.x + Mathf.Sin(angleStep * subdivisions - 1) * v.x;
-        float FirstyPosition = 0 + radius * Mathf.Cos(angleStep * subdivisions - 1) * u.y + Mathf.Sin(angleStep * subdivisions -1) * v.y;
-        float FirstzPosition = 0 + radius * Mathf.Cos(angleStep * subdivisions - 1) * u.z + Mathf.Sin(angleStep * subdivisions -1) * v.z;
+        float FirstxPosition = 0 + radius * Mathf.Cos(angleStep * subdivisions - 1) * u.x + radius * Mathf.Sin(angleStep * subdivisions - 1) * v.x;
+        float FirstyPosition = 0 + radius * Mathf.Cos(angleStep * subdivisions - 1) * u.y + radius * Mathf.Sin(angleStep * subdivisions -1) * v.y;
+        float FirstzPosition = 0 + radius * Mathf.Cos(angleStep * subdivisions - 1) * u.z + radius * Mathf.Sin(angleStep * subdivisions -1) * v.z;
 
         PreviousPointInCircle = new Vector3(FirstxPosition, FirstyPosition, FirstzPosition);
 
-
+        GameObject obj = Instantiate(pointTest);
+        obj.GetComponent<MeshRenderer>().material.color = Color.black;
+        obj.transform.position = PreviousPointInCircle;
+        
         for (int i = 0; i < subdivisions; i++)
         {
-			// ezek majd delegate-ekkel lesznek
-            float xPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.x + Mathf.Sin(angleStep * i) * v.x;
-            float yPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.y + Mathf.Sin(angleStep * i) * v.y;
-            float zPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.z + Mathf.Sin(angleStep * i) * v.z;
+            // ezek majd delegate-ekkel lesznek
+            float xPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.x + radius * Mathf.Sin(angleStep * i) * v.x;
+            float yPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.y + radius * Mathf.Sin(angleStep * i) * v.y;
+            float zPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.z + radius * Mathf.Sin(angleStep * i) * v.z;
 
             Vector3 pointInCircle = new Vector3(xPosition, yPosition, zPosition);
 
-			//itt ki kéne extrude-olni több irányba aztán hozzá adni a vertices-be õket
-			// a normál vektroól meg van a sík
-			//azon a sikon a kör és hasonlóan mint itt megrajzolni és a ponotkat avertexbe tenni
+            //itt ki kéne extrude-olni több irányba aztán hozzá adni a vertices-be õket
+            // a normál vektroól meg van a sík
+            //azon a sikon a kör és hasonlóan mint itt megrajzolni és a ponotkat avertexbe tenni
 
+            //LineRenderer lineRenderer = this.gameObject.AddComponent<LineRenderer>();
+            obj = Instantiate(pointTest);
+            obj.GetComponent<MeshRenderer>().material.color = Color.black;
+            obj.transform.position = pointInCircle;
 
-
-			for (int j = 0; j < extrudes; j++)
+            
+            for (int j = 0; j < extrudes; j++)
 			{
                 float extrudeStep = 2f * Mathf.PI / extrudes;
 
@@ -90,19 +98,20 @@ public class TubeRenderer : MonoBehaviour
 				a.Normalize();
 				b.Normalize();
 
-                float vertexXPosition = pointInCircle.x + 0.2f * Mathf.Cos(extrudeStep * j) * a.x + Mathf.Sin(extrudeStep * j) * b.x;
-                float vertexYPosition = pointInCircle.y + 0.2f * Mathf.Cos(extrudeStep * j) * a.y + Mathf.Sin(extrudeStep * j) * b.y;
-                float vertexZPosition = pointInCircle.z + 0.2f * Mathf.Cos(extrudeStep * j) * a.z + Mathf.Sin(extrudeStep * j) * b.z;
+                float vertexXPosition = pointInCircle.x + tubeWidth * Mathf.Cos(extrudeStep * j) * a.x + tubeWidth * Mathf.Sin(extrudeStep * j) * b.x;
+                float vertexYPosition = pointInCircle.y + tubeWidth * Mathf.Cos(extrudeStep * j) * a.y + tubeWidth * Mathf.Sin(extrudeStep * j) * b.y;
+                float vertexZPosition = pointInCircle.z + tubeWidth * Mathf.Cos(extrudeStep * j) * a.z + tubeWidth * Mathf.Sin(extrudeStep * j) * b.z;
 
                 Vector3 vertex = new Vector3(vertexXPosition, vertexYPosition, vertexZPosition);
 
 
                 //teszt
-                GameObject obj = Instantiate(pointTest);
-                obj.transform.position = vertex;
+                 obj = Instantiate(pointTest);
+                 obj.transform.position = vertex;
 
+                //lineRenderer.SetPosition(j, vertex);
             }
-
+            
 			PreviousPointInCircle = pointInCircle;
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class TubeRenderer : MonoBehaviour
 
     [SerializeField] private int subdivisions = 10;
     [SerializeField] private int extrudes = 3;
-    [SerializeField] private float radius = 5;
+    [SerializeField] private float radius;
 	[SerializeField] private GameObject parametricCurvePrefab;
 	[SerializeField] private ParametricCurve parametricCurveScript;
     private static TubeRenderer instance;
@@ -51,8 +52,9 @@ public class TubeRenderer : MonoBehaviour
         Vector3 v = Vector3.Cross(normalOfPlane, u);
 		v.Normalize();
 
-        //GameObject parametricCurve = Instantiate(parametricCurvePrefab);
-        //this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
+        GameObject parametricCurve = Instantiate(parametricCurvePrefab);
+        this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
+        parametricCurve.transform.position = new Vector3(0, 0, 0);
 
         List<Vector3> vertices = new List<Vector3>();
 		List<int> triangles = new List<int>();
@@ -104,6 +106,7 @@ public class TubeRenderer : MonoBehaviour
 
                 Vector3 vertex = new Vector3(vertexXPosition, vertexYPosition, vertexZPosition);
 
+                vertices.Add(vertex);
 
                 //teszt
                  obj = Instantiate(pointTest);
@@ -115,11 +118,48 @@ public class TubeRenderer : MonoBehaviour
 			PreviousPointInCircle = pointInCircle;
         }
 
+        //  itt újjabb for amiben a vertex-eket õszzekötni háromszögekbe úgyh hogy jó legyen
+        // ki számolni melyik indexwk melyikkel vannak
 
-		//  itt újjabb for amiben a vertex-eket õszzekötni háromszögekbe úgyh hogy jó legyen
-		// ki számolni melyik indexwk melyikkel vannak
 
+        for (int i = 0; i < subdivisions - 1; i++)
+        {
+            int index1;
+            int index2;
+            int index3;
+            int index4;
 
-		//parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray());
+            for (int j = 0; j < extrudes - 1; j++)
+            {
+                index1 = i * extrudes + j;
+                index2 = index1 + extrudes;
+                index3 = index1 + 1;
+                index4 = index2 + 1;
+
+                triangles.Add(index3);
+                triangles.Add(index2);
+                triangles.Add(index1);
+
+                triangles.Add(index4);
+                triangles.Add(index2);
+                triangles.Add(index3);
+            }
+
+            index1 = i * extrudes + extrudes - 1;
+            index2 = index1 + extrudes;
+            index3 = index1 + 1 - extrudes;
+            index4 = index2 + 1 - extrudes;
+
+            triangles.Add(index3);
+            triangles.Add(index2);
+            triangles.Add(index1);
+
+            triangles.Add(index4);
+            triangles.Add(index2);
+            triangles.Add(index3);
+        }
+
+		parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray());
+
     }
 }

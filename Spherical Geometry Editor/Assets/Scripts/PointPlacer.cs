@@ -4,22 +4,11 @@ using UnityEngine;
 
 public class PointPlacer : MonoBehaviour
 {
-
     [SerializeField] private GameObject pointA;
     [SerializeField] private GameObject pointB;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-
-
-    // Update is called once per frame
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log("a");
@@ -35,8 +24,6 @@ public class PointPlacer : MonoBehaviour
 
     private void PlacePoint(GameObject point)
     {
-
-
         RaycastHit hit;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

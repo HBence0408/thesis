@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class TubeRenderer : MonoBehaviour
 {
-    public delegate double SphericalLineParametricEq(double radius, double t, double pointACoord, double pointBCoord);
-
     [SerializeField] private int subdivisions = 10;
     [SerializeField] private int extrudes = 3;
     [SerializeField] private float radius;
@@ -37,7 +35,7 @@ public class TubeRenderer : MonoBehaviour
 		}
     }
 
-	public void Draw(double r, Vector3 point1, Vector3 point2/*, SphericalLineParametricEq x, SphericalLineParametricEq y, SphericalLineParametricEq z*/)
+	public void Draw(double r, Vector3 point1, Vector3 point2)
 	{
         float angleStep = 2f * Mathf.PI / subdivisions;
 
@@ -67,29 +65,13 @@ public class TubeRenderer : MonoBehaviour
 
         PreviousPointInCircle = new Vector3(FirstxPosition, FirstyPosition, FirstzPosition);
 
-        //GameObject obj = Instantiate(pointTest);
-        //obj.GetComponent<MeshRenderer>().material.color = Color.black;
-        //obj.transform.position = PreviousPointInCircle;
-
         for (int i = 0; i < subdivisions + 1; i++)
         {
-            // ezek majd delegate-ekkel lesznek
             float xPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.x + radius * Mathf.Sin(angleStep * i) * v.x;
             float yPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.y + radius * Mathf.Sin(angleStep * i) * v.y;
             float zPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.z + radius * Mathf.Sin(angleStep * i) * v.z;
 
             Vector3 pointInCircle = new Vector3(xPosition, yPosition, zPosition);
-
-            //itt ki kéne extrude-olni több irányba aztán hozzá adni a vertices-be õket
-            // a normál vektroól meg van a sík
-            //azon a sikon a kör és hasonlóan mint itt megrajzolni és a ponotkat avertexbe tenni
-
-            //LineRenderer lineRenderer = this.gameObject.AddComponent<LineRenderer>();
-            //teszt
-            //obj = Instantiate(pointTest);
-            //obj.GetComponent<MeshRenderer>().material.color = Color.black;
-            //obj.transform.position = pointInCircle;
-
 
             for (int j = 0; j < extrudes; j++)
 			{
@@ -109,24 +91,11 @@ public class TubeRenderer : MonoBehaviour
 
                 if (i != 0)
                 {
-                    vertices.Add(vertex);
-
-                    //teszt
-                    //obj = Instantiate(pointTest);
-                    //obj.transform.position = vertex;
+                    vertices.Add(vertex);;
                 }
-
-
-               
-
-                //lineRenderer.SetPosition(j, vertex);
             }
-            
 			PreviousPointInCircle = pointInCircle;
         }
-
-        //  itt újjabb for amiben a vertex-eket õszzekötni háromszögekbe úgyh hogy jó legyen
-        // ki számolni melyik indexwk melyikkel vannak
 
         int index1;
         int index2;
@@ -135,8 +104,6 @@ public class TubeRenderer : MonoBehaviour
 
         for (int i = 0; i < subdivisions - 1; i++)
         {
-
-
             for (int j = 0; j < extrudes - 1; j++)
             {
                 index1 = i * extrudes + j;
@@ -196,9 +163,6 @@ public class TubeRenderer : MonoBehaviour
         triangles.Add(index2);
         triangles.Add(index3);
 
-
-
         parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray());
-
     }
 }

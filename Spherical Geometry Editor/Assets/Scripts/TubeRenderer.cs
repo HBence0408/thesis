@@ -56,6 +56,7 @@ public class TubeRenderer : MonoBehaviour
 
         List<Vector3> vertices = new List<Vector3>();
 		List<int> triangles = new List<int>();
+        List<Vector3> PointsInCircle = new List<Vector3>();
         
 		Vector3 PreviousPointInCircle;
 
@@ -72,6 +73,7 @@ public class TubeRenderer : MonoBehaviour
             float zPosition = 0 + radius * Mathf.Cos(angleStep * i) * u.z + radius * Mathf.Sin(angleStep * i) * v.z;
 
             Vector3 pointInCircle = new Vector3(xPosition, yPosition, zPosition);
+            PointsInCircle.Add(pointInCircle);
 
             for (int j = 0; j < extrudes; j++)
 			{
@@ -163,6 +165,6 @@ public class TubeRenderer : MonoBehaviour
         triangles.Add(index2);
         triangles.Add(index3);
 
-        parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray());
+        parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
     }
 }

@@ -16,4 +16,7 @@ public class ParametricCurve : MonoBehaviour
         meshFilter.mesh = mesh;
         PointsInCircle = pointsInCircle;
     }
+
+    
+
 }

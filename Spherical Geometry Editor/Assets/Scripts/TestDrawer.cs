@@ -9,7 +9,7 @@ public class TestDrawer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            TubeRenderer.Instance.Draw(5, point1.transform.position, point2.transform.position);
+            TubeRenderer.Instance.DrawCircle(point1.transform.position.normalized, point2.transform.position.normalized);
         }
     }
 }

@@ -32,6 +32,7 @@ public class PointPlacer : MonoBehaviour
             Debug.Log(hit.transform.name);
             Debug.Log("hit");
             point.transform.position = hit.point;
+            point.transform.position = point.transform.position.normalized;
         }
     }
 }

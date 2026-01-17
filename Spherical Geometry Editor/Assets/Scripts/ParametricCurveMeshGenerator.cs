@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TubeRenderer : MonoBehaviour
+public class ParametricCurveMeshGenerator : MonoBehaviour
 {
     [SerializeField] private int subdivisions = 10;
     [SerializeField] private int extrudes = 3;
     [SerializeField] private float radius;
 	[SerializeField] private GameObject parametricCurvePrefab;
 	[SerializeField] private ParametricCurve parametricCurveScript;
-    private static TubeRenderer instance;
+    private static ParametricCurveMeshGenerator instance;
     [SerializeField] private GameObject pointTest;
     [SerializeField] private float tubeWidth;
 
-	public static TubeRenderer Instance
+    public delegate void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle);
+
+    public static ParametricCurveMeshGenerator Instance
 	{
 		get 
 		{
@@ -30,12 +32,12 @@ public class TubeRenderer : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogWarning("multiple tube renderer singleton, deleting self");
+			Debug.LogWarning("multiple ParametricCurveMeshGenerator singleton, deleting self");
 			Destroy(this.gameObject);
 		}
     }
 
-	public void DrawLine(Vector3 point1, Vector3 point2)
+	public void CreateGreatCircrcleMesh(Vector3 point1, Vector3 point2, CreateMesh callback)
 	{
         float angleStep = 2f * Mathf.PI / subdivisions;
 
@@ -50,9 +52,9 @@ public class TubeRenderer : MonoBehaviour
         Vector3 v = Vector3.Cross(normalOfPlane, u);
 		v.Normalize();
 
-        GameObject parametricCurve = Instantiate(parametricCurvePrefab);
-        this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
+        //GameObject parametricCurve = Instantiate(parametricCurvePrefab);
+        //this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
+        //parametricCurve.transform.position = new Vector3(0, 0, 0);
 
         List<Vector3> vertices = new List<Vector3>();
 		List<int> triangles = new List<int>();
@@ -165,10 +167,10 @@ public class TubeRenderer : MonoBehaviour
         triangles.Add(index2);
         triangles.Add(index3);
 
-        parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
+        callback?.Invoke(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
     }
 
-    public void DrawSegment(Vector3 point1, Vector3 point2)
+    public void CreateGreatCircrcleSegmentMesh(Vector3 point1, Vector3 point2)
     {
         float angle = Vector3.Angle(point1, point2);
 
@@ -351,7 +353,7 @@ public class TubeRenderer : MonoBehaviour
         parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
     }
 
-    public void DrawCircle(Vector3 point1, Vector3 point2)
+    public void CreateSmallCircleMesh(Vector3 point1, Vector3 point2)
     {
         float angleStep = 2f * Mathf.PI / subdivisions;
 

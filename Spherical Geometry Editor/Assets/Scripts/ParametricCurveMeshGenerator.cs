@@ -37,7 +37,7 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
 		}
     }
 
-	public void CreateGreatCircrcleMesh(Vector3 point1, Vector3 point2, CreateMesh callback)
+	public void CreateGreatCircleMesh(Vector3 point1, Vector3 point2, CreateMesh callback)
 	{
         float angleStep = 2f * Mathf.PI / subdivisions;
 
@@ -170,7 +170,7 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
         callback?.Invoke(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
     }
 
-    public void CreateGreatCircrcleSegmentMesh(Vector3 point1, Vector3 point2)
+    public void CreateGreatCircleSegmentMesh(Vector3 point1, Vector3 point2, CreateMesh callback)
     {
         float angle = Vector3.Angle(point1, point2);
 
@@ -187,9 +187,9 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
         Vector3 v = Vector3.Cross(normalOfPlane, u);
         v.Normalize();
 
-        GameObject parametricCurve = Instantiate(parametricCurvePrefab);
-        this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
+        //GameObject parametricCurve = Instantiate(parametricCurvePrefab);
+        //this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
+        //parametricCurve.transform.position = new Vector3(0, 0, 0);
 
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
@@ -350,10 +350,11 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
         //triangles.Add(index2);
         //triangles.Add(index3);
 
-        parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
+        //parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
+        callback?.Invoke(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
     }
 
-    public void CreateSmallCircleMesh(Vector3 point1, Vector3 point2)
+    public void CreateSmallCircleMesh(Vector3 point1, Vector3 point2, CreateMesh callback)
     {
         float angleStep = 2f * Mathf.PI / subdivisions;
 
@@ -380,9 +381,9 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
        
 
 
-        GameObject parametricCurve = Instantiate(parametricCurvePrefab);
-        this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
+        //GameObject parametricCurve = Instantiate(parametricCurvePrefab);
+        //this.parametricCurveScript = parametricCurve.GetComponent<ParametricCurve>();
+        //parametricCurve.transform.position = new Vector3(0, 0, 0);
 
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
@@ -495,6 +496,7 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
         triangles.Add(index2);
         triangles.Add(index3);
 
-        parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
+        // parametricCurveScript.CreateMesh(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
+        callback?.Invoke(vertices.ToArray(), triangles.ToArray(), PointsInCircle.ToArray());
     }
 }

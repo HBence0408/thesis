@@ -70,14 +70,14 @@ public class Projector : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Projector.Instance.StereographicProject(curveToProject);
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    Projector.Instance.StereographicProject(curveToProject);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Projector.Instance.StereographicProject2(curveToProject);
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    Projector.Instance.StereographicProject2(curveToProject);
+        //}
     }
 }

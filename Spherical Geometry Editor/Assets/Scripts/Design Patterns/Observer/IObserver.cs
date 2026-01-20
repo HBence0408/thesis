@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface Observer
+public interface IObserver
 {
     void OnChanged();
 }

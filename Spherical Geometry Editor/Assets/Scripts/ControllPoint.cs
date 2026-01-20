@@ -2,25 +2,25 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControllPoint : MonoBehaviour, Observable
+public class ControllPoint : MonoBehaviour, IObservable
 {
-    private List<Observer> observers = new List<Observer>();
+    private List<IObserver> observers = new List<IObserver>();
     private Vector3 previousPos;
 
     public void Notify()
     {
-        foreach (Observer o in observers)
+        foreach (IObserver o in observers)
         {
             o.OnChanged();
         }
     }
 
-    public void Subscirbe(Observer o)
+    public void Subscirbe(IObserver o)
     {
         observers.Add(o);
     }
 
-    public void Unsubscirbe(Observer o)
+    public void Unsubscirbe(IObserver o)
     {
         observers.Remove(o);
     }

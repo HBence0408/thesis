@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; width: 86px;">
+        <ui:Button text="Line" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Segment" style="width: 184px; height: 142px; font-size: 40px;" />
+        <ui:Button text="Circle" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Point" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Button" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Button" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Button" style="width: 184px; height: 142px; font-size: 50px;" />
+    </ui:VisualElement>
+</ui:UXML>

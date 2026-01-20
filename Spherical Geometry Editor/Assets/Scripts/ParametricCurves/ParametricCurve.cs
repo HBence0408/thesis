@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ParametricCurve : MonoBehaviour, Observer
+public abstract class ParametricCurve : MonoBehaviour, IObserver
 {
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;

@@ -4,8 +4,8 @@
         <ui:Button text="Segment" style="width: 184px; height: 142px; font-size: 40px;" />
         <ui:Button text="Circle" style="width: 184px; height: 142px; font-size: 50px;" />
         <ui:Button text="Point" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Button" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Button" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Button" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Undo&#10;" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Move&#10;" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Intersect" style="width: 184px; height: 142px; font-size: 40px;" />
     </ui:VisualElement>
 </ui:UXML>

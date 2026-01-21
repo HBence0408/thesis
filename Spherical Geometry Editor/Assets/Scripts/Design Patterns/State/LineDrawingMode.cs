@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class LineDrawingMode : DrawingMode
 {
+
+    public new void SetUp(GameObject prefab)
+    {
+        base.SetUp(prefab);
+        ControllPoints = 2;
+    }
+
     public override ICommand Draw(GameObject[] controllPoints)
     {
         GameObject parametricCurve = Instantiate(prefab);

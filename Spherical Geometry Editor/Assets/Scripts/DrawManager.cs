@@ -16,8 +16,9 @@ public class DrawManager : MonoBehaviour
     private SelectOrPlaceControllPointsState selectOrPlaceControllPointsState;
     private DrawParametricCurveState drawParametricCurveState;
     private IdleState idleState;
-
     private LineDrawingMode lineDrawingMode;
+    private CircleDrawMode circleDrawMode;
+    private SegmentDrawingMode segmentDrawingMode;
 
     public SelectOrPlaceControllPointsState SelectOrPlaceControllPointsState { get { return selectOrPlaceControllPointsState; } }
     public DrawParametricCurveState DrawParametricCurveState { get { return drawParametricCurveState; } }
@@ -33,9 +34,11 @@ public class DrawManager : MonoBehaviour
         idleState.SetUp(this);
 
         lineDrawingMode = ScriptableObject.CreateInstance<LineDrawingMode>();
-        lineDrawingMode.SetUp(GreatCirclePrefab, 2);
-
-
+        lineDrawingMode.SetUp(GreatCirclePrefab);
+        circleDrawMode = ScriptableObject.CreateInstance<CircleDrawMode>();
+        circleDrawMode.SetUp(SmallCirclePrefab);
+        segmentDrawingMode = ScriptableObject.CreateInstance<SegmentDrawingMode>();
+        segmentDrawingMode.SetUp(GreatCircleSegmentPrefab);
 
         currentState = idleState;
     }
@@ -63,12 +66,14 @@ public class DrawManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            DrawSegment(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+            //DrawSegment(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+            SetState(selectOrPlaceControllPointsState, segmentDrawingMode);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            DrawCircle(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+            // DrawCircle(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+            SetState(selectOrPlaceControllPointsState, circleDrawMode);
         }
     }
 
@@ -124,25 +129,25 @@ public class DrawManager : MonoBehaviour
     //    undoStack.Push(command);
     //}
 
-    private void DrawSegment(ControllPoint point1, ControllPoint point2)
-    {
-        GameObject parametricCurve = Instantiate(GreatCircleSegmentPrefab);
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
-        GreatCircleSegment script = parametricCurve.GetComponent<GreatCircleSegment>();
-        DrawGreatCircleSegmentCommand command = new DrawGreatCircleSegmentCommand(script, point1, point2);
-        command.Execute();
-        undoStack.Push(command);
-    } 
+    //private void DrawSegment(ControllPoint point1, ControllPoint point2)
+    //{
+    //    GameObject parametricCurve = Instantiate(GreatCircleSegmentPrefab);
+    //    parametricCurve.transform.position = new Vector3(0, 0, 0);
+    //    GreatCircleSegment script = parametricCurve.GetComponent<GreatCircleSegment>();
+    //    DrawGreatCircleSegmentCommand command = new DrawGreatCircleSegmentCommand(script, point1, point2);
+    //    command.Execute();
+    //    undoStack.Push(command);
+    //} 
 
-    private void DrawCircle(ControllPoint point1, ControllPoint point2)
-    {
-        GameObject parametricCurve = Instantiate(SmallCirclePrefab);
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
-        SmallCircle script = parametricCurve.GetComponent<SmallCircle>();
-        DrawSmallCircleCommand command = new DrawSmallCircleCommand(script, point1, point2);
-        command.Execute();
-        undoStack.Push(command);
-    }
+    ////private void DrawCircle(ControllPoint point1, ControllPoint point2)
+    //{
+    //    GameObject parametricCurve = Instantiate(SmallCirclePrefab);
+    //    parametricCurve.transform.position = new Vector3(0, 0, 0);
+    //    SmallCircle script = parametricCurve.GetComponent<SmallCircle>();
+    //    DrawSmallCircleCommand command = new DrawSmallCircleCommand(script, point1, point2);
+    //    command.Execute();
+    //    undoStack.Push(command);
+    //}
 
     //private GameObject PlacePoint()
     //{

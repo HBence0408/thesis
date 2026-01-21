@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class DrawGreatCircleSegmentCommand : ICommand
 {
-    private ControllPoint point1;
-    private ControllPoint point2;
+    private GameObject point1;
+    private GameObject point2;
     private GreatCircleSegment greatCircleSegment;
 
-    public DrawGreatCircleSegmentCommand(GreatCircleSegment greatCircleSegment, ControllPoint point1, ControllPoint point2)
+    public DrawGreatCircleSegmentCommand(GreatCircleSegment greatCircleSegment, GameObject point1, GameObject point2)
     {
         this.greatCircleSegment = greatCircleSegment;
         this.point1 = point1;
@@ -16,6 +16,7 @@ public class DrawGreatCircleSegmentCommand : ICommand
     public void Execute()
     {
         ParametricCurveMeshGenerator.Instance.CreateGreatCircleSegmentMesh(point1.transform.position.normalized, point2.transform.position.normalized, greatCircleSegment.CreateMesh);
+        greatCircleSegment.AddContollPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
     }
 
     public void UnExecute()

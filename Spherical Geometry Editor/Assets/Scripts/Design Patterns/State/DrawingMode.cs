@@ -13,10 +13,9 @@ public abstract class DrawingMode : ScriptableObject
 		protected set { controllPoints = value; }
 	}
 
-	public void SetUp(GameObject preafab, int controllPoints) 
+	public void SetUp(GameObject preafab) 
 	{ 
 		this.prefab = preafab;
-		this.controllPoints = controllPoints;
 	}
 
 	public abstract ICommand Draw(GameObject[] controllPoints);

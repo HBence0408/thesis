@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class DrawSmallCircleCommand : ICommand
 {
-    private ControllPoint point1;
-    private ControllPoint point2;
+    private GameObject point1;
+    private GameObject point2;
     private SmallCircle smallCircle;
 
-    public DrawSmallCircleCommand(SmallCircle greatCircleSegment, ControllPoint point1, ControllPoint point2)
+    public DrawSmallCircleCommand(SmallCircle greatCircleSegment, GameObject point1, GameObject point2)
     {
         this.smallCircle = greatCircleSegment;
         this.point1 = point1;
@@ -16,6 +16,7 @@ public class DrawSmallCircleCommand : ICommand
     public void Execute()
     {
         ParametricCurveMeshGenerator.Instance.CreateSmallCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, smallCircle.CreateMesh);
+        smallCircle.AddContollPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
     }
 
     public void UnExecute()

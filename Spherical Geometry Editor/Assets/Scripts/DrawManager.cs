@@ -118,9 +118,7 @@ public class DrawManager : MonoBehaviour
         {
             SetState(intersectDrawState);
         }
-
     }
-
 
     public void SetState(DrawingState state, DrawingMode mode)
     {
@@ -169,6 +167,42 @@ public class DrawManager : MonoBehaviour
     public void SelectControllPoint(GameObject point)
     {
         SelectedControllPoints.Add(point);
+    }
+
+    public void DrawLine()
+    {
+        ClearControllPoints();
+        SetState(selectOrPlaceControllPointsState, lineDrawingMode);
+    }
+
+    public void DrawSegment()
+    {
+        ClearControllPoints();
+        SetState(selectOrPlaceControllPointsState, segmentDrawingMode);
+    }
+
+    public void DrawPoint()
+    {
+        ClearControllPoints();
+        SetState(placePointsState);
+    }
+
+    public void DrawCircle()
+    {
+        ClearControllPoints();
+        SetState(selectOrPlaceControllPointsState, circleDrawMode);
+    }
+
+    public void MovePoint()
+    {
+        ClearControllPoints();
+        SetState(moveState);
+    }
+
+    public void Intersect()
+    {
+        ClearControllPoints();
+        SetState(intersectDrawState);
     }
 
     //private void DrawLine(ControllPoint point1, ControllPoint point2)

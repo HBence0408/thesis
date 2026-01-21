@@ -9,7 +9,7 @@ public class MovePointCommand : ICommand
     public MovePointCommand(Vector3 toPos, GameObject point, Vector3 fromPos)
     {
         this.toPos = toPos.normalized;
-        this.fromPos = toPos.normalized;
+        this.fromPos = fromPos.normalized;
         this.point = point;
     }
 

@@ -12,5 +12,22 @@ public class CamaraMovement : MonoBehaviour
     void Update()
     {
       //  this.transform.Rotate(0, 0, 1);
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            this.transform.Rotate(0.5f, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            this.transform.Rotate(-0.5f, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            this.transform.Rotate(0, 0.5f, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            this.transform.Rotate(0, -0.5f, 0);
+        }
     }
 }

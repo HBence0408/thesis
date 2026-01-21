@@ -1,11 +1,11 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1; width: 86px;">
-        <ui:Button text="Line" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Segment" style="width: 184px; height: 142px; font-size: 40px;" />
-        <ui:Button text="Circle" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Point" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Undo&#10;" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Move&#10;" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Intersect" style="width: 184px; height: 142px; font-size: 40px;" />
+        <ui:Button text="Line" binding-path="lineButton" parse-escape-sequences="true" view-data-key="lineButton" name="lineButton" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Segment" binding-path="segmentButton" view-data-key="segmentButton" name="segmentButton" style="width: 184px; height: 142px; font-size: 40px;" />
+        <ui:Button text="Circle" binding-path="circleButton" view-data-key="circleButton" name="circleButton" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Point" binding-path="pointButton" view-data-key="pointButton" name="pointButton" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Undo&#10;" binding-path="undoButton" view-data-key="undoButton" name="undoButton" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Move&#10;" binding-path="moveButton" view-data-key="moveButton" name="moveButton" style="width: 184px; height: 142px; font-size: 50px;" />
+        <ui:Button text="Intersect&#10;" binding-path="intersectButton" view-data-key="intersectButton" style="width: 184px; height: 142px; font-size: 40px;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -19,7 +19,8 @@ public class MoveState : DrawingState
             }
             else if (point is not null)
             {
-                MovePointCommand command = new MovePointCommand(hit.point, point, point.transform.position);
+                Vector3 currentPos = point.transform.position;
+                MovePointCommand command = new MovePointCommand(hit.point, point, currentPos);
                 manager.ExecuteCommand(command);
                 manager.SetState(manager.IdleState);
             }

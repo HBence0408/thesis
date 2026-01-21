@@ -14,6 +14,7 @@ public class DrawManager : MonoBehaviour
     private DrawingState currentState;
     private SelectOrPlaceControllPointsState selectOrPlaceControllPointsState;
     private DrawParametricCurveState drawParametricCurveState;
+    private IntersectDrawState intersectDrawState;
     private MoveState moveState;
     private PlacePointsState placePointsState;
     private IdleState idleState;
@@ -24,6 +25,7 @@ public class DrawManager : MonoBehaviour
     public static DrawManager Instance {  get { return instance; } }
     public SelectOrPlaceControllPointsState SelectOrPlaceControllPointsState { get { return selectOrPlaceControllPointsState; } }
     public DrawParametricCurveState DrawParametricCurveState { get { return drawParametricCurveState; } }
+    public IntersectDrawState IntersectDrawState { get { return intersectDrawState; } }
     public MoveState MoveState { get { return moveState; } }
     public PlacePointsState PlacePointsState { get { return placePointsState; } }
     public IdleState IdleState { get { return idleState; } }
@@ -44,6 +46,8 @@ public class DrawManager : MonoBehaviour
         selectOrPlaceControllPointsState.SetUp(this,controllPointPreafab);
         drawParametricCurveState = ScriptableObject.CreateInstance<DrawParametricCurveState>();
         drawParametricCurveState.SetUp(this);
+        intersectDrawState = ScriptableObject.CreateInstance<IntersectDrawState>();
+        intersectDrawState.SetUp(this,controllPointPreafab);
         moveState = ScriptableObject.CreateInstance<MoveState>();
         moveState.SetUp(this);
         placePointsState = ScriptableObject.CreateInstance<PlacePointsState>();
@@ -108,6 +112,11 @@ public class DrawManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             SetState(placePointsState); 
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            SetState(intersectDrawState);
         }
 
     }

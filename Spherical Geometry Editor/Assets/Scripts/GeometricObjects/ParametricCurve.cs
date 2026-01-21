@@ -6,6 +6,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver
 {
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private MeshCollider meshCollider;
     public Vector3[] PointsInCircle;
     protected ControllPoint point1;
     protected ControllPoint point2;
@@ -17,6 +18,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver
         mesh.triangles = triangles;
         meshFilter.mesh = mesh;
         PointsInCircle = pointsInCircle;
+        meshCollider.sharedMesh = mesh;
     }
 
     public void AddContollPoints(ControllPoint point1, ControllPoint point2)
@@ -30,6 +32,14 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver
     public void Destroy()
     {
         Destroy(this.gameObject);
+    }
+
+    public Vector3 NormalOfPlane 
+    {
+        get
+        {
+            return Vector3.Cross(point1.transform.position.normalized,point2.transform.position.normalized).normalized;
+        }
     }
 
     public abstract void OnChanged();

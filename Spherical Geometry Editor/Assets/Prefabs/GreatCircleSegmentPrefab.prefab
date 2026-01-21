@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2597063723087425864}
   - component: {fileID: 764536736955506389}
   - component: {fileID: -2124873112623678669}
+  - component: {fileID: 1539633050487932957}
   m_Layer: 0
   m_Name: GreatCircleSegmentPrefab
   m_TagString: Untagged
@@ -104,4 +105,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GreatCircleSegment
   meshFilter: {fileID: 2597063723087425864}
   meshRenderer: {fileID: 764536736955506389}
+  meshCollider: {fileID: 1539633050487932957}
   PointsInCircle: []
+--- !u!64 &1539633050487932957
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563057126761308227}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}

@@ -812,7 +812,7 @@ MonoBehaviour:
   parametricCurvePrefab: {fileID: 1563057126761308227, guid: ef4bcff67f47b0345a010da6c7d4a675, type: 3}
   parametricCurveScript: {fileID: 0}
   pointTest: {fileID: 790047154}
-  tubeWidth: 0.005
+  tubeWidth: 0.01
 --- !u!4 &828282637
 Transform:
   m_ObjectHideFlags: 0

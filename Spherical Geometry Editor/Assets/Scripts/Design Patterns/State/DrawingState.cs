@@ -21,6 +21,7 @@ public abstract class DrawingState : ScriptableObject
         this.manager = manager;
     }
 
+    public virtual void OnLeftMouseUp() { }
     public virtual void OnLeftMouseDown() { }
 
 }

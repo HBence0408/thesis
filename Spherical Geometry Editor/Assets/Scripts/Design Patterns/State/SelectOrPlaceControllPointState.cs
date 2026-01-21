@@ -1,9 +1,9 @@
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class SelectOrPlaceControllPointsState : DrawingState
 {
-    // még nincs select csak place
     private GameObject prefab;
 
     public void SetUp(DrawManager manager ,GameObject prefab)
@@ -12,7 +12,7 @@ public class SelectOrPlaceControllPointsState : DrawingState
         this.prefab = prefab;
     }
 
-    public override void OnLeftMouseDown()
+    public override void OnLeftMouseUp()
     {
 
         RaycastHit hit;
@@ -22,10 +22,18 @@ public class SelectOrPlaceControllPointsState : DrawingState
         {
             Debug.Log(hit.transform.name);
             Debug.Log("hit");
-            GameObject point = Instantiate(prefab);
-            PlacePointCommand command = new PlacePointCommand(hit.point, point);
-            manager.ExecuteCommand(command);
-            manager.SelectControllPoint(point);
+
+            if (hit.transform.gameObject.tag == "point")
+            {
+                manager.SelectControllPoint(hit.transform.gameObject);
+            }
+            else
+            {
+                GameObject point = Instantiate(prefab);
+                PlacePointCommand command = new PlacePointCommand(hit.point, point.GetComponent<ControllPoint>());
+                manager.ExecuteCommand(command);
+                manager.SelectControllPoint(point);
+            }
         }
 
         if (drawingMode.ControllPoints <= manager.ControllPointsCount())

@@ -1,11 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlacePointCommand : ICommand
 {
     private Vector3 pos;
-    private GameObject point;
+    private ControllPoint point;
 
-    public PlacePointCommand(Vector3 pos, GameObject point)
+    public PlacePointCommand(Vector3 pos, ControllPoint point)
     {
         this.pos = pos.normalized;
         this.point = point;
@@ -18,6 +19,6 @@ public class PlacePointCommand : ICommand
 
     public void UnExecute()
     {
-        throw new System.NotImplementedException();
+        point.Destroy();
     }
 }

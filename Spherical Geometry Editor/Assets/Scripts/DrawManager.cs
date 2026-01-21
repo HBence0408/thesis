@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class DrawManager : MonoBehaviour
 {
-    private GameObject point1;
-    private GameObject point2;
+    private static DrawManager instance;
     [SerializeField] private GameObject controllPointPreafab;
     [SerializeField] private GameObject parametricCurvePrefab;
     [SerializeField] private GameObject GreatCirclePrefab;
@@ -15,21 +14,40 @@ public class DrawManager : MonoBehaviour
     private DrawingState currentState;
     private SelectOrPlaceControllPointsState selectOrPlaceControllPointsState;
     private DrawParametricCurveState drawParametricCurveState;
+    private MoveState moveState;
+    private PlacePointsState placePointsState;
     private IdleState idleState;
     private LineDrawingMode lineDrawingMode;
     private CircleDrawMode circleDrawMode;
     private SegmentDrawingMode segmentDrawingMode;
 
+    public static DrawManager Instance {  get { return instance; } }
     public SelectOrPlaceControllPointsState SelectOrPlaceControllPointsState { get { return selectOrPlaceControllPointsState; } }
     public DrawParametricCurveState DrawParametricCurveState { get { return drawParametricCurveState; } }
+    public MoveState MoveState { get { return moveState; } }
+    public PlacePointsState PlacePointsState { get { return placePointsState; } }
     public IdleState IdleState { get { return idleState; } }
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("multiple drawing managers, destroying self");
+            Destroy(this.gameObject);
+        }
+
         selectOrPlaceControllPointsState = ScriptableObject.CreateInstance<SelectOrPlaceControllPointsState>();
         selectOrPlaceControllPointsState.SetUp(this,controllPointPreafab);
         drawParametricCurveState = ScriptableObject.CreateInstance<DrawParametricCurveState>();
         drawParametricCurveState.SetUp(this);
+        moveState = ScriptableObject.CreateInstance<MoveState>();
+        moveState.SetUp(this);
+        placePointsState = ScriptableObject.CreateInstance<PlacePointsState>();
+        placePointsState.SetUp(this, controllPointPreafab);
         idleState = ScriptableObject.CreateInstance<IdleState>();
         idleState.SetUp(this);
 
@@ -51,11 +69,11 @@ public class DrawManager : MonoBehaviour
             SetState(selectOrPlaceControllPointsState, lineDrawingMode);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             //point1 = PlacePoint();
             //Debug.Log(point1);
-            currentState.OnLeftMouseDown();
+            currentState.OnLeftMouseUp();
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -75,6 +93,23 @@ public class DrawManager : MonoBehaviour
             // DrawCircle(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
             SetState(selectOrPlaceControllPointsState, circleDrawMode);
         }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            SetState(idleState);
+            Undo();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            SetState(moveState);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SetState(placePointsState); 
+        }
+
     }
 
 
@@ -85,6 +120,14 @@ public class DrawManager : MonoBehaviour
         Debug.Log(currentState);
         Debug.Log(mode);
         currentState.OnEnter(mode);
+    }
+
+    public void SetState(DrawingState state)
+    {
+        currentState.OnExit();
+        currentState = state;
+        Debug.Log(currentState);
+        currentState.OnEnter(null);
     }
 
     public void ExecuteCommand(ICommand command)

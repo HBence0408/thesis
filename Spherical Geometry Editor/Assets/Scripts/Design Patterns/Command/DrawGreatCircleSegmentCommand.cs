@@ -21,6 +21,6 @@ public class DrawGreatCircleSegmentCommand : ICommand
 
     public void UnExecute()
     {
-        throw new System.NotImplementedException();
+        greatCircleSegment.Destroy();
     }
 }

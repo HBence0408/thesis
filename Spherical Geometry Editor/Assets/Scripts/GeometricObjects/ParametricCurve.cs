@@ -27,7 +27,10 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver
         this.point2.Subscirbe(this);
     }
 
-
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
+    }
 
     public abstract void OnChanged();
     //{

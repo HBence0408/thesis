@@ -40,4 +40,9 @@ public class ControllPoint : MonoBehaviour, IObservable
             previousPos = transform.position;
         }
     }
+
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
+    }
 }

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class DrawGreatCircleCommand :ICommand
@@ -21,6 +22,6 @@ public class DrawGreatCircleCommand :ICommand
 
     public void UnExecute()
     {
-        throw new System.NotImplementedException();
+        greatCircle.Destroy();
     }
 }

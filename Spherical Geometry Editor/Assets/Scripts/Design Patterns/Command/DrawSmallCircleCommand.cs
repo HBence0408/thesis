@@ -21,6 +21,6 @@ public class DrawSmallCircleCommand : ICommand
 
     public void UnExecute()
     {
-        throw new System.NotImplementedException();
+        smallCircle.Destroy();
     }
 }

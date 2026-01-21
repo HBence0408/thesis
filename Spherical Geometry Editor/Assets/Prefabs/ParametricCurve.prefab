@@ -11,14 +11,13 @@ GameObject:
   - component: {fileID: 5300821751199404250}
   - component: {fileID: 2597063723087425864}
   - component: {fileID: 764536736955506389}
-  - component: {fileID: 9223362791165292177}
   m_Layer: 0
   m_Name: ParametricCurve
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5300821751199404250
 Transform:
   m_ObjectHideFlags: 0
@@ -90,17 +89,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9223362791165292177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563057126761308227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 889e857572d6fc440ac802b0c5ed5dc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshFilter: {fileID: 2597063723087425864}
-  meshRenderer: {fileID: 764536736955506389}

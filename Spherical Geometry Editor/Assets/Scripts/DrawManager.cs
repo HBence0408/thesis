@@ -11,24 +11,54 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private GameObject GreatCircleSegmentPrefab;
     [SerializeField] private GameObject SmallCirclePrefab;
     private Stack<ICommand> undoStack = new Stack<ICommand>();
+    private List<GameObject> SelectedControllPoints = new List<GameObject>();
+    private DrawingState currentState;
+    private SelectOrPlaceControllPointsState selectOrPlaceControllPointsState;
+    private DrawParametricCurveState drawParametricCurveState;
+    private IdleState idleState;
 
-    void Update()
+    private LineDrawingMode lineDrawingMode;
+
+    public SelectOrPlaceControllPointsState SelectOrPlaceControllPointsState { get { return selectOrPlaceControllPointsState; } }
+    public DrawParametricCurveState DrawParametricCurveState { get { return drawParametricCurveState; } }
+    public IdleState IdleState { get { return idleState; } }
+
+    private void Awake()
+    {
+        selectOrPlaceControllPointsState = ScriptableObject.CreateInstance<SelectOrPlaceControllPointsState>();
+        selectOrPlaceControllPointsState.SetUp(this,controllPointPreafab);
+        drawParametricCurveState = ScriptableObject.CreateInstance<DrawParametricCurveState>();
+        drawParametricCurveState.SetUp(this);
+        idleState = ScriptableObject.CreateInstance<IdleState>();
+        idleState.SetUp(this);
+
+        lineDrawingMode = ScriptableObject.CreateInstance<LineDrawingMode>();
+        lineDrawingMode.SetUp(GreatCirclePrefab, 2);
+
+
+
+        currentState = idleState;
+    }
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            DrawLine(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+            //DrawLine(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+            SetState(selectOrPlaceControllPointsState, lineDrawingMode);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            point1 = PlacePoint();
-            Debug.Log(point1);
+            //point1 = PlacePoint();
+            //Debug.Log(point1);
+            currentState.OnLeftMouseDown();
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            point2 = PlacePoint();
-            Debug.Log(point2);
+            //point2 = PlacePoint();
+            //Debug.Log(point2);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -42,15 +72,57 @@ public class DrawManager : MonoBehaviour
         }
     }
 
-    private void DrawLine(ControllPoint point1, ControllPoint point2)
+
+    public void SetState(DrawingState state, DrawingMode mode)
     {
-        GameObject parametricCurve = Instantiate(GreatCirclePrefab);
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
-        GreatCircle script = parametricCurve.GetComponent<GreatCircle>();
-        DrawGreatCircleCommand command = new DrawGreatCircleCommand(script, point1, point2);
+        currentState.OnExit();
+        currentState = state;
+        Debug.Log(currentState);
+        Debug.Log(mode);
+        currentState.OnEnter(mode);
+    }
+
+    public void ExecuteCommand(ICommand command)
+    {
         command.Execute();
         undoStack.Push(command);
     }
+
+    public void Undo()
+    {
+        ICommand command = undoStack.Pop(); 
+        command.UnExecute();
+    }
+
+    public GameObject[] ControllPoints()
+    {
+        return SelectedControllPoints.ToArray();
+    }
+
+    public int ControllPointsCount()
+    {
+        return SelectedControllPoints.Count;
+    }
+
+    public void ClearControllPoints()
+    {
+        SelectedControllPoints = new List<GameObject>();
+    }
+
+    public void SelectControllPoint(GameObject point)
+    {
+        SelectedControllPoints.Add(point);
+    }
+
+    //private void DrawLine(ControllPoint point1, ControllPoint point2)
+    //{
+    //    GameObject parametricCurve = Instantiate(GreatCirclePrefab);
+    //    parametricCurve.transform.position = new Vector3(0, 0, 0);
+    //    GreatCircle script = parametricCurve.GetComponent<GreatCircle>();
+    //    DrawGreatCircleCommand command = new DrawGreatCircleCommand(script, point1, point2);
+    //    command.Execute();
+    //    undoStack.Push(command);
+    //}
 
     private void DrawSegment(ControllPoint point1, ControllPoint point2)
     {
@@ -72,23 +144,23 @@ public class DrawManager : MonoBehaviour
         undoStack.Push(command);
     }
 
-    private GameObject PlacePoint()
-    {
-        RaycastHit hit;
+    //private GameObject PlacePoint()
+    //{
+    //    RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
-        {
-            Debug.Log(hit.transform.name);
-            Debug.Log("hit");
-            GameObject point = Instantiate(controllPointPreafab); 
-            PlacePointCommand command = new PlacePointCommand(hit.point, point);
-            command.Execute();
-            undoStack.Push(command);
-            return point;
-        }
+    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //    if (Physics.Raycast(ray, out hit, 1000))
+    //    {
+    //        Debug.Log(hit.transform.name);
+    //        Debug.Log("hit");
+    //        GameObject point = Instantiate(controllPointPreafab); 
+    //        PlacePointCommand command = new PlacePointCommand(hit.point, point);
+    //        command.Execute();
+    //        undoStack.Push(command);
+    //        return point;
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
 }

@@ -4,11 +4,12 @@ using UnityEngine;
 public class DrawManager : MonoBehaviour
 {
     private static DrawManager instance;
-    [SerializeField] private GameObject controllPointPreafab;
+    [SerializeField] private GameObject ControllPointPreafab;
     [SerializeField] private GameObject parametricCurvePrefab;
     [SerializeField] private GameObject GreatCirclePrefab;
     [SerializeField] private GameObject GreatCircleSegmentPrefab;
     [SerializeField] private GameObject SmallCirclePrefab;
+    [SerializeField] private GameObject IntersectPointPrefab;
     private Stack<ICommand> undoStack = new Stack<ICommand>();
     private List<GameObject> SelectedControllPoints = new List<GameObject>();
     private DrawingState currentState;
@@ -43,18 +44,20 @@ public class DrawManager : MonoBehaviour
         }
 
         selectOrPlaceControllPointsState = ScriptableObject.CreateInstance<SelectOrPlaceControllPointsState>();
-        selectOrPlaceControllPointsState.SetUp(this,controllPointPreafab);
+        selectOrPlaceControllPointsState.SetUp(this,ControllPointPreafab);
         drawParametricCurveState = ScriptableObject.CreateInstance<DrawParametricCurveState>();
         drawParametricCurveState.SetUp(this);
         intersectDrawState = ScriptableObject.CreateInstance<IntersectDrawState>();
-        intersectDrawState.SetUp(this,controllPointPreafab);
+        intersectDrawState.SetUp(this, IntersectPointPrefab);
         moveState = ScriptableObject.CreateInstance<MoveState>();
         moveState.SetUp(this);
         placePointsState = ScriptableObject.CreateInstance<PlacePointsState>();
-        placePointsState.SetUp(this, controllPointPreafab);
+        placePointsState.SetUp(this, ControllPointPreafab);
         idleState = ScriptableObject.CreateInstance<IdleState>();
         idleState.SetUp(this);
 
+        //TODO
+        // kivinni őket külön state-ekbe, egy drawingState abstract osztály amiben benne van a select or replace, és akkor nem kell az a state ezeket meg át adni neki
         lineDrawingMode = ScriptableObject.CreateInstance<LineDrawingMode>();
         lineDrawingMode.SetUp(GreatCirclePrefab);
         circleDrawMode = ScriptableObject.CreateInstance<CircleDrawMode>();
@@ -70,7 +73,7 @@ public class DrawManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             //DrawLine(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
-            SetState(selectOrPlaceControllPointsState, lineDrawingMode);
+          //  SetState(selectOrPlaceControllPointsState, lineDrawingMode);
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -80,43 +83,44 @@ public class DrawManager : MonoBehaviour
             currentState.OnLeftMouseUp();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             //point2 = PlacePoint();
             //Debug.Log(point2);
+            currentState.OnLeftMouseDown();
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
             //DrawSegment(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
-            SetState(selectOrPlaceControllPointsState, segmentDrawingMode);
+           // SetState(selectOrPlaceControllPointsState, segmentDrawingMode);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
             // DrawCircle(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
-            SetState(selectOrPlaceControllPointsState, circleDrawMode);
+          //  SetState(selectOrPlaceControllPointsState, circleDrawMode);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
-            SetState(idleState);
-            Undo();
+           // SetState(idleState);
+          //  Undo();
         }
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            SetState(moveState);
+           // SetState(moveState);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SetState(placePointsState); 
+           // SetState(placePointsState); 
         }
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            SetState(intersectDrawState);
+           // SetState(intersectDrawState);
         }
     }
 
@@ -244,7 +248,7 @@ public class DrawManager : MonoBehaviour
     //    {
     //        Debug.Log(hit.transform.name);
     //        Debug.Log("hit");
-    //        GameObject point = Instantiate(controllPointPreafab); 
+    //        GameObject point = Instantiate(ControllPointPreafab); 
     //        PlacePointCommand command = new PlacePointCommand(hit.point, point);
     //        command.Execute();
     //        undoStack.Push(command);

@@ -6,6 +6,6 @@
         <ui:Button text="Point" binding-path="pointButton" view-data-key="pointButton" name="pointButton" style="width: 184px; height: 142px; font-size: 50px;" />
         <ui:Button text="Undo&#10;" binding-path="undoButton" view-data-key="undoButton" name="undoButton" style="width: 184px; height: 142px; font-size: 50px;" />
         <ui:Button text="Move&#10;" binding-path="moveButton" view-data-key="moveButton" name="moveButton" style="width: 184px; height: 142px; font-size: 50px;" />
-        <ui:Button text="Intersect&#10;" binding-path="intersectButton" view-data-key="intersectButton" style="width: 184px; height: 142px; font-size: 40px;" />
+        <ui:Button text="Intersect&#10;" binding-path="intersectButton" view-data-key="intersectButton" name="intersectButton" style="width: 184px; height: 142px; font-size: 40px;" />
     </ui:VisualElement>
 </ui:UXML>

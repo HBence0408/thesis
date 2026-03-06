@@ -25,13 +25,11 @@ public class ControllPoint : MonoBehaviour, IObservable
         observers.Remove(o);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         previousPos = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (transform.position != previousPos)
@@ -44,5 +42,23 @@ public class ControllPoint : MonoBehaviour, IObservable
     public void Destroy()
     {
         Destroy(this.gameObject);
+    }
+
+
+    // ez átkerül egy draggabble pointba, ez egy ős ősztály lesz és intersection pont a "tesója" 
+    private void OnMouseDrag()
+    {
+        if (!DrawManager.Instance.MoveState.IsActive)
+        {
+            return;
+        }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(-Camera.main.transform.forward, transform.position);
+        float distance;
+        if (plane.Raycast(ray, out distance))
+        {
+            Vector3 point = ray.GetPoint(distance);
+            transform.position = point.normalized;
+        }
     }
 }

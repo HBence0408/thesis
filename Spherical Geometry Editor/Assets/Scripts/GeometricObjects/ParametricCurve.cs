@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ParametricCurve : MonoBehaviour, IObserver
+public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
 {
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
@@ -10,6 +10,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver
     public Vector3[] PointsInCircle;
     protected ControllPoint point1;
     protected ControllPoint point2;
+    protected List<IObserver> observers = new List<IObserver>();
 
     public void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle)
     {
@@ -43,6 +44,24 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver
     }
 
     public abstract void OnChanged();
+
+    public void Subscirbe(IObserver o)
+    {
+        observers.Add(o);
+    }
+
+    public void Unsubscirbe(IObserver o)
+    {
+        observers.Remove(o);
+    }
+
+    public void Notify()
+    {
+        foreach (IObserver o in observers)
+        {
+            o.OnChanged();
+        }
+    }
     //{
     //    ParametricCurveMeshGenerator.Instance.CreateGreatCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
     //}

@@ -5,5 +5,11 @@ public class GreatCircleSegment : ParametricCurve
     public override void OnChanged()
     {
         ParametricCurveMeshGenerator.Instance.CreateGreatCircleSegmentMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
+        Notify();
+    }
+
+    public Vector3[] GetEndpoints()
+    {
+        return new Vector3[] { point1.transform.position.normalized, point2.transform.position.normalized };
     }
 }

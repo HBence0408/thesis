@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class IntersectDrawState : DrawingState
 {
+    public delegate GameObject CreatePointDelegate(GameObject prefab);
     private ParametricCurve intersectable1;
     private ParametricCurve intersectable2;
     private GameObject prefab;
@@ -31,18 +32,24 @@ public class IntersectDrawState : DrawingState
             else if (hit.transform.gameObject.tag == "intersectable" && intersectable1 != null)
             {
                 intersectable2 = hit.transform.gameObject.GetComponent<ParametricCurve>();
+                Debug.Log("intersectable1: " + intersectable1.name + "intersectable2: " + intersectable2.name);
                 if (intersectable1 is GreatCircle && intersectable2 is GreatCircle)
                 {
-                    Vector3 dir = Vector3.Cross(intersectable1.NormalOfPlane, intersectable2.NormalOfPlane);
-                    GameObject point1 = Instantiate(prefab);
-                    GameObject point2 = Instantiate(prefab);
-                    Place2PointsCommand command = new Place2PointsCommand(dir.normalized, point1.GetComponent<ControllPoint>(), -dir.normalized, point2.GetComponent<ControllPoint>());
+                    GreatCircleGreatCircleIntersectCommand command = new GreatCircleGreatCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as GreatCircle, Instantiate, prefab);
                     manager.ExecuteCommand(command);
                     manager.SetState(manager.IdleState);
                 }
                 if (intersectable1 is GreatCircleSegment && intersectable2 is GreatCircleSegment)
                 {
+                    Debug.Log("GreatCircleSegment and GreatCircleSegment intersection");
+                    Vector3 possibleIntersection1 = Vector3.Cross(intersectable1.NormalOfPlane, intersectable2.NormalOfPlane);
+                    Vector3 possibleIntersection2 = -possibleIntersection1;
+                    Vector3[] segment1Endpoints = intersectable1.GetComponent<GreatCircleSegment>().GetEndpoints();
+                    Vector3[] segment2Endpoints = intersectable2.GetComponent<GreatCircleSegment>().GetEndpoints();
 
+                    GreatCircleSegmentGreatCircleSegmentIntersectCommand command = new GreatCircleSegmentGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircleSegment, Instantiate, prefab);
+                    manager.ExecuteCommand(command);
+                    manager.SetState(manager.IdleState);
                 }
                 if ((intersectable1 is GreatCircle && intersectable2 is GreatCircleSegment) || (intersectable2 is GreatCircle && intersectable1 is GreatCircleSegment))
                 {

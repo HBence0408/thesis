@@ -1772,11 +1772,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a142b570056bc248a0d88c785d5ba12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestDrawer
-  controllPointPreafab: {fileID: 8942343030158565284, guid: 0cb2067ff4ad29f45a808ccd85ede8a2, type: 3}
+  ControllPointPreafab: {fileID: 8942343030158565284, guid: 0cb2067ff4ad29f45a808ccd85ede8a2, type: 3}
   parametricCurvePrefab: {fileID: 1563057126761308227, guid: ef4bcff67f47b0345a010da6c7d4a675, type: 3}
   GreatCirclePrefab: {fileID: 1563057126761308227, guid: 54c253ffdbaa64341a0880332e0b7dff, type: 3}
   GreatCircleSegmentPrefab: {fileID: 1563057126761308227, guid: 9f945d5f366fed14cb58e872c2f86ebf, type: 3}
   SmallCirclePrefab: {fileID: 1563057126761308227, guid: 7a898d14276e816469e23849cd9b1029, type: 3}
+  IntersectPointPrefab: {fileID: 8942343030158565284, guid: b04f3d9747ac7ff4c96719502143143d, type: 3}
 --- !u!1 &1106647204
 GameObject:
   m_ObjectHideFlags: 0

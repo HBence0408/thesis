@@ -41,19 +41,21 @@ public class IntersectDrawState : DrawingState
                 }
                 if (intersectable1 is GreatCircleSegment && intersectable2 is GreatCircleSegment)
                 {
-                    Debug.Log("GreatCircleSegment and GreatCircleSegment intersection");
-                    Vector3 possibleIntersection1 = Vector3.Cross(intersectable1.NormalOfPlane, intersectable2.NormalOfPlane);
-                    Vector3 possibleIntersection2 = -possibleIntersection1;
-                    Vector3[] segment1Endpoints = intersectable1.GetComponent<GreatCircleSegment>().GetEndpoints();
-                    Vector3[] segment2Endpoints = intersectable2.GetComponent<GreatCircleSegment>().GetEndpoints();
-
                     GreatCircleSegmentGreatCircleSegmentIntersectCommand command = new GreatCircleSegmentGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircleSegment, Instantiate, prefab);
                     manager.ExecuteCommand(command);
                     manager.SetState(manager.IdleState);
                 }
-                if ((intersectable1 is GreatCircle && intersectable2 is GreatCircleSegment) || (intersectable2 is GreatCircle && intersectable1 is GreatCircleSegment))
+                if (intersectable1 is GreatCircle && intersectable2 is GreatCircleSegment)
                 {
-
+                    GreatCircleGreatCircleSegmentIntersectCommand command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as GreatCircle, Instantiate, prefab);
+                    manager.ExecuteCommand(command);
+                    manager.SetState(manager.IdleState);
+                }
+                if (intersectable2 is GreatCircle && intersectable1 is GreatCircleSegment)
+                {
+                    GreatCircleGreatCircleSegmentIntersectCommand command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircle, Instantiate, prefab);
+                    manager.ExecuteCommand(command);
+                    manager.SetState(manager.IdleState);
                 }
                 if ((intersectable1 is GreatCircle && intersectable2 is SmallCircle) || (intersectable2 is GreatCircle && intersectable1 is SmallCircle))
                 {

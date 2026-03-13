@@ -1,10 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class DrawingState : ScriptableObject
+public abstract class DrawingState
 {
     protected DrawManager manager;
-    protected DrawingMode drawingMode = null;
     private bool isActive;
 
     public bool IsActive
@@ -12,25 +11,21 @@ public abstract class DrawingState : ScriptableObject
         get { return isActive; }
     }
 
-
-    public virtual void OnEnter(DrawingMode mode)
+    protected DrawingState(DrawManager manager)
     {
-        this.drawingMode = mode;
+        this.manager  = manager;
+    }
+
+    public virtual void OnEnter()
+    {
         isActive = true;
     }
 
     public virtual void OnExit()
     {
-        drawingMode = null;
         isActive = false;
-    }
-
-    public void SetUp(DrawManager manager)
-    {
-        this.manager = manager;
     }
 
     public virtual void OnLeftMouseUp() { }
     public virtual void OnLeftMouseDown() { }
-
 }

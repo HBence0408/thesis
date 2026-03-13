@@ -36,7 +36,7 @@ public class Projector : MonoBehaviour
 
     public void StereographicProject(ParametricCurve curve)
     {
-        Vector3[] pointsToProject = curve.PointsInCircle;
+        Vector3[] pointsToProject = curve.PointsOnCurve;
         Vector3[] projectedPoints = new Vector3[pointsToProject.Length];
         for (int i = 0; i < pointsToProject.Length; i++)
         {
@@ -53,7 +53,7 @@ public class Projector : MonoBehaviour
 
     public void StereographicProject2(ParametricCurve curve)
     {
-        Vector3[] pointsToProject = curve.PointsInCircle;
+        Vector3[] pointsToProject = curve.PointsOnCurve;
         Vector3[] projectedPoints = new Vector3[pointsToProject.Length];
         for (int i = 0; i < pointsToProject.Length; i++)
         {

@@ -2,9 +2,5 @@ using UnityEngine;
 
 public class IdleState : DrawingState
 {
-    public override void OnEnter(DrawingMode mode)
-    {
-        base.OnEnter(mode);
-        manager.ClearControllPoints();
-    }
+    public IdleState(DrawManager manager) : base(manager) {}
 }

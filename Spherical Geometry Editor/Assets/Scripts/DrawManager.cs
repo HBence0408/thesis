@@ -11,25 +11,25 @@ public class DrawManager : MonoBehaviour
     [SerializeField] private GameObject SmallCirclePrefab;
     [SerializeField] private GameObject IntersectPointPrefab;
     private Stack<ICommand> undoStack = new Stack<ICommand>();
-    private List<GameObject> SelectedControllPoints = new List<GameObject>();
+
     private DrawingState currentState;
-    private SelectOrPlaceControllPointsState selectOrPlaceControllPointsState;
-    private DrawParametricCurveState drawParametricCurveState;
     private IntersectDrawState intersectDrawState;
     private MoveState moveState;
     private PlacePointsState placePointsState;
     private IdleState idleState;
-    private LineDrawingMode lineDrawingMode;
-    private CircleDrawMode circleDrawMode;
-    private SegmentDrawingMode segmentDrawingMode;
+    private GreatCircleDrawState greatCircleDrawState;
+    private SmallCircleDrawState smallCircleDrawState;
+    private GreatCircleSegmentDrawState greatCircleSegmentDrawState;
 
+    // itt vagy clone-ozás vagy csak enummal hogy melyik actív éppen
     public static DrawManager Instance {  get { return instance; } }
-    public SelectOrPlaceControllPointsState SelectOrPlaceControllPointsState { get { return selectOrPlaceControllPointsState; } }
-    public DrawParametricCurveState DrawParametricCurveState { get { return drawParametricCurveState; } }
     public IntersectDrawState IntersectDrawState { get { return intersectDrawState; } }
     public MoveState MoveState { get { return moveState; } }
     public PlacePointsState PlacePointsState { get { return placePointsState; } }
     public IdleState IdleState { get { return idleState; } }
+    public GreatCircleDrawState GreatCircleDrawState { get { return greatCircleDrawState; }  }
+    public SmallCircleDrawState SmallCircleDrawState { get {return smallCircleDrawState;  }  }
+    public GreatCircleSegmentDrawState GreatCircleSegmentDrawState { get { return  greatCircleSegmentDrawState; }  }
 
     private void Awake()
     {
@@ -43,27 +43,14 @@ public class DrawManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        selectOrPlaceControllPointsState = ScriptableObject.CreateInstance<SelectOrPlaceControllPointsState>();
-        selectOrPlaceControllPointsState.SetUp(this,ControllPointPreafab);
-        drawParametricCurveState = ScriptableObject.CreateInstance<DrawParametricCurveState>();
-        drawParametricCurveState.SetUp(this);
-        intersectDrawState = ScriptableObject.CreateInstance<IntersectDrawState>();
-        intersectDrawState.SetUp(this, IntersectPointPrefab);
-        moveState = ScriptableObject.CreateInstance<MoveState>();
-        moveState.SetUp(this);
-        placePointsState = ScriptableObject.CreateInstance<PlacePointsState>();
-        placePointsState.SetUp(this, ControllPointPreafab);
-        idleState = ScriptableObject.CreateInstance<IdleState>();
-        idleState.SetUp(this);
-
-        //TODO
-        // kivinni őket külön state-ekbe, egy drawingState abstract osztály amiben benne van a select or replace, és akkor nem kell az a state ezeket meg át adni neki
-        lineDrawingMode = ScriptableObject.CreateInstance<LineDrawingMode>();
-        lineDrawingMode.SetUp(GreatCirclePrefab);
-        circleDrawMode = ScriptableObject.CreateInstance<CircleDrawMode>();
-        circleDrawMode.SetUp(SmallCirclePrefab);
-        segmentDrawingMode = ScriptableObject.CreateInstance<SegmentDrawingMode>();
-        segmentDrawingMode.SetUp(GreatCircleSegmentPrefab);
+        intersectDrawState = new IntersectDrawState(this, IntersectPointPrefab);
+        greatCircleDrawState = new GreatCircleDrawState(this, GreatCirclePrefab, ControllPointPreafab);
+        greatCircleSegmentDrawState = new GreatCircleSegmentDrawState(this, GreatCircleSegmentPrefab, ControllPointPreafab);
+        smallCircleDrawState = new SmallCircleDrawState(this, SmallCirclePrefab, ControllPointPreafab);
+        moveState = new MoveState(this);
+        Debug.Log(ControllPointPreafab);
+        placePointsState = new PlacePointsState(this, ControllPointPreafab);
+        idleState = new IdleState(this);
 
         currentState = idleState;
     }
@@ -124,21 +111,12 @@ public class DrawManager : MonoBehaviour
         }
     }
 
-    public void SetState(DrawingState state, DrawingMode mode)
-    {
-        currentState.OnExit();
-        currentState = state;
-        Debug.Log(currentState);
-        Debug.Log(mode);
-        currentState.OnEnter(mode);
-    }
-
     public void SetState(DrawingState state)
     {
         currentState.OnExit();
         currentState = state;
         Debug.Log(currentState);
-        currentState.OnEnter(null);
+        currentState.OnEnter();
     }
 
     public void ExecuteCommand(ICommand command)
@@ -153,59 +131,33 @@ public class DrawManager : MonoBehaviour
         command.UnExecute();
     }
 
-    public GameObject[] ControllPoints()
-    {
-        return SelectedControllPoints.ToArray();
-    }
-
-    public int ControllPointsCount()
-    {
-        return SelectedControllPoints.Count;
-    }
-
-    public void ClearControllPoints()
-    {
-        SelectedControllPoints = new List<GameObject>();
-    }
-
-    public void SelectControllPoint(GameObject point)
-    {
-        SelectedControllPoints.Add(point);
-    }
-
     public void DrawLine()
     {
-        ClearControllPoints();
-        SetState(selectOrPlaceControllPointsState, lineDrawingMode);
+        SetState(greatCircleDrawState);
     }
 
     public void DrawSegment()
     {
-        ClearControllPoints();
-        SetState(selectOrPlaceControllPointsState, segmentDrawingMode);
+        SetState(greatCircleSegmentDrawState);
     }
 
     public void DrawPoint()
     {
-        ClearControllPoints();
         SetState(placePointsState);
     }
 
     public void DrawCircle()
     {
-        ClearControllPoints();
-        SetState(selectOrPlaceControllPointsState, circleDrawMode);
+       SetState(smallCircleDrawState);
     }
 
     public void MovePoint()
     {
-        ClearControllPoints();
         SetState(moveState);
     }
 
     public void Intersect()
     {
-        ClearControllPoints();
         SetState(intersectDrawState);
     }
 

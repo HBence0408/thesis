@@ -5,6 +5,8 @@ public class MoveState : DrawingState
     private GameObject point = null;
     private Vector3? pos = null;
 
+    public MoveState(DrawManager manager) : base(manager) {}
+
     public override void OnLeftMouseDown()
     {
         RaycastHit hit;

@@ -1,24 +1,39 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlacePointCommand : ICommand
 {
     private Vector3 pos;
-    private ControllPoint point;
+    private ControllPoint pointScript;
+    private GameObject prefab;
+    private Action<GameObject> select;
 
-    public PlacePointCommand(Vector3 pos, ControllPoint point)
+    public PlacePointCommand(Vector3 pos, GameObject prefab , Action<GameObject> select)
     {
         this.pos = pos.normalized;
-        this.point = point;
+        this.select = select;
+        this.prefab = prefab;
+        Debug.Log(prefab);
+    }
+
+    public PlacePointCommand(Vector3 pos, GameObject prefab)
+    {
+        this.pos = pos.normalized;
+        this.prefab = prefab;
     }
 
     public void Execute()
     {
+        Debug.Log(prefab);
+        GameObject point = MonoBehaviour.Instantiate(prefab);
+        select?.Invoke(point);
+        pointScript = point.GetComponent<ControllPoint>();
         point.transform.position = pos;
     }
 
     public void UnExecute()
     {
-        point.Destroy();
+        pointScript.Destroy();
     }
 }

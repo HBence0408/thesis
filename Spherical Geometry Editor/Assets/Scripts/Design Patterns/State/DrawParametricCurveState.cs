@@ -1,25 +1,51 @@
+using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
-public class DrawParametricCurveState : DrawingState
+public abstract class DrawParametricCurveState : DrawingState
 {
-    //public override void OnLeftMouseUp()
-    //{
-    //    Draw();
-    //    manager.ClearControllPoints();
-    //    manager.SetState(manager.IdleState, null);
-    //}
+    protected GameObject curvePrefab;
+    protected GameObject pointPrefab;
+    protected List<GameObject> SelectedControllPoints = new List<GameObject>();
+    protected int requiredControllPoints;
 
-    public override void OnEnter(DrawingMode mode)
+    public DrawParametricCurveState(DrawManager manager, GameObject curvePrefab, GameObject pointPrefab) : base(manager)
     {
-        base.OnEnter(mode);
-        Draw();
-        manager.ClearControllPoints();
-        manager.SetState(manager.IdleState, null);
+        this.curvePrefab = curvePrefab;
+        this.pointPrefab = pointPrefab;
     }
 
-    private void Draw()
+    public override void OnLeftMouseUp()
     {
-        ICommand command = drawingMode.Draw(manager.ControllPoints());
-        manager.ExecuteCommand(command);
+        RaycastHit hit;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 1000))
+        {
+            Debug.Log(hit.transform.name);
+            Debug.Log("hit");
+
+            if (hit.transform.gameObject.tag == "point")
+            {
+                SelectedControllPoints.Add(hit.transform.gameObject);
+            }
+            else
+            {
+                //  GameObject point = Instantiate(prefab);
+                PlacePointCommand command = new PlacePointCommand(hit.point, pointPrefab, (point) => SelectedControllPoints.Add(point));
+                manager.ExecuteCommand(command);
+                Debug.Log(SelectedControllPoints.Count);
+                //  manager.SelectControllPoint(point);
+            }
+        }
+
+        if (requiredControllPoints == SelectedControllPoints.Count)
+        {
+            DrawParametricCurve();
+            SelectedControllPoints = new List<GameObject>();
+        }
     }
+
+    protected abstract void DrawParametricCurve();
 }
+

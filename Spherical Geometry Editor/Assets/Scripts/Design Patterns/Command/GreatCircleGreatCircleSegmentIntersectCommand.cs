@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
 {
-    IntersectDrawState.CreatePointDelegate createPoint;
     GreatCircleSegment greatCircleSegment;
     GreatCircle greatCircle;
     GameObject prefab;
     IntersectionPoint point1Script;
     double epsilon = 0.0001;
-    //IntersectionPoint point2Script;
 
-    public GreatCircleGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment, GreatCircle greatCircle, IntersectDrawState.CreatePointDelegate createPoint, GameObject prefab)
+    public GreatCircleGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment, GreatCircle greatCircle, GameObject prefab)
     {
-        this.createPoint = createPoint;
         this.greatCircleSegment = greatCircleSegment;
         this.greatCircle = greatCircle;
         this.prefab = prefab;
@@ -30,7 +27,7 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
         if (((Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) + epsilon >= Vector3.Angle(segment1Endpoints[0], dir) + Vector3.Angle(segment1Endpoints[1], dir)) || ((Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) + epsilon >= Vector3.Angle(segment1Endpoints[0], -dir) + Vector3.Angle(segment1Endpoints[1], -dir)) )))
         {
             Debug.Log("creating point");
-            GameObject point1 = createPoint(prefab);
+            GameObject point1 = MonoBehaviour.Instantiate(prefab);
 
             point1.transform.position = ((Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) + epsilon >= Vector3.Angle(segment1Endpoints[0], dir) + Vector3.Angle(segment1Endpoints[1], dir))) ? dir.normalized : -dir.normalized;
             point1Script = point1.GetComponent<IntersectionPoint>();
@@ -59,26 +56,6 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
             greatCircleSegment.Subscirbe(point1Script);
             greatCircle.Subscirbe(point1Script);
         }
-
-        //if (Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) >= Vector3.Angle(segment1Endpoints[0], -dir))
-        //{
-
-        //}
-
-        //GameObject point1 = createPoint(prefab);
-        //point1.transform.position = dir.normalized;
-        //point1Script = point1.GetComponent<IntersectionPoint>();
-        //point1Script.SetRecalculate(greatCircle1, greatCircle2, (curve1, curve2) => Vector3.Cross(curve1.NormalOfPlane, curve2.NormalOfPlane));
-        //greatCircle1.Subscirbe(point1Script);
-        //greatCircle2.Subscirbe(point1Script);
-
-
-        //GameObject point2 = createPoint(prefab);
-        //point2.transform.position = -dir.normalized;
-        //point2Script = point2.GetComponent<IntersectionPoint>();
-        //point2Script.SetRecalculate(greatCircle1, greatCircle2, (curve1, curve2) => -Vector3.Cross(curve1.NormalOfPlane, curve2.NormalOfPlane));
-        //greatCircle1.Subscirbe(point2Script);
-        //greatCircle2.Subscirbe(point2Script);
     }
 
     public void UnExecute()

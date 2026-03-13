@@ -4,9 +4,8 @@ public class PlacePointsState : DrawingState
 {
     private GameObject prefab;
 
-    public void SetUp(DrawManager manager, GameObject prefab)
+    public PlacePointsState(DrawManager manager, GameObject prefab) : base(manager)
     {
-        base.SetUp(manager);
         this.prefab = prefab;
     }
 
@@ -18,11 +17,8 @@ public class PlacePointsState : DrawingState
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 1000))
         {
-            Debug.Log(hit.transform.name);
-            Debug.Log("hit");
-
-            GameObject point = Instantiate(prefab);
-            PlacePointCommand command = new PlacePointCommand(hit.point, point.GetComponent<ControllPoint>());
+            Debug.Log(prefab);
+            PlacePointCommand command = new PlacePointCommand(hit.point, prefab);
             manager.ExecuteCommand(command);
             manager.SetState(manager.IdleState);
         }

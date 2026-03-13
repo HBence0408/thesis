@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 
 public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
@@ -7,19 +8,26 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private MeshCollider meshCollider;
-    public Vector3[] PointsInCircle;
+    private Vector3[] pointsOnCurve;
     protected ControllPoint point1;
     protected ControllPoint point2;
     protected List<IObserver> observers = new List<IObserver>();
+    private Vector3 normaleOfPlane;
+    private Vector3[] orthogonalVectrosOfthePlane = new Vector3[2];
+    private Vector3 center;
 
-    public void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle)
+    public void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsOnCurve, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center)
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         meshFilter.mesh = mesh;
-        PointsInCircle = pointsInCircle;
+        this.pointsOnCurve = pointsOnCurve;
         meshCollider.sharedMesh = mesh;
+        this.normaleOfPlane = normalOfPlane;
+        this.orthogonalVectrosOfthePlane[0] = u;
+        this.orthogonalVectrosOfthePlane[1] = v;
+        this.center = center;
     }
 
     public void AddContollPoints(ControllPoint point1, ControllPoint point2)
@@ -35,12 +43,32 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
         Destroy(this.gameObject);
     }
 
-    public Vector3 NormalOfPlane 
+    public Vector3 Center
+    {
+        get { return center; }
+        set { center = value; }
+    }
+
+    public Vector3[] PointsOnCurve
     {
         get
         {
-            return Vector3.Cross(point1.transform.position.normalized,point2.transform.position.normalized).normalized;
+            return pointsOnCurve;
         }
+    }
+
+    public Vector3 NormalOfPlane
+    {
+        get { return normaleOfPlane; }
+    }
+
+
+    public Vector3[] OrthogonalVectrosOfthePlane 
+    { 
+        get 
+        { 
+            return orthogonalVectrosOfthePlane;
+        } 
     }
 
     public abstract void OnChanged();

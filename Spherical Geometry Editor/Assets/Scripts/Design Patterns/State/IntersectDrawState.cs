@@ -32,49 +32,47 @@ public class IntersectDrawState : DrawingState
             {
                 intersectable2 = hit.transform.gameObject.GetComponent<ParametricCurve>();
                 Debug.Log("intersectable1: " + intersectable1.name + "intersectable2: " + intersectable2.name);
+                ICommand command = null;
                 if (intersectable1 is GreatCircle && intersectable2 is GreatCircle)
                 {
-                    GreatCircleGreatCircleIntersectCommand command = new GreatCircleGreatCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as GreatCircle, prefab);
-                    manager.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    command = new GreatCircleGreatCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as GreatCircle, prefab);
                 }
                 if (intersectable1 is GreatCircleSegment && intersectable2 is GreatCircleSegment)
                 {
-                    GreatCircleSegmentGreatCircleSegmentIntersectCommand command = new GreatCircleSegmentGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircleSegment, prefab);
-                    manager.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    command = new GreatCircleSegmentGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircleSegment, prefab);
                 }
                 if (intersectable1 is GreatCircle && intersectable2 is GreatCircleSegment)
                 {
-                    GreatCircleGreatCircleSegmentIntersectCommand command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as GreatCircle, prefab);
-                    manager.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as GreatCircle, prefab);
                 }
                 if (intersectable2 is GreatCircle && intersectable1 is GreatCircleSegment)
                 {
-                    GreatCircleGreatCircleSegmentIntersectCommand command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircle, prefab);
-                    manager.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircle, prefab);
                 }
-                if ((intersectable1 is GreatCircle && intersectable2 is SmallCircle))
+                if (intersectable1 is GreatCircle && intersectable2 is SmallCircle)
                 {
-                    GreatCircleSmallCircleIntersectCommand command = new GreatCircleSmallCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as SmallCircle, prefab);
-                    manager.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    command = new GreatCircleSmallCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as SmallCircle, prefab);
                 }
-                if ((intersectable2 is GreatCircle && intersectable1 is SmallCircle))
+                if (intersectable2 is GreatCircle && intersectable1 is SmallCircle)
                 {
-                    GreatCircleSmallCircleIntersectCommand command = new GreatCircleSmallCircleIntersectCommand(intersectable2 as GreatCircle, intersectable1 as SmallCircle, prefab);
-                    manager.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    command = new GreatCircleSmallCircleIntersectCommand(intersectable2 as GreatCircle, intersectable1 as SmallCircle, prefab);
                 }
-                if ((intersectable1 is SmallCircle && intersectable2 is GreatCircleSegment) || (intersectable2 is SmallCircle && intersectable1 is GreatCircleSegment))
+                if (intersectable1 is SmallCircle && intersectable2 is GreatCircleSegment)
                 {
-
+                    command = new GreatCircleSegmentSmallCircleIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as SmallCircle, prefab);
+                }
+                if (intersectable2 is SmallCircle && intersectable1 is GreatCircleSegment)
+                {
+                    command = new GreatCircleSegmentSmallCircleIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as SmallCircle, prefab);
                 }
                 if (intersectable1 is SmallCircle && intersectable2 is SmallCircle)
                 {
-
+                    command = new SmallCircleSmallCircleIntersectCommand(intersectable1 as SmallCircle, intersectable2 as SmallCircle, prefab);
+                }
+                if (command != null)
+                {
+                    manager.ExecuteCommand(command);
+                    manager.SetState(manager.IdleState);
                 }
             }
         }

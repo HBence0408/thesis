@@ -1,72 +1,80 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public class GreatCircleSmallCircleIntersectCommand : ICommand
+public class GreatCircleSegmentSmallCircleIntersectCommand : ICommand
 {
-    GreatCircle greatCircle;
+    GreatCircleSegment greatCircleSegment;
     SmallCircle smallCircle;
     GameObject prefab;
     IntersectionPoint point1Script;
     IntersectionPoint point2Script;
+    float epsilon = 0.000001f;
 
-    public GreatCircleSmallCircleIntersectCommand(GreatCircle greatCircle, SmallCircle smallCircle, GameObject prefab)
+    public GreatCircleSegmentSmallCircleIntersectCommand(GreatCircleSegment greatCircle, SmallCircle smallCircle, GameObject prefab)
     {
-        this.greatCircle = greatCircle;
+        this.greatCircleSegment = greatCircle;
         this.smallCircle = smallCircle;
         this.prefab = prefab;
     }
 
     public void Execute()
     {
-        Vector3[] intersections = CalculateIntersections(greatCircle, smallCircle);
+        Vector3[] intersections = CalculateIntersections(greatCircleSegment, smallCircle);
 
         if (intersections.Length == 0)
         {
             return;
         }
+        if (intersections[0] != Vector3.zero)
+        {
+            GameObject point1 = MonoBehaviour.Instantiate(prefab);
+            point1.transform.position = intersections[0];
+            point1Script = point1.GetComponent<IntersectionPoint>();
+            point1.name = "intersection point 1";
+            point1Script.SetRecalculate(greatCircleSegment, smallCircle, (curve1, curve2) =>
+            {
+                Vector3[] intersections = CalculateIntersections(curve1 as GreatCircleSegment, curve2 as SmallCircle);
+                if (intersections.Length == 0)
+                {
+                    return Vector3.zero;
+                }
+                else
+                {
+                    return intersections[0];
+                }
+            });
+            greatCircleSegment.Subscirbe(point1Script);
+            smallCircle.Subscirbe(point1Script);
+        }
 
-        GameObject point1 = MonoBehaviour.Instantiate(prefab);
-        point1.transform.position = intersections[0];
-        point1Script = point1.GetComponent<IntersectionPoint>();
-        point1.name = "intersection point 1";
-        point1Script.SetRecalculate(greatCircle, smallCircle, (curve1, curve2) =>
+        if (intersections[1] != Vector3.zero)
         {
-            Vector3[] intersections = CalculateIntersections(curve1 as GreatCircle, curve2 as SmallCircle);
-            if (intersections.Length == 0)
+            GameObject point2 = MonoBehaviour.Instantiate(prefab);
+            point2.transform.position = intersections[1];
+            point2.name = "intersection point 2";
+            point2Script = point2.GetComponent<IntersectionPoint>();
+            point2Script.SetRecalculate(greatCircleSegment, smallCircle, (curve1, curve2) =>
             {
-                return Vector3.zero;
-            }
-            else
-            {
-                return intersections[0];
-            }
-        });
-        greatCircle.Subscirbe(point1Script);
-        smallCircle.Subscirbe(point1Script);
-        GameObject point2 = MonoBehaviour.Instantiate(prefab);
-        point2.transform.position = intersections[1];
-        point2.name = "intersection point 2";
-        point2Script = point2.GetComponent<IntersectionPoint>();
-        point2Script.SetRecalculate(greatCircle, smallCircle, (curve1, curve2) =>
-        {
-            Vector3[] intersections = CalculateIntersections(curve1 as GreatCircle, curve2 as SmallCircle);
-            if (intersections.Length == 0)
-            {
-                return Vector3.zero;
-            }
-            else
-            {
-                return intersections[1];
-            }
-        });
-        greatCircle.Subscirbe(point2Script);
-        smallCircle.Subscirbe(point2Script);
+                Vector3[] intersections = CalculateIntersections(curve1 as GreatCircleSegment, curve2 as SmallCircle);
+                if (intersections.Length == 0)
+                {
+                    return Vector3.zero;
+                }
+                else
+                {
+                    return intersections[1];
+                }
+            });
+            greatCircleSegment.Subscirbe(point2Script);
+            smallCircle.Subscirbe(point2Script);
+        }
     }
 
-    private Vector3[] CalculateIntersections(GreatCircle greatCircle, SmallCircle smallCircle)
+    private Vector3[] CalculateIntersections(GreatCircleSegment greatCircleSegment, SmallCircle smallCircle)
     {
-        Vector3 greatCircleCenter = greatCircle.Center;
-        Vector3 greatCircleNormal = greatCircle.NormalOfPlane.normalized;
+        Vector3 greatCircleSegmentCenter = greatCircleSegment.Center;
+        Vector3 greatCircleSegmentNormal = greatCircleSegment.NormalOfPlane.normalized;
+        Vector3[] greatCircleSegmentEndPoints = greatCircleSegment.GetEndpoints();
         Vector3 smallCircleCenter = smallCircle.Center;
         Vector3 smallCircleNormal = smallCircle.NormalOfPlane.normalized;
 
@@ -74,14 +82,14 @@ public class GreatCircleSmallCircleIntersectCommand : ICommand
 
         // csak akkor lehet 0 a determinánsa az A-nak ha párhuzamos a 2 sík vagy egybe esik
         float[,] A = {
-            {2, 0, 0, greatCircleNormal.x, smallCircleNormal.x},
-            {0, 2, 0, greatCircleNormal.y, smallCircleNormal.y},
-            {0, 0, 2, greatCircleNormal.z, smallCircleNormal.z},
-            {greatCircleNormal.x, greatCircleNormal.y, greatCircleNormal.z, 0, 0},
+            {2, 0, 0, greatCircleSegmentNormal.x, smallCircleNormal.x},
+            {0, 2, 0, greatCircleSegmentNormal.y, smallCircleNormal.y},
+            {0, 0, 2, greatCircleSegmentNormal.z, smallCircleNormal.z},
+            {greatCircleSegmentNormal.x, greatCircleSegmentNormal.y, greatCircleSegmentNormal.z, 0, 0},
             {smallCircleNormal.x, smallCircleNormal.y, smallCircleNormal.z, 0, 0}
         };
 
-        float[] B = { 0, 0, 0, Vector3.Dot(greatCircleCenter, greatCircleNormal), Vector3.Dot(smallCircleCenter, smallCircleNormal) };
+        float[] B = { 0, 0, 0, Vector3.Dot(greatCircleSegmentCenter, greatCircleSegmentNormal), Vector3.Dot(smallCircleCenter, smallCircleNormal) };
 
         float DetA = Determinant(A, 5);
 
@@ -118,7 +126,7 @@ public class GreatCircleSmallCircleIntersectCommand : ICommand
         };
 
 
-        Vector3 d = Vector3.Cross(greatCircleNormal, smallCircleNormal).normalized;
+        Vector3 d = Vector3.Cross(greatCircleSegmentNormal, smallCircleNormal).normalized;
         float x0 = Determinant(delta0, 5) / DetA;
         float y0 = Determinant(delta1, 5) / DetA;
         float z0 = Determinant(delta2, 5) / DetA;
@@ -138,10 +146,26 @@ public class GreatCircleSmallCircleIntersectCommand : ICommand
 
         float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
         float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
-        Vector3[] intersections = {
+
+        Vector3[] possibleIntersections = {
             new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
             new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
         };
+
+        Vector3[] intersections ={
+            Vector3.zero,
+            Vector3.zero
+        };
+
+        if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersections[0]) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersections[0]))
+        {
+            intersections[0] = possibleIntersections[0];
+        }
+
+        if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersections[1]) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersections[1]))
+        {
+            intersections[1] = possibleIntersections[1];
+        }
 
         return intersections;
     }

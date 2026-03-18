@@ -56,9 +56,17 @@ public class IntersectDrawState : DrawingState
                     manager.ExecuteCommand(command);
                     manager.SetState(manager.IdleState);
                 }
-                if ((intersectable1 is GreatCircle && intersectable2 is SmallCircle) || (intersectable2 is GreatCircle && intersectable1 is SmallCircle))
+                if ((intersectable1 is GreatCircle && intersectable2 is SmallCircle))
                 {
-
+                    GreatCircleSmallCircleIntersectCommand command = new GreatCircleSmallCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as SmallCircle, prefab);
+                    manager.ExecuteCommand(command);
+                    manager.SetState(manager.IdleState);
+                }
+                if ((intersectable2 is GreatCircle && intersectable1 is SmallCircle))
+                {
+                    GreatCircleSmallCircleIntersectCommand command = new GreatCircleSmallCircleIntersectCommand(intersectable2 as GreatCircle, intersectable1 as SmallCircle, prefab);
+                    manager.ExecuteCommand(command);
+                    manager.SetState(manager.IdleState);
                 }
                 if ((intersectable1 is SmallCircle && intersectable2 is GreatCircleSegment) || (intersectable2 is SmallCircle && intersectable1 is GreatCircleSegment))
                 {

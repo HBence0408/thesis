@@ -28,6 +28,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
         this.orthogonalVectrosOfthePlane[0] = u;
         this.orthogonalVectrosOfthePlane[1] = v;
         this.center = center;
+      //  Debug.Log(center);
     }
 
     public void AddContollPoints(ControllPoint point1, ControllPoint point2)
@@ -46,7 +47,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
     public Vector3 Center
     {
         get { return center; }
-        set { center = value; }
+        //set { center = value; }
     }
 
     public Vector3[] PointsOnCurve

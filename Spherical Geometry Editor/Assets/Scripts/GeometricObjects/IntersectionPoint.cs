@@ -56,6 +56,7 @@ public class IntersectionPoint : MonoBehaviour, IObserver, IObservable
         else
         {
             this.transform.position = newPos;
+            Debug.Log("newPos: " + newPos);
             this.gameObject.SetActive(true);
         }
     }

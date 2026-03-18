@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8740480694614015399}
   m_Layer: 0
   m_Name: SmallCirclePrefab
-  m_TagString: Untagged
+  m_TagString: intersectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,7 +106,6 @@ MonoBehaviour:
   meshFilter: {fileID: 2597063723087425864}
   meshRenderer: {fileID: 764536736955506389}
   meshCollider: {fileID: -8740480694614015399}
-  PointsInCircle: []
 --- !u!64 &-8740480694614015399
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -41,7 +41,8 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
 
     public void Destroy()
     {
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public Vector3 Center

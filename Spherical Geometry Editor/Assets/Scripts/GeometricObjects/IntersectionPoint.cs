@@ -2,48 +2,13 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IntersectionPoint : MonoBehaviour, IObserver, IObservable
+public class IntersectionPoint : ControllPoint, IObserver
 {
 
     public delegate Vector3 RecalculatePositionDelegate(ParametricCurve curve1, ParametricCurve curve2);
     ParametricCurve curve1;
     ParametricCurve curve2;
     RecalculatePositionDelegate recalculatePosition;
-
-    private List<IObserver> observers = new List<IObserver>();
-    private Vector3 previousPos;
-
-    public void Notify()
-    {
-        foreach (IObserver o in observers)
-        {
-            o.OnChanged();
-        }
-    }
-
-    public void Subscirbe(IObserver o)
-    {
-        observers.Add(o);
-    }
-
-    public void Unsubscirbe(IObserver o)
-    {
-        observers.Remove(o);
-    }
-
-    void Start()
-    {
-        previousPos = transform.position;
-    }
-
-    void Update()
-    {
-        if (transform.position != previousPos)
-        {
-            Notify();
-            previousPos = transform.position;
-        }
-    }
 
     public void OnChanged()
     {
@@ -68,10 +33,10 @@ public class IntersectionPoint : MonoBehaviour, IObserver, IObservable
         this.recalculatePosition = recalculate;
     }
 
-    public void Destroy()
+    public new void Destroy()
     {
         curve1.Unsubscirbe(this);
         curve2.Unsubscirbe(this);
-        Destroy(this.gameObject);
+        base.Destroy();
     }
 }

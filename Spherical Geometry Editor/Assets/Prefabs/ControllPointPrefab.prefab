@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3773754312108145482}
   - component: {fileID: 5388570998194249095}
   - component: {fileID: 3335103786364047889}
-  - component: {fileID: 3561959838727477014}
   - component: {fileID: 69093576629561512}
+  - component: {fileID: 4060060842381717451}
   m_Layer: 0
   m_Name: ControllPointPrefab
   m_TagString: point
@@ -91,18 +91,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3561959838727477014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8942343030158565284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91799559c3b1de540b49325ae7c8dfee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ControllPoint
 --- !u!64 &69093576629561512
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -125,3 +113,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &4060060842381717451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8942343030158565284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7679ef3f88d216d4f8259d785f356eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabablePoint

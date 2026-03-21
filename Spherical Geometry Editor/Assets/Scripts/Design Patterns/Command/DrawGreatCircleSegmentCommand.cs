@@ -5,21 +5,19 @@ public class DrawGreatCircleSegmentCommand : ICommand
     private GameObject point1;
     private GameObject point2;
     private GreatCircleSegment greatCircleSegment;
-    private GameObject prefab;
+    private SphericalGeometryFactory factory;
 
-    public DrawGreatCircleSegmentCommand(GameObject point1, GameObject point2, GameObject prefab)
+    public DrawGreatCircleSegmentCommand(GameObject point1, GameObject point2, SphericalGeometryFactory factory)
     {
-        this.prefab = prefab;
         this.point1 = point1;
         this.point2 = point2;
+        this.factory = factory;
     }
 
     public void Execute()
     {
-        GameObject parametricCurve = MonoBehaviour.Instantiate(prefab);
-        parametricCurve.transform.position = new Vector3(0, 0, 0);
-        greatCircleSegment = parametricCurve.GetComponent<GreatCircleSegment>();
-        ParametricCurveMeshGenerator.Instance.CreateGreatCircleSegmentMesh(point1.transform.position.normalized, point2.transform.position.normalized, greatCircleSegment.CreateMesh);
+
+        greatCircleSegment = factory.CreateGreatCircleSegment(point1.transform.position.normalized, point2.transform.position.normalized);
         greatCircleSegment.AddContollPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
     }
 

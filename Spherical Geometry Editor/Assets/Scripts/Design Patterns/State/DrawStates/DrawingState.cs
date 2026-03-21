@@ -27,5 +27,6 @@ public abstract class DrawingState
     }
 
     public virtual void OnLeftMouseUp() { }
+    public virtual void OnLeftMouseHold() { }
     public virtual void OnLeftMouseDown() { }
 }

@@ -5,64 +5,37 @@ using static GreatCircleGreatCircleIntersectCommand;
 
 public class GreatCircleSegmentGreatCircleSegmentIntersectCommand : ICommand
 {
-   // IntersectDrawState.CreatePointDelegate createPoint;
     GreatCircleSegment greatCircleSegment1;
     GreatCircleSegment greatCircleSegment2;
-    GameObject prefab;
-    IntersectionPoint point1Script;
-    double epsilon = 0.0001;
-    //IntersectionPoint point2Script;
+    IntersectionPoint[] intersections;
+    SphericalGeometryFactory factory;
 
-    public GreatCircleSegmentGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment1, GreatCircleSegment greatCircleSegment2, GameObject prefab)
+    public GreatCircleSegmentGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment1, GreatCircleSegment greatCircleSegment2, SphericalGeometryFactory factory)
     {
         this.greatCircleSegment1 = greatCircleSegment1;
         this.greatCircleSegment2 = greatCircleSegment2;
-        this.prefab = prefab;
+        this.factory = factory;
     }
 
     public void Execute()
     {
-        Debug.Log("executein segment intersection");
-        Vector3 dir = Vector3.Cross(greatCircleSegment1.NormalOfPlane, greatCircleSegment2.NormalOfPlane);
+        
 
-        Vector3[] segment1Endpoints = greatCircleSegment1.GetEndpoints();
-        Vector3[] segment2Endpoints = greatCircleSegment2.GetEndpoints();
+       intersections = factory.CreateIntersectionPoints(greatCircleSegment1, greatCircleSegment2);
 
-        if (((Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) + epsilon >= Vector3.Angle(segment1Endpoints[0], dir) + Vector3.Angle(segment1Endpoints[1], dir)) && (Vector3.Angle(segment2Endpoints[0], segment2Endpoints[1]) + epsilon >= Vector3.Angle(segment2Endpoints[0], dir) + Vector3.Angle(segment2Endpoints[1], dir))) || ((Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) + epsilon >= Vector3.Angle(segment1Endpoints[0], -dir) + Vector3.Angle(segment1Endpoints[1], -dir)) && (Vector3.Angle(segment2Endpoints[0], segment2Endpoints[1]) + epsilon >= Vector3.Angle(segment2Endpoints[0], -dir) + Vector3.Angle(segment2Endpoints[1], -dir))))
-        { 
-            GameObject point1 = MonoBehaviour.Instantiate(prefab);
-            
-
-            point1.transform.position = ((Vector3.Angle(segment1Endpoints[0], segment1Endpoints[1]) + epsilon >= Vector3.Angle(segment1Endpoints[0], dir) + Vector3.Angle(segment1Endpoints[1], dir)) && (Vector3.Angle(segment2Endpoints[0], segment2Endpoints[1]) + epsilon >= Vector3.Angle(segment2Endpoints[0], dir) + Vector3.Angle(segment2Endpoints[1], dir))) ? dir.normalized : -dir.normalized;
-            point1Script = point1.GetComponent<IntersectionPoint>();
-            point1Script.SetRecalculate(greatCircleSegment1, greatCircleSegment2,
-            (curve1, curve2) =>
-            {
-                Vector3 possibleIntersection = Vector3.Cross(curve1.NormalOfPlane, curve2.NormalOfPlane);
-                Vector3[] curve1Endpoints = ((GreatCircleSegment)(curve1)).GetEndpoints();
-                Vector3[] curve2Endpoints = ((GreatCircleSegment)(curve2)).GetEndpoints();
-                Debug.Log(Vector3.Angle(curve1Endpoints[0], curve1Endpoints[1]) + " " + Vector3.Angle(curve1Endpoints[0], possibleIntersection) + " " + Vector3.Angle(possibleIntersection, curve1Endpoints[1]));
-                if ((Vector3.Angle(curve1Endpoints[0], curve1Endpoints[1]) + epsilon >= Vector3.Angle(curve1Endpoints[0], possibleIntersection) + Vector3.Angle(curve1Endpoints[1], possibleIntersection)) && (Vector3.Angle(curve2Endpoints[0], curve2Endpoints[1]) + epsilon >= Vector3.Angle(curve2Endpoints[0], possibleIntersection) + Vector3.Angle(curve2Endpoints[1], possibleIntersection)))
-                {
-                    return possibleIntersection;
-                }
-                else if((Vector3.Angle(curve1Endpoints[0], curve1Endpoints[1]) + epsilon >= Vector3.Angle(curve1Endpoints[0], -possibleIntersection) + Vector3.Angle(curve1Endpoints[1], -possibleIntersection)) && (Vector3.Angle(curve2Endpoints[0], curve2Endpoints[1]) + epsilon >= Vector3.Angle(curve2Endpoints[0], -possibleIntersection) + Vector3.Angle(curve2Endpoints[1], -possibleIntersection)))
-                {
-                    return -possibleIntersection;
-                } 
-                else
-                {
-                    return new Vector3(0, 0, 0);
-                }
-            });
-
-            greatCircleSegment1.Subscirbe(point1Script);
-            greatCircleSegment2.Subscirbe(point1Script);
-        }
+       for (int i = 0; i < intersections.Length; i++)
+       {
+           greatCircleSegment1.Subscirbe(intersections[i]);
+           greatCircleSegment2.Subscirbe(intersections[i]);
+       }
+  
     }
 
     public void UnExecute()
     {
-        point1Script.Destroy();
+        for (int i = 0; i < intersections.Length; i++)
+        {
+            intersections[i].Destroy();
+        }
     }
 }

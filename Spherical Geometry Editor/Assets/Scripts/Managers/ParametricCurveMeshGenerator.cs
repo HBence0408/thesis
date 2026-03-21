@@ -7,12 +7,12 @@ public class ParametricCurveMeshGenerator : MonoBehaviour
 {
     [SerializeField] private int subdivisions = 10;
     [SerializeField] private int extrudes = 3;
-    [SerializeField] private float radius;
-	[SerializeField] private GameObject parametricCurvePrefab;
-	[SerializeField] private ParametricCurve parametricCurveScript;
+    [SerializeField] private float radius = 1;
+	//[SerializeField] private GameObject parametricCurvePrefab;
+	//[SerializeField] private ParametricCurve parametricCurveScript;
     private static ParametricCurveMeshGenerator instance;
-    [SerializeField] private GameObject pointTest;
-    [SerializeField] private float tubeWidth;
+   // [SerializeField] private GameObject pointTest;
+    [SerializeField] private float tubeWidth = 0.01f;
 
     public delegate void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center);
 

@@ -1,16 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CommandInvoker : MonoBehaviour
+public class CommandInvoker 
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Stack<ICommand> undoStack = new Stack<ICommand>();
+
+    public void ExecuteCommand(ICommand command)
     {
-        
+        command.Execute();
+        undoStack.Push(command);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Undo()
     {
-        
+        ICommand command = undoStack.Pop();
+        command.UnExecute();
     }
 }

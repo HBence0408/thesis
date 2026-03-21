@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +12,15 @@ public class SideMenu : MonoBehaviour
     private Button undoButton;
     private Button moveButton;
     private Button intersectButton;
+
+    public event Action OnLineButtonClicked;
+    public event Action OnSegmentButtonClicked;
+    public event Action OnCircleButtonClicked;
+    public event Action OnPointButtonClicked;
+    public event Action OnUndoButtonClicked;
+    public event Action OnMoveButtonClicked;
+    public event Action OnIntersectButtonClicked;
+
 
     private void Awake()
     {
@@ -36,38 +46,49 @@ public class SideMenu : MonoBehaviour
         intersectButton.clicked += OnIntersectButtonClick;
     }
 
+    public void OnDisable()
+    {
+        lineButton.clicked -= OnLineButtonClick;
+        segmentButton.clicked -= OnSegmentButtonClick;
+        circleButton.clicked -= OnCircleButtonClick;
+        pointButton.clicked -= OnPointButtonClick;
+        undoButton.clicked -= OnUndoButtonClick;
+        moveButton.clicked -= OnMoveButtonClick;
+        intersectButton.clicked -= OnIntersectButtonClick;
+    }
+
     private void OnLineButtonClick()
     {
-        DrawManager.Instance.DrawLine();
+        OnLineButtonClicked?.Invoke();
     }
 
     private void OnSegmentButtonClick()
     {
-        DrawManager.Instance.DrawSegment();
+        OnSegmentButtonClicked?.Invoke();
     }
 
-    private void OnCircleButtonClick() 
+    private void OnCircleButtonClick()
     {
-        DrawManager.Instance.DrawCircle();
+        OnCircleButtonClicked?.Invoke();
     }
 
-    private void OnPointButtonClick() 
-    { 
-        DrawManager.Instance.DrawPoint();
+    private void OnPointButtonClick()
+    {
+        OnPointButtonClicked?.Invoke();
     }
 
     private void OnUndoButtonClick()
-    { 
-        DrawManager.Instance.Undo();
+    {
+        OnUndoButtonClicked?.Invoke();
     }
 
     private void OnMoveButtonClick()
     {
-        DrawManager.Instance.MovePoint();
+        OnMoveButtonClicked?.Invoke();
     }
 
-    private void OnIntersectButtonClick() 
-    { 
-        DrawManager.Instance.Intersect();
+    private void OnIntersectButtonClick()
+    {
+        OnIntersectButtonClicked?.Invoke();
     }
 }

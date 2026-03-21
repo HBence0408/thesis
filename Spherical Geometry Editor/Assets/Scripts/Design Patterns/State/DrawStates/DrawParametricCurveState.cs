@@ -4,15 +4,15 @@ using UnityEngine;
 
 public abstract class DrawParametricCurveState : DrawingState
 {
-    protected GameObject curvePrefab;
-    protected GameObject pointPrefab;
     protected List<GameObject> SelectedControllPoints = new List<GameObject>();
     protected int requiredControllPoints;
+    protected SphericalGeometryFactory factory;
+    protected CommandInvoker commandInvoker;
 
-    public DrawParametricCurveState(DrawManager manager, GameObject curvePrefab, GameObject pointPrefab) : base(manager)
+    public DrawParametricCurveState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker) : base(manager)
     {
-        this.curvePrefab = curvePrefab;
-        this.pointPrefab = pointPrefab;
+        this.factory = factory;
+        this.commandInvoker = commandInvoker;
     }
 
     public override void OnLeftMouseUp()
@@ -31,11 +31,9 @@ public abstract class DrawParametricCurveState : DrawingState
             }
             else
             {
-                //  GameObject point = Instantiate(prefab);
-                PlacePointCommand command = new PlacePointCommand(hit.point, pointPrefab, (point) => SelectedControllPoints.Add(point));
-                manager.ExecuteCommand(command);
-                Debug.Log(SelectedControllPoints.Count);
-                //  manager.SelectControllPoint(point);
+                PlacePointCommand command = new PlacePointCommand(hit.point,factory);
+                commandInvoker.ExecuteCommand(command);
+                SelectedControllPoints.Add(command.GetPoint().gameObject);
             }
         }
 

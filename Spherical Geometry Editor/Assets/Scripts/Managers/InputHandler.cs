@@ -1,20 +1,30 @@
+using System;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    private static InputHandler instance = null;
-    public static InputHandler Instance;
+    public event Action OnLeftMouseButtonDown;
+    public event Action OnLeftMouseButtonUp;
+    public event Action OnLeftMouseButtonHold;
 
     private void Awake()
     {
-        if (instance == null)
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
-            instance = this;
+            OnLeftMouseButtonDown?.Invoke();
         }
-        else
+        else if (Input.GetMouseButtonUp(0))
         {
-            Debug.LogWarning("multiple input handlers, deleting self");
-            Destroy(this.gameObject);
+            OnLeftMouseButtonUp?.Invoke();
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            OnLeftMouseButtonHold?.Invoke();
         }
     }
 }

@@ -39,6 +39,8 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
         this.point2.Subscirbe(this);
     }
 
+    // soft delete, hard delete, restore
+
     public void Destroy()
     {
         //Destroy(this.gameObject);

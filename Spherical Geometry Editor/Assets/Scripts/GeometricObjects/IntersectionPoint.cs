@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IntersectionPoint : ControllPoint, IObserver
 {
-
     public delegate Vector3 RecalculatePositionDelegate(ParametricCurve curve1, ParametricCurve curve2);
     ParametricCurve curve1;
     ParametricCurve curve2;

@@ -29,7 +29,7 @@ public class PlacePointCommand : ICommand
         GameObject point = MonoBehaviour.Instantiate(prefab);
         select?.Invoke(point);
         pointScript = point.GetComponent<ControllPoint>();
-        point.transform.position = pos;
+        pointScript.transform.position = pos;
     }
 
     public void UnExecute()

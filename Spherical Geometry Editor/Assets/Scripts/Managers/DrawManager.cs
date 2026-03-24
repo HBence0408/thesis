@@ -14,6 +14,7 @@ public class DrawManager
     private GreatCircleDrawState greatCircleDrawState;
     private SmallCircleDrawState smallCircleDrawState;
     private GreatCircleSegmentDrawState greatCircleSegmentDrawState;
+    private DeleteState deleteState;
 
     public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker)
     {
@@ -27,19 +28,22 @@ public class DrawManager
         moveState = new MoveState(this, commandInvoker);
         placePointsState = new PlacePointsState(this, factory, commandInvoker);
         idleState = new IdleState(this);
+        deleteState = new DeleteState(this, commandInvoker);
 
         currentState = idleState;
     }
 
     // itt vagy clone-ozás vagy csak enummal hogy melyik actív éppen
-    public IntersectDrawState IntersectDrawState { get { return intersectDrawState; } }
-    public MoveState MoveState { get { return moveState; } }
-    public PlacePointsState PlacePointsState { get { return placePointsState; } }
-    public IdleState IdleState { get { return idleState; } }
-    public GreatCircleDrawState GreatCircleDrawState { get { return greatCircleDrawState; }  }
-    public SmallCircleDrawState SmallCircleDrawState { get {return smallCircleDrawState;  }  }
-    public GreatCircleSegmentDrawState GreatCircleSegmentDrawState { get { return  greatCircleSegmentDrawState; }  }
+    //public IntersectDrawState IntersectDrawState { get { return intersectDrawState; } }
+    //public MoveState MoveState { get { return moveState; } }
+    //public PlacePointsState PlacePointsState { get { return placePointsState; } }
+    //public IdleState IdleState { get { return idleState; } }
+    //public GreatCircleDrawState GreatCircleDrawState { get { return greatCircleDrawState; }  }
+    //public SmallCircleDrawState SmallCircleDrawState { get {return smallCircleDrawState;  }  }
+    //public GreatCircleSegmentDrawState GreatCircleSegmentDrawState { get { return  greatCircleSegmentDrawState; }  }
 
+    //TODO
+    //eventek itt is?
 
     public void OnLeftMouseDown()
     {
@@ -92,5 +96,10 @@ public class DrawManager
     public void Intersect()
     {
         SetState(intersectDrawState);
+    }
+
+    public void Delete()
+    {
+        SetState(deleteState);
     }
 }

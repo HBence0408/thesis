@@ -6,6 +6,7 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
     GreatCircle greatCircle;
     IntersectionPoint[] intersections;
     SphericalGeometryFactory factory;
+    bool isExecuted;
 
     public GreatCircleGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment, GreatCircle greatCircle, SphericalGeometryFactory factory)
     {
@@ -23,13 +24,39 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
             greatCircleSegment.Subscirbe(intersections[i]);
             greatCircle.Subscirbe(intersections[i]);
         }
+        isExecuted = true;
+    }
+
+    public void ReExecute()
+    {
+        for (int i = 0; i < intersections.Length; i++)
+        {
+            intersections[i].Restore();
+        }
+        isExecuted = true;
     }
 
     public void UnExecute()
     {
         for (int i = 0; i < intersections.Length; i++)
         {
-            intersections[i].Destroy();
+            intersections[i].SoftDelete();
         }
+        isExecuted = false;
+    }
+
+    public void Delete()
+    {
+        if (!isExecuted)
+        {
+            for (int i = 0; i < intersections.Length; i++)
+            {
+                intersections[i].HardDelete();
+            }
+        }
+        greatCircle = null;
+        greatCircleSegment = null;
+        factory = null;
+        intersections = null;
     }
 }

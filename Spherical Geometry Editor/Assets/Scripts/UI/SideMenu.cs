@@ -12,6 +12,8 @@ public class SideMenu : MonoBehaviour
     private Button undoButton;
     private Button moveButton;
     private Button intersectButton;
+    private Button redoButton;
+    private Button deleteButton;
 
     public event Action OnLineButtonClicked;
     public event Action OnSegmentButtonClicked;
@@ -20,6 +22,8 @@ public class SideMenu : MonoBehaviour
     public event Action OnUndoButtonClicked;
     public event Action OnMoveButtonClicked;
     public event Action OnIntersectButtonClicked;
+    public event Action OnRedoButtonClicked;
+    public event Action OnDeleteButtonClicked;
 
 
     private void Awake()
@@ -36,6 +40,8 @@ public class SideMenu : MonoBehaviour
         undoButton = ui.Q<Button>("undoButton");
         moveButton = ui.Q<Button>("moveButton");
         intersectButton = ui.Q<Button>("intersectButton");
+        redoButton = ui.Q<Button>("redoButton");
+        deleteButton = ui.Q<Button>("deleteButton");
 
         lineButton.clicked += OnLineButtonClick;
         segmentButton.clicked += OnSegmentButtonClick;
@@ -44,6 +50,8 @@ public class SideMenu : MonoBehaviour
         undoButton.clicked += OnUndoButtonClick;
         moveButton.clicked += OnMoveButtonClick;
         intersectButton.clicked += OnIntersectButtonClick;
+        redoButton.clicked += OnRedoButtonClick;
+        deleteButton.clicked += OnDeleteButtonClick;
     }
 
     public void OnDisable()
@@ -55,6 +63,8 @@ public class SideMenu : MonoBehaviour
         undoButton.clicked -= OnUndoButtonClick;
         moveButton.clicked -= OnMoveButtonClick;
         intersectButton.clicked -= OnIntersectButtonClick;
+        redoButton.clicked -= OnRedoButtonClick;
+        deleteButton.clicked -= OnDeleteButtonClick;
     }
 
     private void OnLineButtonClick()
@@ -90,5 +100,15 @@ public class SideMenu : MonoBehaviour
     private void OnIntersectButtonClick()
     {
         OnIntersectButtonClicked?.Invoke();
+    }
+
+    private void OnRedoButtonClick()
+    {
+        OnRedoButtonClicked?.Invoke();
+    }
+
+    private void OnDeleteButtonClick()
+    {
+        OnDeleteButtonClicked?.Invoke();
     }
 }

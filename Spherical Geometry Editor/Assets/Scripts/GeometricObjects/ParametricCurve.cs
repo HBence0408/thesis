@@ -1,9 +1,10 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 
-public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
+public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, IGeometryObject
 {
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
@@ -15,6 +16,20 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
     private Vector3 normaleOfPlane;
     private Vector3[] orthogonalVectrosOfthePlane = new Vector3[2];
     private Vector3 center;
+    private Guid id = Guid.Empty;
+    private bool isActive = true;
+
+    public Guid Id
+    {
+        get => id;
+        set
+        {
+            if (id == Guid.Empty)
+            {
+                id = value;
+            }
+        }
+    }
 
     public void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsOnCurve, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center)
     {
@@ -28,7 +43,6 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
         this.orthogonalVectrosOfthePlane[0] = u;
         this.orthogonalVectrosOfthePlane[1] = v;
         this.center = center;
-      //  Debug.Log(center);
     }
 
     public void AddContollPoints(ControllPoint point1, ControllPoint point2)
@@ -75,6 +89,8 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
         } 
     }
 
+    public bool IsActive => isActive;
+
     public abstract void OnChanged();
 
     public void Subscirbe(IObserver o)
@@ -89,18 +105,53 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable
 
     public void Notify()
     {
+        if (!isActive)
+        {
+            return;
+        }
         foreach (IObserver o in observers)
         {
             o.OnChanged();
         }
     }
-    //{
-    //    ParametricCurveMeshGenerator.Instance.CreateGreatCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
-    //}
 
-    //private void Update()
-    //{
-    //    //ParametricCurveMeshGenerator.Instance.CreateGreatCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
-    //}
-    // ha abstract scriptet akarunk használni akkor "does not fall with in range" hibát kapunk
+    public void SoftDelete()
+    {
+        foreach (IObserver o in observers)
+        {
+            if (o is IGeometryObject)
+            {
+                ((IGeometryObject)(o)).SoftDelete();
+                Debug.Log("soft deleting observer");
+            }
+        }
+        isActive = false;
+        this.gameObject.SetActive(false);
+    }
+
+    public void HardDelete()
+    {
+        foreach (IObserver o in observers)
+        {
+            if (o is IGeometryObject)
+            {
+                ((IGeometryObject)(o)).HardDelete();
+            }
+        }
+        Destroy(this.gameObject);
+    }
+
+    public void Restore()
+    {
+        foreach (IObserver o in observers)
+        {
+            if (o is IGeometryObject)
+            {
+                ((IGeometryObject)(o)).Restore();
+            }
+            o.OnChanged();
+        }
+        isActive = true;
+        this.gameObject.SetActive(true);
+    }
 }

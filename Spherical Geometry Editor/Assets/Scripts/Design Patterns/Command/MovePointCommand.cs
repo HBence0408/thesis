@@ -18,8 +18,18 @@ public class MovePointCommand : ICommand
         point.transform.position = toPos;
     }
 
+    public void ReExecute()
+    {
+        point.transform.position = toPos;
+    }
+
     public void UnExecute()
     {
         point.transform.position = fromPos;
+    }
+
+    public void Delete()
+    {
+        point = null;
     }
 }

@@ -6,8 +6,8 @@ public class GreatCircleSmallCircleIntersectCommand : ICommand
     GreatCircle greatCircle;
     SmallCircle smallCircle;
     SphericalGeometryFactory factory;
-    IntersectionPoint point1Script;
-    IntersectionPoint point2Script;
+    IntersectionPoint[] intersections;
+    bool isExecuted;
 
     public GreatCircleSmallCircleIntersectCommand(GreatCircle greatCircle, SmallCircle smallCircle, SphericalGeometryFactory factory)
     {
@@ -18,19 +18,46 @@ public class GreatCircleSmallCircleIntersectCommand : ICommand
 
     public void Execute()
     {
-        IntersectionPoint[] intersections = factory.CreateIntersectionPoints(greatCircle, smallCircle);
+        intersections = factory.CreateIntersectionPoints(greatCircle, smallCircle);
 
         for (int i = 0; i < intersections.Length; i++)
         {
             smallCircle.Subscirbe(intersections[i]);
             greatCircle.Subscirbe(intersections[i]);
-            Debug.Log(intersections[i]);
         }
+        isExecuted = true;
+    }
+
+    public void ReExecute()
+    {
+        for (int i = 0; i < intersections.Length; i++)
+        {
+            intersections[i].Restore();
+        }
+        isExecuted = true;
     }
 
     public void UnExecute()
     {
-        point1Script.Destroy();
-        point2Script.Destroy();
+        for (int i = 0; i < intersections.Length; i++)
+        {
+            intersections[i].SoftDelete();
+        }
+        isExecuted = false;
+    }
+
+    public void Delete()
+    {
+        if (!isExecuted)
+        {
+            for (int i = 0; i < intersections.Length; i++)
+            {
+                intersections[i].HardDelete();
+            }
+        }
+        smallCircle = null;
+        greatCircle = null;
+        factory = null;
+        intersections = null;
     }
 }

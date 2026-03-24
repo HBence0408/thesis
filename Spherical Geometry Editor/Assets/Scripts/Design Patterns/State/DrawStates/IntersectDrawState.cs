@@ -72,7 +72,7 @@ public class IntersectDrawState : DrawingState
                 if (command != null)
                 {
                     commandInvoker.ExecuteCommand(command);
-                    manager.SetState(manager.IdleState);
+                    manager.SetState(this);
                 }
             }
         }

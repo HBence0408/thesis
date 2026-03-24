@@ -28,6 +28,8 @@ public class EditorState : AppState
         sideMenu.OnIntersectButtonClicked += Intersect;
         sideMenu.OnPointButtonClicked += DrawPoint;
         sideMenu.OnUndoButtonClicked += Undo;
+        sideMenu.OnRedoButtonClicked += Redo;
+        sideMenu.OnDeleteButtonClicked += Delete;
     }
 
     public override void OnExit()
@@ -43,6 +45,8 @@ public class EditorState : AppState
         sideMenu.OnIntersectButtonClicked -= Intersect;
         sideMenu.OnPointButtonClicked -= DrawPoint;
         sideMenu.OnUndoButtonClicked -= Undo;
+        sideMenu.OnRedoButtonClicked -= Redo;
+        sideMenu.OnDeleteButtonClicked -= Delete;
     }
 
     private void OnLeftMouseDown()
@@ -92,5 +96,15 @@ public class EditorState : AppState
     public void Undo()
     {
         commandInvoker.Undo();
+    }
+
+    public void Redo()
+    {
+        commandInvoker.Redo();
+    }
+
+    public void Delete()
+    {
+        drawManager.Delete();
     }
 }

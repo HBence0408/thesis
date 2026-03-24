@@ -7,6 +7,7 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
     SmallCircle smallCircle2;
     SphericalGeometryFactory factory;
     IntersectionPoint[] intersections;
+    bool isExecuted;
 
     public SmallCircleSmallCircleIntersectCommand(SmallCircle smallCircle1, SmallCircle smallCircle2, SphericalGeometryFactory factory)
     {
@@ -24,14 +25,39 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
             smallCircle1.Subscirbe(intersections[i]);
             smallCircle2.Subscirbe(intersections[i]);
         }
+        isExecuted = true;
     }
 
+    public void ReExecute()
+    {
+        for (int i = 0; i < intersections.Length; i++)
+        {
+            intersections[i].Restore();
+        }
+        isExecuted = true;
+    }
 
     public void UnExecute()
     {
         for (int i = 0; i < intersections.Length; i++)
         {
-            intersections[i].Destroy();
+            intersections[i].SoftDelete();
         }
+        isExecuted = false;
+    }
+
+    public void Delete()
+    {
+        if (!isExecuted)
+        {
+            for (int i = 0; i < intersections.Length; i++)
+            {
+                intersections[i].HardDelete();
+            }
+        }
+        smallCircle1 = null;
+        smallCircle2 = null;
+        factory = null;
+        intersections = null;
     }
 }

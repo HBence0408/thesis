@@ -5,6 +5,7 @@ public class DrawManager
 {
     private SphericalGeometryFactory factory;
     private CommandInvoker commandInvoker;
+    private IRepository repository;
 
     private DrawingState currentState;
     private IntersectDrawState intersectDrawState;
@@ -16,19 +17,20 @@ public class DrawManager
     private GreatCircleSegmentDrawState greatCircleSegmentDrawState;
     private DeleteState deleteState;
 
-    public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker)
+    public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repoitory)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
+        this.repository = repoitory;
 
-        intersectDrawState = new IntersectDrawState(this, factory, commandInvoker);
-        greatCircleDrawState = new GreatCircleDrawState(this, factory, commandInvoker);
-        greatCircleSegmentDrawState = new GreatCircleSegmentDrawState(this, factory, commandInvoker);
-        smallCircleDrawState = new SmallCircleDrawState(this, factory, commandInvoker);
+        intersectDrawState = new IntersectDrawState(this, factory, commandInvoker, repository);
+        greatCircleDrawState = new GreatCircleDrawState(this, factory, commandInvoker, repository);
+        greatCircleSegmentDrawState = new GreatCircleSegmentDrawState(this, factory, commandInvoker, repository);
+        smallCircleDrawState = new SmallCircleDrawState(this, factory, commandInvoker, repository);
         moveState = new MoveState(this, commandInvoker);
-        placePointsState = new PlacePointsState(this, factory, commandInvoker);
+        placePointsState = new PlacePointsState(this, factory, commandInvoker, repository);
         idleState = new IdleState(this);
-        deleteState = new DeleteState(this, commandInvoker);
+        deleteState = new DeleteState(this, commandInvoker, repository);
 
         currentState = idleState;
     }

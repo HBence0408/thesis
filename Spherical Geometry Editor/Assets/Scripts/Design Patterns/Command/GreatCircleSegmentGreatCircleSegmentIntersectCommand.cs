@@ -9,13 +9,15 @@ public class GreatCircleSegmentGreatCircleSegmentIntersectCommand : ICommand
     GreatCircleSegment greatCircleSegment2;
     IntersectionPoint[] intersections;
     SphericalGeometryFactory factory;
+    IRepository repository;
     bool isExecuted;
 
-    public GreatCircleSegmentGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment1, GreatCircleSegment greatCircleSegment2, SphericalGeometryFactory factory)
+    public GreatCircleSegmentGreatCircleSegmentIntersectCommand(GreatCircleSegment greatCircleSegment1, GreatCircleSegment greatCircleSegment2, SphericalGeometryFactory factory, IRepository repository)
     {
         this.greatCircleSegment1 = greatCircleSegment1;
         this.greatCircleSegment2 = greatCircleSegment2;
         this.factory = factory;
+        this.repository = repository;
     }
 
     public void Execute()
@@ -26,7 +28,8 @@ public class GreatCircleSegmentGreatCircleSegmentIntersectCommand : ICommand
        {
            greatCircleSegment1.Subscirbe(intersections[i]);
            greatCircleSegment2.Subscirbe(intersections[i]);
-       }
+            repository.Store(intersections[i]);
+        }
         isExecuted = true;
     }
 
@@ -35,6 +38,7 @@ public class GreatCircleSegmentGreatCircleSegmentIntersectCommand : ICommand
         for (int i = 0; i < intersections.Length; i++)
         {
             intersections[i].Restore();
+            repository.Store(intersections[i]);
         }
         isExecuted = true;
     }
@@ -44,6 +48,7 @@ public class GreatCircleSegmentGreatCircleSegmentIntersectCommand : ICommand
         for (int i = 0; i < intersections.Length; i++)
         {
             intersections[i].SoftDelete();
+            repository.Delete(intersections[i].Id);
         }
         isExecuted = false;
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class GreatCircleDrawState : DrawParametricCurveState
 {
 
-    public GreatCircleDrawState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker) : base(manager, factory, commandInvoker)
+    public GreatCircleDrawState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager, factory, commandInvoker, repository)
     {
         requiredControllPoints = 2;
     }
@@ -11,7 +11,7 @@ public class GreatCircleDrawState : DrawParametricCurveState
     protected override void DrawParametricCurve()
     {
 
-        DrawGreatCircleCommand command = new DrawGreatCircleCommand(SelectedControllPoints[0], SelectedControllPoints[1], factory);
+        DrawGreatCircleCommand command = new DrawGreatCircleCommand(SelectedControllPoints[0], SelectedControllPoints[1], factory,repository);
         commandInvoker.ExecuteCommand (command);
     }
 }

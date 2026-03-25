@@ -8,11 +8,13 @@ public class IntersectDrawState : DrawingState
     private ParametricCurve intersectable2;
     private SphericalGeometryFactory factory;
     private CommandInvoker commandInvoker;
+    private IRepository repository;
 
-    public IntersectDrawState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker) : base(manager)
+    public IntersectDrawState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
+        this.repository = repository;
     }
 
     public override void OnLeftMouseUp()
@@ -35,39 +37,39 @@ public class IntersectDrawState : DrawingState
                 ICommand command = null;
                 if (intersectable1 is GreatCircle && intersectable2 is GreatCircle)
                 {
-                    command = new GreatCircleGreatCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as GreatCircle, factory);
+                    command = new GreatCircleGreatCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as GreatCircle, factory, repository);
                 }
                 if (intersectable1 is GreatCircleSegment && intersectable2 is GreatCircleSegment)
                 {
-                    command = new GreatCircleSegmentGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircleSegment, factory);
+                    command = new GreatCircleSegmentGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircleSegment, factory, repository);
                 }
                 if (intersectable1 is GreatCircle && intersectable2 is GreatCircleSegment)
                 {
-                    command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as GreatCircle, factory);
+                    command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as GreatCircle, factory, repository);
                 }
                 if (intersectable2 is GreatCircle && intersectable1 is GreatCircleSegment)
                 {
-                    command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircle, factory);
+                    command = new GreatCircleGreatCircleSegmentIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as GreatCircle, factory, repository);
                 }
                 if (intersectable1 is GreatCircle && intersectable2 is SmallCircle)
                 {
-                    command = new GreatCircleSmallCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as SmallCircle, factory);
+                    command = new GreatCircleSmallCircleIntersectCommand(intersectable1 as GreatCircle, intersectable2 as SmallCircle, factory, repository);
                 }
                 if (intersectable2 is GreatCircle && intersectable1 is SmallCircle)
                 {
-                    command = new GreatCircleSmallCircleIntersectCommand(intersectable2 as GreatCircle, intersectable1 as SmallCircle, factory);
+                    command = new GreatCircleSmallCircleIntersectCommand(intersectable2 as GreatCircle, intersectable1 as SmallCircle, factory, repository);
                 }
                 if (intersectable1 is SmallCircle && intersectable2 is GreatCircleSegment)
                 {
-                    command = new GreatCircleSegmentSmallCircleIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as SmallCircle, factory);
+                    command = new GreatCircleSegmentSmallCircleIntersectCommand(intersectable2 as GreatCircleSegment, intersectable1 as SmallCircle, factory, repository);
                 }
                 if (intersectable2 is SmallCircle && intersectable1 is GreatCircleSegment)
                 {
-                    command = new GreatCircleSegmentSmallCircleIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as SmallCircle, factory);
+                    command = new GreatCircleSegmentSmallCircleIntersectCommand(intersectable1 as GreatCircleSegment, intersectable2 as SmallCircle, factory, repository);
                 }
                 if (intersectable1 is SmallCircle && intersectable2 is SmallCircle)
                 {
-                    command = new SmallCircleSmallCircleIntersectCommand(intersectable1 as SmallCircle, intersectable2 as SmallCircle, factory);
+                    command = new SmallCircleSmallCircleIntersectCommand(intersectable1 as SmallCircle, intersectable2 as SmallCircle, factory, repository);
                 }
                 if (command != null)
                 {

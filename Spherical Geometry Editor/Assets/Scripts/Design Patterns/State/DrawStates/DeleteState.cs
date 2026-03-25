@@ -5,10 +5,12 @@ using static UnityEditor.PlayerSettings;
 public class DeleteState : DrawingState
 {
     private CommandInvoker commandInvoker;
+    private IRepository repository;
 
-    public DeleteState(DrawManager manager, CommandInvoker commandInvoker) : base(manager)
+    public DeleteState(DrawManager manager, CommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.commandInvoker = commandInvoker;
+        this.repository = repository;
     }
 
     public override void OnLeftMouseDown()
@@ -21,7 +23,7 @@ public class DeleteState : DrawingState
             IGeometryObject geometryObject;
             if (hit.transform.gameObject.TryGetComponent<IGeometryObject>(out geometryObject))
             {
-                DeleteCommand command = new DeleteCommand(geometryObject);
+                DeleteCommand command = new DeleteCommand(geometryObject, repository);
                 commandInvoker.ExecuteCommand(command);
             }
         }

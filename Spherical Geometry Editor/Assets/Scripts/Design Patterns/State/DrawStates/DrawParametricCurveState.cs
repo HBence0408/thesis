@@ -8,11 +8,13 @@ public abstract class DrawParametricCurveState : DrawingState
     protected int requiredControllPoints;
     protected SphericalGeometryFactory factory;
     protected CommandInvoker commandInvoker;
+    protected IRepository repository;
 
-    public DrawParametricCurveState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker) : base(manager)
+    public DrawParametricCurveState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
+        this.repository = repository;
     }
 
     public override void OnLeftMouseUp()
@@ -31,7 +33,7 @@ public abstract class DrawParametricCurveState : DrawingState
             }
             else
             {
-                PlacePointCommand command = new PlacePointCommand(hit.point,factory);
+                PlacePointCommand command = new PlacePointCommand(hit.point,factory, repository);
                 commandInvoker.ExecuteCommand(command);
                 SelectedControllPoints.Add(command.GetPoint().gameObject);
             }

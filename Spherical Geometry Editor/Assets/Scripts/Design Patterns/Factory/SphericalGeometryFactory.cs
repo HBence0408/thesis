@@ -1,5 +1,7 @@
+using System;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class SphericalGeometryFactory
@@ -24,7 +26,9 @@ public class SphericalGeometryFactory
     {
         GameObject grabablePoint = MonoBehaviour.Instantiate(GrabablePointPrefab);
         grabablePoint.transform.position = pos;
-        return grabablePoint.GetComponent<GrabablePoint>();
+        GrabablePoint script = grabablePoint.GetComponent<GrabablePoint>();
+        script.Id = Guid.NewGuid();
+        return script;
     }
 
     public GreatCircle CreateGreatCircle(Vector3 point1Pos, Vector3 point2Pos)
@@ -33,6 +37,7 @@ public class SphericalGeometryFactory
         greatCircle.transform.position = new Vector3(0,0,0);
         GreatCircle script = greatCircle.GetComponent<GreatCircle>();
         ParametricCurveMeshGenerator.Instance.CreateGreatCircleMesh(point1Pos, point2Pos, script.CreateMesh);
+        script.Id = Guid.NewGuid();
         return script;
     }
 
@@ -44,6 +49,7 @@ public class SphericalGeometryFactory
         smallCircle.transform.position = new Vector3(0, 0, 0);
         SmallCircle script = smallCircle.GetComponent<SmallCircle>();
         ParametricCurveMeshGenerator.Instance.CreateSmallCircleMesh(point1Pos, point2Pos, script.CreateMesh);
+        script.Id = Guid.NewGuid();
         return script;
     }
 
@@ -53,6 +59,7 @@ public class SphericalGeometryFactory
         greatCircleSegment.transform.position = new Vector3(0, 0, 0);
         GreatCircleSegment script = greatCircleSegment.GetComponent<GreatCircleSegment>();
         ParametricCurveMeshGenerator.Instance.CreateGreatCircleSegmentMesh(point1Pos, point2Pos, script.CreateMesh);
+        script.Id = Guid.NewGuid();
         return script;
     }
 
@@ -63,11 +70,13 @@ public class SphericalGeometryFactory
         point1.transform.position = dir.normalized;
         IntersectionPoint point1Script = point1.GetComponent<IntersectionPoint>();
         point1Script.SetRecalculate(greatCircle1, greatCircle2, (curve1, curve2) => Vector3.Cross(curve1.NormalOfPlane, curve2.NormalOfPlane));
+        point1Script.Id = Guid.NewGuid();
 
         GameObject point2 = MonoBehaviour.Instantiate(IntersectionPointPrefab);
         point2.transform.position = -dir.normalized;
         IntersectionPoint point2Script = point2.GetComponent<IntersectionPoint>();
         point2Script.SetRecalculate(greatCircle1, greatCircle2, (curve1, curve2) => -Vector3.Cross(curve1.NormalOfPlane, curve2.NormalOfPlane));
+        point2Script.Id = Guid.NewGuid();
 
         return new IntersectionPoint[] { point1Script, point2Script };
     }
@@ -104,6 +113,7 @@ public class SphericalGeometryFactory
                 }
             });
 
+            script.Id = Guid.NewGuid();
             return new IntersectionPoint[] {script};
         }
 
@@ -145,6 +155,7 @@ public class SphericalGeometryFactory
                 }
             });
 
+            script.Id = Guid.NewGuid();
             return new IntersectionPoint[] { script };
         }
 
@@ -179,6 +190,7 @@ public class SphericalGeometryFactory
                 }
             });
             intersectionPoints[0] = point1Script;
+            point1Script.Id = Guid.NewGuid();
             return intersectionPoints;
         }
 
@@ -188,6 +200,7 @@ public class SphericalGeometryFactory
             point1.transform.position = intersections[0];
             IntersectionPoint point1Script = point1.GetComponent<IntersectionPoint>();
             intersectionPoints[0] = point1Script;
+            point1Script.Id = Guid.NewGuid();
             point1Script.SetRecalculate(greatCircleSegment, smallCircle, (curve1, curve2) =>
             {
                 Vector3[] intersections = CalculateIntersections(curve1 as GreatCircleSegment, curve2 as SmallCircle);
@@ -208,6 +221,7 @@ public class SphericalGeometryFactory
             point2.transform.position = intersections[1];
             IntersectionPoint point2Script = point2.GetComponent<IntersectionPoint>();
             intersectionPoints[1] = point2Script;
+            point2Script.Id = Guid.NewGuid();
             point2Script.SetRecalculate(greatCircleSegment, smallCircle, (curve1, curve2) =>
             {
                 Vector3[] intersections = CalculateIntersections(curve1 as GreatCircleSegment, curve2 as SmallCircle);
@@ -255,6 +269,7 @@ public class SphericalGeometryFactory
                 }
             });
             intersectionPoints[0] = pointScript;
+            pointScript.Id = Guid.NewGuid();
             return intersectionPoints;
         }
 
@@ -263,6 +278,7 @@ public class SphericalGeometryFactory
         point1.transform.position = intersections[0];
         IntersectionPoint point1Script = point1.GetComponent<IntersectionPoint>();
         intersectionPoints[0] = point1Script;
+        point1Script.Id = Guid.NewGuid();
         point1Script.SetRecalculate(greatCircle, smallCircle, (curve1, curve2) =>
         {
             Vector3[] intersections = CalculateIntersections(curve1 as GreatCircle, curve2 as SmallCircle);
@@ -280,6 +296,7 @@ public class SphericalGeometryFactory
         point2.transform.position = intersections[1];      
         IntersectionPoint point2Script = point2.GetComponent<IntersectionPoint>();
         intersectionPoints[1] = point2Script;
+        point2Script.Id = Guid.NewGuid();
         point2Script.SetRecalculate(greatCircle, smallCircle, (curve1, curve2) =>
         {
             Vector3[] intersections = CalculateIntersections(curve1 as GreatCircle, curve2 as SmallCircle);
@@ -325,6 +342,7 @@ public class SphericalGeometryFactory
             });
 
             intersectionPoints[0] = pointScript;
+            pointScript.Id = Guid.NewGuid();
             return intersectionPoints;
         }
 
@@ -332,6 +350,7 @@ public class SphericalGeometryFactory
         point1.transform.position = intersections[0];
         IntersectionPoint point1Script = point1.GetComponent<IntersectionPoint>();
         intersectionPoints[0] = point1Script;
+        point1Script.Id = Guid.NewGuid();
         point1Script.SetRecalculate(smallCircle1, smallCircle2, (curve1, curve2) =>
         {
             Vector3[] intersections = CalculateIntersections(curve1 as SmallCircle, curve2 as SmallCircle);
@@ -350,6 +369,7 @@ public class SphericalGeometryFactory
         point2.transform.position = intersections[1];
         IntersectionPoint point2Script = point2.GetComponent<IntersectionPoint>();
         intersectionPoints[1] = point2Script;
+        point2Script.Id = Guid.NewGuid();
         point2Script.SetRecalculate(smallCircle1, smallCircle2, (curve1, curve2) =>
         {
             Vector3[] intersections = CalculateIntersections(curve1 as SmallCircle, curve2 as SmallCircle);

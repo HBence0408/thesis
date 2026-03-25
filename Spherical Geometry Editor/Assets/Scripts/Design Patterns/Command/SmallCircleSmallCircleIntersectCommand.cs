@@ -7,13 +7,15 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
     SmallCircle smallCircle2;
     SphericalGeometryFactory factory;
     IntersectionPoint[] intersections;
+    IRepository repository;
     bool isExecuted;
 
-    public SmallCircleSmallCircleIntersectCommand(SmallCircle smallCircle1, SmallCircle smallCircle2, SphericalGeometryFactory factory)
+    public SmallCircleSmallCircleIntersectCommand(SmallCircle smallCircle1, SmallCircle smallCircle2, SphericalGeometryFactory factory, IRepository repository)
     {
         this.smallCircle1 = smallCircle1;
         this.smallCircle2 = smallCircle2;
         this.factory = factory;
+        this.repository = repository;
     }
 
     public void Execute()
@@ -24,6 +26,7 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
         {
             smallCircle1.Subscirbe(intersections[i]);
             smallCircle2.Subscirbe(intersections[i]);
+            repository.Store(intersections[i]);
         }
         isExecuted = true;
     }
@@ -33,6 +36,7 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
         for (int i = 0; i < intersections.Length; i++)
         {
             intersections[i].Restore();
+            repository.Store(intersections[i]);
         }
         isExecuted = true;
     }
@@ -42,6 +46,7 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
         for (int i = 0; i < intersections.Length; i++)
         {
             intersections[i].SoftDelete();
+            repository.Delete(intersections[i].Id);
         }
         isExecuted = false;
     }

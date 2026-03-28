@@ -16,6 +16,8 @@ public class DrawManager
     private SmallCircleDrawState smallCircleDrawState;
     private GreatCircleSegmentDrawState greatCircleSegmentDrawState;
     private DeleteState deleteState;
+    private PlaceAntidotalPointState placeAntidotalPointState;
+    private PlacePolePointsState placePolePointsState;
 
     public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repoitory)
     {
@@ -31,6 +33,8 @@ public class DrawManager
         placePointsState = new PlacePointsState(this, factory, commandInvoker, repository);
         idleState = new IdleState(this);
         deleteState = new DeleteState(this, commandInvoker, repository);
+        placeAntidotalPointState = new PlaceAntidotalPointState(this, factory, commandInvoker, repository);
+        placePolePointsState = new PlacePolePointsState(this, factory, commandInvoker, repository);
 
         currentState = idleState;
     }
@@ -103,5 +107,15 @@ public class DrawManager
     public void Delete()
     {
         SetState(deleteState);
+    }
+
+    public void PlaceAntipodalPoint()
+    {
+        SetState(placeAntidotalPointState);
+    }
+
+    public void PlacePolePoints()
+    {
+        SetState(placePolePointsState);
     }
 }

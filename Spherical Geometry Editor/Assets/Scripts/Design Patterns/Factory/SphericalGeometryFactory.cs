@@ -12,9 +12,11 @@ public class SphericalGeometryFactory
     GameObject GreatCirclePrefab;
     GameObject GreatCircleSegmentPrefab;
     GameObject LimitedPointPrefab;
+    GameObject AntipodalPointPrefab;
+    GameObject PolePointPrefab;
     double epsilon = 0.0001;
 
-    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab)
+    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab, GameObject antipodalPointPrefab, GameObject polePointPrefab)
     {
         this.GrabablePointPrefab = grabablePointPrefab;
         this.IntersectionPointPrefab = intersectionPointPrefab;
@@ -22,6 +24,8 @@ public class SphericalGeometryFactory
         this.GreatCirclePrefab = greatCirclePrefab;
         this.GreatCircleSegmentPrefab = greatCircleSegmentPrefab;
         this.LimitedPointPrefab = limitedPointPrefab;
+        this.AntipodalPointPrefab = antipodalPointPrefab;
+        this.PolePointPrefab = polePointPrefab;
     }
 
     public GrabablePoint CreateGrabablepoint(Vector3 pos)
@@ -38,6 +42,24 @@ public class SphericalGeometryFactory
         GameObject limitedPoint = MonoBehaviour.Instantiate(LimitedPointPrefab);
         limitedPoint.transform.position = pos;
         LimitedPoint script = limitedPoint.GetComponent<LimitedPoint>();
+        script.Id = Guid.NewGuid();
+        return script;
+    }
+
+    public PolePoint CreatePolepoint(Vector3 pos)
+    {
+        GameObject PolePoint = MonoBehaviour.Instantiate(PolePointPrefab);
+        PolePoint.transform.position = pos;
+        PolePoint script = PolePoint.GetComponent<PolePoint>();
+        script.Id = Guid.NewGuid();
+        return script;
+    }
+
+    public AntipodalPoint CreateAntipodalpoint(Vector3 pos)
+    {
+        GameObject antipodalPoint = MonoBehaviour.Instantiate(AntipodalPointPrefab);
+        antipodalPoint.transform.position = pos;
+        AntipodalPoint script = antipodalPoint.GetComponent<AntipodalPoint>();
         script.Id = Guid.NewGuid();
         return script;
     }

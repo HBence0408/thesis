@@ -4,6 +4,11 @@ public class LimitedPoint : ControllPoint, IObserver
 {
     private ParametricCurve curve;
 
+    private void Start()
+    {
+        Reposition(this.transform.position);
+    }
+
     public void SetCurve(ParametricCurve curve)
     {
         this.curve = curve;

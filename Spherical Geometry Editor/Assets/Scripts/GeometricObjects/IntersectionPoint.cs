@@ -31,10 +31,10 @@ public class IntersectionPoint : ControllPoint, IObserver
         this.recalculatePosition = recalculate;
     }
 
-    public new void Destroy()
-    {
-        curve1.Unsubscirbe(this);
-        curve2.Unsubscirbe(this);
-        base.Destroy();
-    }
+    //public new void Destroy()
+    //{
+    //    curve1.Unsubscirbe(this);
+    //    curve2.Unsubscirbe(this);
+    //    base.Destroy();
+    //}
 }

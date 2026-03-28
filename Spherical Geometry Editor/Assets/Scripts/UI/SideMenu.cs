@@ -14,6 +14,8 @@ public class SideMenu : MonoBehaviour
     private Button intersectButton;
     private Button redoButton;
     private Button deleteButton;
+    private Button antipodalButton;
+    private Button poleButton;
 
     public event Action OnLineButtonClicked;
     public event Action OnSegmentButtonClicked;
@@ -24,6 +26,8 @@ public class SideMenu : MonoBehaviour
     public event Action OnIntersectButtonClicked;
     public event Action OnRedoButtonClicked;
     public event Action OnDeleteButtonClicked;
+    public event Action OnAntipodalButtonClicked;
+    public event Action OnpoleButtonClicked;
 
 
     private void Awake()
@@ -42,6 +46,8 @@ public class SideMenu : MonoBehaviour
         intersectButton = ui.Q<Button>("intersectButton");
         redoButton = ui.Q<Button>("redoButton");
         deleteButton = ui.Q<Button>("deleteButton");
+        antipodalButton = ui.Q<Button>("antipodalButton");
+        poleButton = ui.Q<Button>("poleButton");
 
         lineButton.clicked += OnLineButtonClick;
         segmentButton.clicked += OnSegmentButtonClick;
@@ -52,6 +58,8 @@ public class SideMenu : MonoBehaviour
         intersectButton.clicked += OnIntersectButtonClick;
         redoButton.clicked += OnRedoButtonClick;
         deleteButton.clicked += OnDeleteButtonClick;
+        antipodalButton.clicked += OnAntipodalButtonClick;
+        poleButton.clicked += OnPoleButtonClick;
     }
 
     public void OnDisable()
@@ -65,6 +73,8 @@ public class SideMenu : MonoBehaviour
         intersectButton.clicked -= OnIntersectButtonClick;
         redoButton.clicked -= OnRedoButtonClick;
         deleteButton.clicked -= OnDeleteButtonClick;
+        antipodalButton.clicked -= OnAntipodalButtonClick;
+        poleButton.clicked -= OnPoleButtonClick;
     }
 
     private void OnLineButtonClick()
@@ -110,5 +120,15 @@ public class SideMenu : MonoBehaviour
     private void OnDeleteButtonClick()
     {
         OnDeleteButtonClicked?.Invoke();
+    }
+
+    private void OnAntipodalButtonClick()
+    {
+        OnAntipodalButtonClicked?.Invoke();
+    }
+
+    private void OnPoleButtonClick()
+    {
+        OnpoleButtonClicked?.Invoke();
     }
 }

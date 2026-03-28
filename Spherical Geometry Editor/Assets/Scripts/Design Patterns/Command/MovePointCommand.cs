@@ -4,9 +4,9 @@ public class MovePointCommand : ICommand
 {
     private Vector3 toPos;
     private Vector3 fromPos;
-    private GameObject point;
+    private ControllPoint point;
 
-    public MovePointCommand(Vector3 toPos, GameObject point, Vector3 fromPos)
+    public MovePointCommand(Vector3 toPos, ControllPoint point, Vector3 fromPos)
     {
         this.toPos = toPos.normalized;
         this.fromPos = fromPos.normalized;
@@ -15,17 +15,17 @@ public class MovePointCommand : ICommand
 
     public void Execute()
     {
-        point.transform.position = toPos;
+        point.Reposition(toPos);
     }
 
     public void ReExecute()
     {
-        point.transform.position = toPos;
+        point.Reposition(toPos);
     }
 
     public void UnExecute()
     {
-        point.transform.position = fromPos;
+        point.Reposition(fromPos);
     }
 
     public void Delete()

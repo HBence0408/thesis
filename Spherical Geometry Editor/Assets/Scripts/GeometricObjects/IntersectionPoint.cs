@@ -20,7 +20,6 @@ public class IntersectionPoint : ControllPoint, IObserver
         else
         {
             this.transform.position = newPos;
-            Debug.Log("newPos: " + newPos);
             this.gameObject.SetActive(true);
         }
     }

@@ -11,15 +11,17 @@ public class SphericalGeometryFactory
     GameObject SmallCirclePrefab;
     GameObject GreatCirclePrefab;
     GameObject GreatCircleSegmentPrefab;
+    GameObject LimitedPointPrefab;
     double epsilon = 0.0001;
 
-    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab)
+    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab)
     {
         this.GrabablePointPrefab = grabablePointPrefab;
         this.IntersectionPointPrefab = intersectionPointPrefab;
         this.SmallCirclePrefab = smallCirclePrefab;
         this.GreatCirclePrefab = greatCirclePrefab;
         this.GreatCircleSegmentPrefab = greatCircleSegmentPrefab;
+        this.LimitedPointPrefab = limitedPointPrefab;
     }
 
     public GrabablePoint CreateGrabablepoint(Vector3 pos)
@@ -27,6 +29,15 @@ public class SphericalGeometryFactory
         GameObject grabablePoint = MonoBehaviour.Instantiate(GrabablePointPrefab);
         grabablePoint.transform.position = pos;
         GrabablePoint script = grabablePoint.GetComponent<GrabablePoint>();
+        script.Id = Guid.NewGuid();
+        return script;
+    }
+
+    public LimitedPoint CreateLimitedpoint(Vector3 pos)
+    {
+        GameObject limitedPoint = MonoBehaviour.Instantiate(LimitedPointPrefab);
+        limitedPoint.transform.position = pos;
+        LimitedPoint script = limitedPoint.GetComponent<LimitedPoint>();
         script.Id = Guid.NewGuid();
         return script;
     }

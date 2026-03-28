@@ -15,6 +15,7 @@ public class AppCore : MonoBehaviour
     [SerializeField] private GameObject GreatCircleSegmentPrefab;
     [SerializeField] private GameObject SmallCirclePrefab;
     [SerializeField] private GameObject IntersectPointPrefab;
+    [SerializeField] private GameObject LimitedPointPrefab;
     private SphericalGeometryFactory factory;
     private CommandInvoker commandInvoker;
 
@@ -46,7 +47,7 @@ public class AppCore : MonoBehaviour
 
             commandInvoker = new CommandInvoker();
             repoitory = new Repository();
-            factory = new SphericalGeometryFactory(GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab);
+            factory = new SphericalGeometryFactory(GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab);
             drawManager = new DrawManager(factory, commandInvoker, repoitory);
             SetState(new EditorState(this, inputHandler,  sideMenu, drawManager, commandInvoker));
             Debug.Log("AppCore initialized in EditorScene.");

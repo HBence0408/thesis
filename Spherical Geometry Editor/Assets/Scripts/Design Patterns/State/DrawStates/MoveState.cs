@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 public class MoveState : DrawingState
 {
-    private GameObject point = null;
+    private ControllPoint point = null;
     private Vector3? pos = null;
     private CommandInvoker commandInvoker;
 
@@ -17,19 +17,22 @@ public class MoveState : DrawingState
         RaycastHit hit;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        ControllPoint point;
         if (Physics.Raycast(ray, out hit, 1000))
         {
             Debug.Log(hit.transform.name);
             Debug.Log("hit");
-            if (hit.transform.gameObject.tag == "point")
+            if (hit.transform.TryGetComponent<ControllPoint>(out point))
             {
-                point = hit.transform.gameObject;
+                
+                //point = hit.transform.gameObject;
                 pos = hit.transform.position;
-                if (point.GetComponent<ControllPoint>() is IntersectionPoint)
-                {
-                    point = null;
-                    pos = null;
-                }
+                this.point = point;
+                //if (point.GetComponent<ControllPoint>() is IntersectionPoint)
+                //{
+                //    point = null;
+                //    pos = null;
+                //}
             }
         }
     }
@@ -61,7 +64,8 @@ public class MoveState : DrawingState
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 1000))
             {
-                point.transform.position = hit.point.normalized;
+                //point.transform.position = hit.point.normalized;
+                point.Reposition(hit.point.normalized);
             }
 
         }

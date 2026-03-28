@@ -1759,6 +1759,7 @@ MonoBehaviour:
   GreatCircleSegmentPrefab: {fileID: 1563057126761308227, guid: 9f945d5f366fed14cb58e872c2f86ebf, type: 3}
   SmallCirclePrefab: {fileID: 1563057126761308227, guid: 7a898d14276e816469e23849cd9b1029, type: 3}
   IntersectPointPrefab: {fileID: 8942343030158565284, guid: b04f3d9747ac7ff4c96719502143143d, type: 3}
+  LimitedPointPrefab: {fileID: 8942343030158565284, guid: 73da14a61eb68864e8e662d977cfe797, type: 3}
 --- !u!4 &1100927114
 Transform:
   m_ObjectHideFlags: 0
@@ -2005,6 +2006,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5117700066308340382, guid: 3b851b649b746f144ba2026ae613afad, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -3272106112100924687, guid: 3b851b649b746f144ba2026ae613afad, type: 3}
       propertyPath: m_LocalScale.x
       value: 107.5
@@ -2032,6 +2037,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3b851b649b746f144ba2026ae613afad, type: 3}
       propertyPath: m_Name
       value: Icosphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b851b649b746f144ba2026ae613afad, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

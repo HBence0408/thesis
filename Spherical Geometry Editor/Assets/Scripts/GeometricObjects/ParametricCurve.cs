@@ -13,9 +13,9 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
     protected ControllPoint point1;
     protected ControllPoint point2;
     protected List<IObserver> observers = new List<IObserver>();
-    private Vector3 normaleOfPlane;
-    private Vector3[] orthogonalVectrosOfthePlane = new Vector3[2];
-    private Vector3 center;
+    protected Vector3 normaleOfPlane;
+    protected Vector3[] orthogonalVectrosOfthePlane = new Vector3[2];
+    protected Vector3 center;
     private Guid id = Guid.Empty;
     private bool isActive = true;
 
@@ -93,6 +93,27 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
 
     public abstract void OnChanged();
 
+    public abstract Vector3 GetClosestPoint(Vector3 pos);
+   
+        //Vector3 closestPoint = pointsOnCurve[0];
+        //float minDistance = Vector3.Distance(pos, closestPoint);
+        //foreach (Vector3 point in pointsOnCurve)
+        //{
+        //    float distance = Vector3.Distance(pos, point);
+        //    if (distance < minDistance)
+        //    {
+        //        minDistance = distance;
+        //        closestPoint = point;
+        //    }
+        //}
+        //return closestPoint;
+
+        //float distance = normaleOfPlane.x * pos.x + normaleOfPlane.y * pos.y + normaleOfPlane.z * pos.z - (normaleOfPlane.x * center.x - normaleOfPlane.y * center.y - normaleOfPlane.z * center.z);
+        //distance = distance / normaleOfPlane.magnitude;
+        //return pos - distance * normaleOfPlane.normalized;
+
+    
+
     public void Subscirbe(IObserver o)
     {
         observers.Add(o);
@@ -153,5 +174,23 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         }
         isActive = true;
         this.gameObject.SetActive(true);
+    }
+
+    private void OnMouseOver()
+    {
+        if (!isActive) 
+        { 
+
+        }
+    }
+
+    private void OnMouseEnter()
+    {
+        meshRenderer.material.color = Color.yellow;
+    }
+
+    private void OnMouseExit()
+    {
+        meshRenderer.material.color = Color.red;
     }
 }

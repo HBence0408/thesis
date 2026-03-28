@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControllPoint : MonoBehaviour, IObservable, IGeometryObject
+public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObject
 {
     private List<IObserver> observers = new List<IObserver>();
     private Vector3 previousPos;
     private Guid id = Guid.Empty;
     private bool isActive = true;
+    [SerializeField] private MeshRenderer meshRenderer;
 
     public Guid Id { 
         get => id; 
@@ -22,6 +23,8 @@ public class ControllPoint : MonoBehaviour, IObservable, IGeometryObject
     }
 
     public bool IsActive => isActive;
+
+    public virtual void Reposition(Vector3 vector3) { }
 
     public void Notify()
     {
@@ -103,5 +106,15 @@ public class ControllPoint : MonoBehaviour, IObservable, IGeometryObject
         isActive = true;
         this.gameObject.SetActive(true);
         
+    }
+
+    private void OnMouseEnter()
+    {
+        meshRenderer.material.color = Color.yellow;
+    }
+
+    private void OnMouseExit()
+    {
+        meshRenderer.material.color = Color.black;
     }
 }

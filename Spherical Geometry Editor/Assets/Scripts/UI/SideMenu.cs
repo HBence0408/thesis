@@ -16,6 +16,7 @@ public class SideMenu : MonoBehaviour
     private Button deleteButton;
     private Button antipodalButton;
     private Button poleButton;
+    private Button midPointButton;
 
     public event Action OnLineButtonClicked;
     public event Action OnSegmentButtonClicked;
@@ -28,6 +29,7 @@ public class SideMenu : MonoBehaviour
     public event Action OnDeleteButtonClicked;
     public event Action OnAntipodalButtonClicked;
     public event Action OnpoleButtonClicked;
+    public event Action OnMidPointButtonClicked;
 
 
     private void Awake()
@@ -48,6 +50,7 @@ public class SideMenu : MonoBehaviour
         deleteButton = ui.Q<Button>("deleteButton");
         antipodalButton = ui.Q<Button>("antipodalButton");
         poleButton = ui.Q<Button>("poleButton");
+        midPointButton = ui.Q<Button>("midPointButton");
 
         lineButton.clicked += OnLineButtonClick;
         segmentButton.clicked += OnSegmentButtonClick;
@@ -60,6 +63,7 @@ public class SideMenu : MonoBehaviour
         deleteButton.clicked += OnDeleteButtonClick;
         antipodalButton.clicked += OnAntipodalButtonClick;
         poleButton.clicked += OnPoleButtonClick;
+        midPointButton.clicked += OnMidPointButtonClick;
     }
 
     public void OnDisable()
@@ -75,6 +79,7 @@ public class SideMenu : MonoBehaviour
         deleteButton.clicked -= OnDeleteButtonClick;
         antipodalButton.clicked -= OnAntipodalButtonClick;
         poleButton.clicked -= OnPoleButtonClick;
+        midPointButton.clicked -= OnMidPointButtonClick;
     }
 
     private void OnLineButtonClick()
@@ -130,5 +135,10 @@ public class SideMenu : MonoBehaviour
     private void OnPoleButtonClick()
     {
         OnpoleButtonClicked?.Invoke();
+    }
+
+    public void OnMidPointButtonClick()
+    {
+        OnMidPointButtonClicked?.Invoke();
     }
 }

@@ -11,5 +11,6 @@
         <ui:Button text="Delete" binding-path="deleteButton" view-data-key="deleteButton" name="deleteButton" emoji-fallback-support="false" style="width: 184px; height: 142px; font-size: 50px; top: 148px; bottom: 786px; left: 188px; position: absolute;" />
         <ui:Button text="Antipodal" binding-path="antipodalButton" view-data-key="antipodalButton" name="antipodalButton" emoji-fallback-support="false" parse-escape-sequences="true" style="width: 173px; height: 142px; font-size: 50px; top: 30%; bottom: 783px; left: 188px; position: absolute;" />
         <ui:Button text="Pole" binding-path="poleButton" view-data-key="poleButton" name="poleButton" emoji-fallback-support="false" parse-escape-sequences="true" selectable="false" focusable="false" style="width: 173px; height: 142px; font-size: 50px; top: 50%; bottom: 783px; left: 188px; position: absolute;" />
+        <ui:Button text="Mid" binding-path="midPointButton" view-data-key="midPointButton" name="midPointButton" emoji-fallback-support="false" parse-escape-sequences="true" selectable="false" focusable="false" style="width: 173px; height: 142px; font-size: 50px; top: 65%; bottom: 783px; left: 188px; position: absolute;" />
     </ui:VisualElement>
 </ui:UXML>

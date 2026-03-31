@@ -32,7 +32,7 @@ public class EditorState : AppState
         sideMenu.OnDeleteButtonClicked += Delete;
         sideMenu.OnAntipodalButtonClicked += PlaceAntipodalPoint;
         sideMenu.OnpoleButtonClicked += PlacePolePoints;
-
+        sideMenu.OnMidPointButtonClicked += PlaceMidPoint;
     }
 
     public override void OnExit()
@@ -52,6 +52,7 @@ public class EditorState : AppState
         sideMenu.OnDeleteButtonClicked -= Delete;
         sideMenu.OnAntipodalButtonClicked -= PlaceAntipodalPoint;
         sideMenu.OnpoleButtonClicked -= PlacePolePoints;
+        sideMenu.OnMidPointButtonClicked -= PlaceMidPoint;
     }
 
     private void OnLeftMouseDown()
@@ -121,5 +122,10 @@ public class EditorState : AppState
     public void PlaceAntipodalPoint()
     {
         drawManager.PlaceAntipodalPoint();
+    }
+
+    public void PlaceMidPoint()
+    {
+        drawManager.PlaceMidPoint();
     }
 }

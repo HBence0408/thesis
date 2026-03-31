@@ -22,30 +22,18 @@ public class PlacePointsState : DrawingState
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 1000))
         {
-
             if (hit.transform.TryGetComponent<ParametricCurve>(out ParametricCurve curve))
             {
-                PlaceLimitedPointCommand command = new PlaceLimitedPointCommand(hit.point, factory, repository);
+                PlaceLimitedPointCommand command = new PlaceLimitedPointCommand(hit.point, curve, factory, repository);
                 commandInvoker.ExecuteCommand(command);
-                command.GetPoint().SetCurve(curve);
-                curve.Subscirbe(command.GetPoint());
+                manager.SetState(this);
             }
             else
             {
                 PlacePointCommand command = new PlacePointCommand(hit.point, factory, repository);
                 commandInvoker.ExecuteCommand(command);
-            }
-
-
-            
-            
-            //ParametricCurve curve;
-            //if (hit.transform.TryGetComponent<ParametricCurve>(out curve))
-            //{
-            //    command.GetPoint()
-            //}
-
-            manager.SetState(this);
+                manager.SetState(this);
+            }   
         }
     }
 }

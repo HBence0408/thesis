@@ -7,11 +7,6 @@ public class InputHandler : MonoBehaviour
     public event Action OnLeftMouseButtonUp;
     public event Action OnLeftMouseButtonHold;
 
-    private void Awake()
-    {
-
-    }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))

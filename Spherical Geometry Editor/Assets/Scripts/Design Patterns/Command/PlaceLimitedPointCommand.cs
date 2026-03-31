@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class PlaceLimitedPointCommand : ICommand
@@ -6,9 +7,10 @@ public class PlaceLimitedPointCommand : ICommand
     private LimitedPoint pointScript;
     private SphericalGeometryFactory factory;
     private IRepository repository;
+    private ParametricCurve curve;
     private bool isExecuted;
 
-    public PlaceLimitedPointCommand(Vector3 pos, SphericalGeometryFactory factory, IRepository repository)
+    public PlaceLimitedPointCommand(Vector3 pos, ParametricCurve curve, SphericalGeometryFactory factory, IRepository repository)
     {
         this.pos = pos.normalized;
         this.factory = factory;
@@ -19,6 +21,7 @@ public class PlaceLimitedPointCommand : ICommand
     {
         pointScript = factory.CreateLimitedpoint(pos);
         pointScript.transform.position = pos;
+        curve.Subscirbe(pointScript);
         repository.Store(pointScript);
         isExecuted = true;
     }
@@ -28,11 +31,6 @@ public class PlaceLimitedPointCommand : ICommand
         pointScript.SoftDelete();
         repository.Delete(pointScript.Id);
         isExecuted = false;
-    }
-
-    public LimitedPoint GetPoint()
-    {
-        return pointScript;
     }
 
     public void ReExecute()
@@ -49,5 +47,8 @@ public class PlaceLimitedPointCommand : ICommand
             pointScript.HardDelete();
         }
         pointScript = null;
+        curve = null;
+        factory = null;
+        repository = null;
     }
 }

@@ -14,9 +14,10 @@ public class SphericalGeometryFactory
     GameObject LimitedPointPrefab;
     GameObject AntipodalPointPrefab;
     GameObject PolePointPrefab;
+    GameObject MidPointPrefab;
     double epsilon = 0.0001;
 
-    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab, GameObject antipodalPointPrefab, GameObject polePointPrefab)
+    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab, GameObject antipodalPointPrefab, GameObject polePointPrefab, GameObject midPointPrefab)
     {
         this.GrabablePointPrefab = grabablePointPrefab;
         this.IntersectionPointPrefab = intersectionPointPrefab;
@@ -26,6 +27,7 @@ public class SphericalGeometryFactory
         this.LimitedPointPrefab = limitedPointPrefab;
         this.AntipodalPointPrefab = antipodalPointPrefab;
         this.PolePointPrefab = polePointPrefab;
+        this.MidPointPrefab = midPointPrefab;
     }
 
     public GrabablePoint CreateGrabablepoint(Vector3 pos)
@@ -60,6 +62,15 @@ public class SphericalGeometryFactory
         GameObject antipodalPoint = MonoBehaviour.Instantiate(AntipodalPointPrefab);
         antipodalPoint.transform.position = pos;
         AntipodalPoint script = antipodalPoint.GetComponent<AntipodalPoint>();
+        script.Id = Guid.NewGuid();
+        return script;
+    }
+
+    public MidPoint CreateMidpoint(Vector3 pos)
+    {
+        GameObject midPoint = MonoBehaviour.Instantiate(MidPointPrefab);
+        midPoint.transform.position = pos;
+        MidPoint script = midPoint.GetComponent<MidPoint>();
         script.Id = Guid.NewGuid();
         return script;
     }

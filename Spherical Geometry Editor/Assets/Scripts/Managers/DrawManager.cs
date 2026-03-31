@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class DrawManager
@@ -18,6 +19,7 @@ public class DrawManager
     private DeleteState deleteState;
     private PlaceAntidotalPointState placeAntidotalPointState;
     private PlacePolePointsState placePolePointsState;
+    private PlaceMidPointState placeMidPointState;
 
     public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repoitory)
     {
@@ -35,6 +37,7 @@ public class DrawManager
         deleteState = new DeleteState(this, commandInvoker, repository);
         placeAntidotalPointState = new PlaceAntidotalPointState(this, factory, commandInvoker, repository);
         placePolePointsState = new PlacePolePointsState(this, factory, commandInvoker, repository);
+        placeMidPointState = new PlaceMidPointState(this, factory, commandInvoker, repository);
 
         currentState = idleState;
     }
@@ -72,6 +75,11 @@ public class DrawManager
         currentState = state;
         Debug.Log(currentState);
         currentState.OnEnter();
+    }
+
+    public void ResetState()
+    {
+        SetState(currentState);
     }
 
     public void DrawLine()
@@ -117,5 +125,10 @@ public class DrawManager
     public void PlacePolePoints()
     {
         SetState(placePolePointsState);
+    }
+
+    public void PlaceMidPoint()
+    {
+        SetState(placeMidPointState);
     }
 }

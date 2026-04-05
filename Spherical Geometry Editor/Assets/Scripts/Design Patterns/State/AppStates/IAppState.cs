@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class AppState 
 {
-    private AppCore appCore;
+    protected AppCore appCore;
 
     protected AppState(AppCore appCore)
     {

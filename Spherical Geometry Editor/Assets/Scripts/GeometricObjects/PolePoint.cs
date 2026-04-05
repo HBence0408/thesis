@@ -13,6 +13,11 @@ public class PolePoint : ControllPoint, IObserver
 
     public void OnChanged()
     {
+        if (!IsActive)
+        {
+            return;
+        }
+
         this.transform.position = sign ? curve.NormalOfPlane : -curve.NormalOfPlane;
     }
 }

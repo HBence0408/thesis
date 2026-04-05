@@ -11,6 +11,11 @@ public class AntipodalPoint : ControllPoint, IObserver
 
     public void OnChanged()
     {
+        if (!IsActive)
+        {
+            return;
+        }
+
         this.transform.position = -point.transform.position;   
     }
 }

@@ -10,6 +10,7 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
     private Guid id = Guid.Empty;
     private bool isActive = true;
     [SerializeField] private MeshRenderer meshRenderer;
+    private Color color = Color.black;
 
     public Guid Id { 
         get => id; 
@@ -108,13 +109,18 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
         
     }
 
-    private void OnMouseEnter()
+    public void Highlight()
     {
         meshRenderer.material.color = Color.yellow;
     }
 
-    private void OnMouseExit()
+    public void UnHighlight()
     {
-        meshRenderer.material.color = Color.black;
+        meshRenderer.material.color = this.color;
+    }
+
+    public void SetColor(Color color)
+    {
+        this.color = color;
     }
 }

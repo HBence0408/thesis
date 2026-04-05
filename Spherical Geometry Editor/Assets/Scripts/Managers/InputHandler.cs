@@ -6,6 +6,14 @@ public class InputHandler : MonoBehaviour
     public event Action OnLeftMouseButtonDown;
     public event Action OnLeftMouseButtonUp;
     public event Action OnLeftMouseButtonHold;
+    public event Action OnWHoldDown;
+    public event Action OnSHoldDown;
+    public event Action OnDHoldDown;
+    public event Action OnAHoldDown;
+    public event Action OnEHoldDown;
+    public event Action OnQHoldDown;
+    public event Action<IGeometryObject> OnHover;
+    public event Action OnNotHover;
 
     private void Update()
     {
@@ -20,6 +28,46 @@ public class InputHandler : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             OnLeftMouseButtonHold?.Invoke();
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            OnWHoldDown?.Invoke();
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            OnSHoldDown?.Invoke();
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            OnAHoldDown?.Invoke();
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            OnDHoldDown?.Invoke();
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            OnQHoldDown?.Invoke();
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            OnEHoldDown?.Invoke();
+        }
+
+        RaycastHit hit;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 1000))
+        {  
+            if (hit.collider.gameObject.TryGetComponent<IGeometryObject>(out IGeometryObject geometryObject))
+            {
+                OnHover?.Invoke(geometryObject);
+            }
+            else
+            {
+                OnNotHover?.Invoke();
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
     protected Vector3 center;
     private Guid id = Guid.Empty;
     private bool isActive = true;
+    private Color color = Color.red;
 
     public Guid Id
     {
@@ -44,7 +45,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         this.orthogonalVectrosOfthePlane[1] = v;
         this.center = center;
     }
-
+    
     public void AddContollPoints(ControllPoint point1, ControllPoint point2)
     {
         this.point1 = point1;
@@ -52,8 +53,6 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         this.point1.Subscirbe(this);
         this.point2.Subscirbe(this);
     }
-
-    // soft delete, hard delete, restore
 
     public void Destroy()
     {
@@ -184,13 +183,18 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         }
     }
 
-    private void OnMouseEnter()
+    public void Highlight()
     {
         meshRenderer.material.color = Color.yellow;
     }
 
-    private void OnMouseExit()
+    public void UnHighlight()
     {
-        meshRenderer.material.color = Color.red;
+        meshRenderer.material.color = this.color;
+    }
+
+    public void SetColor(Color color)
+    {
+        this.color = color;
     }
 }

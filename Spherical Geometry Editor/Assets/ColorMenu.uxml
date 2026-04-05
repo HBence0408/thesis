@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(97, 97, 97, 0.39);">
+        <ui:Button name="redButton" style="height: 107px; width: 136px; color: rgb(255, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); background-color: rgb(255, 0, 0); top: 42%; left: 40%; position: absolute; -unity-background-image-tint-color: rgba(0, 0, 0, 0.39);" />
+        <ui:Button name="blueButton" style="height: 107px; width: 136px; color: rgb(255, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); background-color: rgb(0, 0, 255); top: 30%; left: 40%; white-space: pre; position: absolute;" />
+        <ui:Button name="greenButton" style="height: 107px; width: 136px; color: rgb(255, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); background-color: rgb(0, 255, 0); top: 42%; left: 48%; white-space: pre; position: absolute;" />
+        <ui:Button name="blackButton" style="height: 107px; width: 136px; color: rgb(255, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); background-color: rgb(0, 0, 0); top: 30%; left: 48%; white-space: pre; position: absolute;" />
+        <ui:Button name="magentaButton" style="height: 107px; width: 136px; color: rgb(255, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); background-color: rgb(255, 0, 251); top: 30%; left: 56%; white-space: pre; position: absolute;" />
+        <ui:Button name="greyButton" style="height: 107px; width: 136px; color: rgb(255, 0, 0); -unity-text-outline-color: rgb(0, 0, 0); background-color: rgb(128, 128, 128); top: 42%; left: 56%; white-space: pre; position: absolute;" />
+        <ui:Button text="Cancel&#10;" name="cancelButton" parse-escape-sequences="false" style="position: absolute; top: 600px; left: 40%; height: 35px; width: 444px;" />
+    </ui:VisualElement>
+</ui:UXML>

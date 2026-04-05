@@ -9,5 +9,8 @@ public interface IGeometryObject
     void SoftDelete();
     void HardDelete();
     void Restore();
+    void Highlight();
+    void UnHighlight();
+    void SetColor(Color color);
 }
 

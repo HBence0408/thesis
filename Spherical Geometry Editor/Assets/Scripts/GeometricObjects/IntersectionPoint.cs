@@ -11,6 +11,11 @@ public class IntersectionPoint : ControllPoint, IObserver
 
     public void OnChanged()
     {
+        if (!IsActive)
+        {
+            return;
+        }
+
         Vector3 zero = new Vector3(0, 0, 0);
         Vector3 newPos = recalculatePosition(curve1, curve2).normalized;
         if (newPos == zero)

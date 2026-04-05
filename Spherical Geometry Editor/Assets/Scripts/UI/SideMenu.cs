@@ -17,6 +17,8 @@ public class SideMenu : MonoBehaviour
     private Button antipodalButton;
     private Button poleButton;
     private Button midPointButton;
+    private Button rightAngleButton;
+    private Button colorButton;
 
     public event Action OnLineButtonClicked;
     public event Action OnSegmentButtonClicked;
@@ -30,6 +32,8 @@ public class SideMenu : MonoBehaviour
     public event Action OnAntipodalButtonClicked;
     public event Action OnpoleButtonClicked;
     public event Action OnMidPointButtonClicked;
+    public event Action OnRightAngleButtonClicked;
+    public event Action OnColorButtonClicked;
 
 
     private void Awake()
@@ -51,6 +55,8 @@ public class SideMenu : MonoBehaviour
         antipodalButton = ui.Q<Button>("antipodalButton");
         poleButton = ui.Q<Button>("poleButton");
         midPointButton = ui.Q<Button>("midPointButton");
+        rightAngleButton = ui.Q<Button>("rightAngleButton");
+        colorButton = ui.Q<Button>("colorButton");
 
         lineButton.clicked += OnLineButtonClick;
         segmentButton.clicked += OnSegmentButtonClick;
@@ -64,7 +70,11 @@ public class SideMenu : MonoBehaviour
         antipodalButton.clicked += OnAntipodalButtonClick;
         poleButton.clicked += OnPoleButtonClick;
         midPointButton.clicked += OnMidPointButtonClick;
+        rightAngleButton.clicked += OnRightAngleButtonClick;
+        colorButton.clicked += OnColorButtonClick;
     }
+
+
 
     public void OnDisable()
     {
@@ -80,6 +90,8 @@ public class SideMenu : MonoBehaviour
         antipodalButton.clicked -= OnAntipodalButtonClick;
         poleButton.clicked -= OnPoleButtonClick;
         midPointButton.clicked -= OnMidPointButtonClick;
+        rightAngleButton.clicked -= OnRightAngleButtonClick;
+        colorButton.clicked += OnColorButtonClick;
     }
 
     private void OnLineButtonClick()
@@ -140,5 +152,25 @@ public class SideMenu : MonoBehaviour
     public void OnMidPointButtonClick()
     {
         OnMidPointButtonClicked?.Invoke();
+    }
+
+    private void OnRightAngleButtonClick()
+    {
+        OnRightAngleButtonClicked?.Invoke();
+    }
+
+    private void OnColorButtonClick()
+    {
+        OnColorButtonClicked?.Invoke();
+    }
+
+    public void Hide()
+    {
+        ui.visible = false;
+    }
+
+    public void Reveal()
+    {
+        ui.visible = true;
     }
 }

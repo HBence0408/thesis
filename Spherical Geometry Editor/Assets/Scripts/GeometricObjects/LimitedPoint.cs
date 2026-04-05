@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LimitedPoint : ControllPoint, IObserver
+public class LimitedPoint : GrabablePoint, IObserver
 {
     private ParametricCurve curve;
 
@@ -11,11 +11,13 @@ public class LimitedPoint : ControllPoint, IObserver
 
     public void SetCurve(ParametricCurve curve)
     {
+        Debug.Log(curve);
         this.curve = curve;
     }
 
     public override void Reposition(Vector3 newPos)
     {
+        Debug.Log(curve);
         if (curve != null)
         {
             Vector3 closestPoint = curve.GetClosestPoint(newPos);
@@ -25,6 +27,11 @@ public class LimitedPoint : ControllPoint, IObserver
 
     public void OnChanged()
     {
+        if (!IsActive)
+        {
+            return;
+        }
+
         Reposition(this.transform.position);
     }
 }

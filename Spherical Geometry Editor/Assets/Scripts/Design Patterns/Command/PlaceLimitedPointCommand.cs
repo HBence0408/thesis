@@ -15,15 +15,22 @@ public class PlaceLimitedPointCommand : ICommand
         this.pos = pos.normalized;
         this.factory = factory;
         this.repository = repository;
+        this.curve = curve;
     }
 
     public void Execute()
     {
         pointScript = factory.CreateLimitedpoint(pos);
         pointScript.transform.position = pos;
+        pointScript.SetCurve(curve);
         curve.Subscirbe(pointScript);
         repository.Store(pointScript);
         isExecuted = true;
+    }
+
+    public ControllPoint GetPoint()
+    {
+        return pointScript;
     }
 
     public void UnExecute()

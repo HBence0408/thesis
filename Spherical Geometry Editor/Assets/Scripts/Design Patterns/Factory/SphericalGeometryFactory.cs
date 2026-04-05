@@ -14,10 +14,11 @@ public class SphericalGeometryFactory
     GameObject LimitedPointPrefab;
     GameObject AntipodalPointPrefab;
     GameObject PolePointPrefab;
+    GameObject ShadowPolePointPrefab;
     GameObject MidPointPrefab;
     double epsilon = 0.0001;
 
-    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab, GameObject antipodalPointPrefab, GameObject polePointPrefab, GameObject midPointPrefab)
+    public SphericalGeometryFactory(GameObject grabablePointPrefab, GameObject intersectionPointPrefab, GameObject smallCirclePrefab, GameObject greatCirclePrefab, GameObject greatCircleSegmentPrefab, GameObject limitedPointPrefab, GameObject antipodalPointPrefab, GameObject polePointPrefab, GameObject midPointPrefab, GameObject shadowPolePointPrefab)
     {
         this.GrabablePointPrefab = grabablePointPrefab;
         this.IntersectionPointPrefab = intersectionPointPrefab;
@@ -27,6 +28,7 @@ public class SphericalGeometryFactory
         this.LimitedPointPrefab = limitedPointPrefab;
         this.AntipodalPointPrefab = antipodalPointPrefab;
         this.PolePointPrefab = polePointPrefab;
+        this.ShadowPolePointPrefab = shadowPolePointPrefab;
         this.MidPointPrefab = midPointPrefab;
     }
 
@@ -53,6 +55,15 @@ public class SphericalGeometryFactory
         GameObject PolePoint = MonoBehaviour.Instantiate(PolePointPrefab);
         PolePoint.transform.position = pos;
         PolePoint script = PolePoint.GetComponent<PolePoint>();
+        script.Id = Guid.NewGuid();
+        return script;
+    }
+
+    public ShadowPolePoint CreateShadowPolepoint(Vector3 pos)
+    {
+        GameObject ShadowPolePoint = MonoBehaviour.Instantiate(ShadowPolePointPrefab);
+        ShadowPolePoint.transform.position = pos;
+        ShadowPolePoint script = ShadowPolePoint.GetComponent<ShadowPolePoint>();
         script.Id = Guid.NewGuid();
         return script;
     }
@@ -348,9 +359,13 @@ public class SphericalGeometryFactory
             {
                 return Vector3.zero;
             }
-            else
+            else if(intersections.Length == 2)
             {
                 return intersections[1];
+            }
+            else
+            {
+                return intersections[0];
             }
         });
 
@@ -496,38 +511,57 @@ public class SphericalGeometryFactory
 
         // gömb egyenes metszés pont 
 
+        Vector3 closestPoint = new Vector3(x0,y0,z0);
+
+        Vector3[] intersections = new Vector3[0];
+
+        if (closestPoint.magnitude - epsilon >= 1)
+        {
+            return intersections;
+        }
+
         float a = d.x * d.x + d.y * d.y + d.z * d.z;
         float b = 2 * (d.x * x0 + d.y * y0 + d.z * z0);
         float c = x0 * x0 + y0 * y0 + z0 * z0 - 1;
 
-        if ((b * b - 4 * a * c) < 0)
+        //if ((b * b - 4 * a * c) < 0)
+        //{
+        //    return intersections;
+        //}
+
+        if (closestPoint.magnitude + epsilon >= 1)
         {
-            Debug.Log((b * b - 4 * a * c));
-            Debug.Log("no intersection");
-            return new Vector3[0];
+            float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            Vector3 possibleIntersection = new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z);
+            
+
+            if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersection) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersection))
+            {
+                intersections = new Vector3[] { possibleIntersection};
+            }
+
         }
+        else
+        {
+            float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
 
-        float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
-        float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            intersections = new Vector3[2];
 
-        Vector3[] possibleIntersections = {
+            Vector3[] possibleIntersections = {
             new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
             new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
-        };
+            };
 
-        Vector3[] intersections ={
-            Vector3.zero,
-            Vector3.zero
-        };
+            if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersections[0]) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersections[0]))
+            {
+                intersections[0] = possibleIntersections[0];
+            }
 
-        if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersections[0]) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersections[0]))
-        {
-            intersections[0] = possibleIntersections[0];
-        }
-
-        if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersections[1]) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersections[1]))
-        {
-            intersections[1] = possibleIntersections[1];
+            if (Vector3.Angle(greatCircleSegmentEndPoints[0], greatCircleSegmentEndPoints[1]) + epsilon >= Vector3.Angle(greatCircleSegmentEndPoints[0], possibleIntersections[1]) + Vector3.Angle(greatCircleSegmentEndPoints[1], possibleIntersections[1]))
+            {
+                intersections[1] = possibleIntersections[1];
+            }
         }
 
         return intersections;
@@ -594,24 +628,43 @@ public class SphericalGeometryFactory
 
         // gömb egyenes metszés pont 
 
+        Vector3 closestPoint = new Vector3(x0, y0, z0);
+
+        Vector3[] intersections = new Vector3[0];
+
+        if (closestPoint.magnitude - epsilon >= 1)
+        {
+            return intersections;
+        }
+
         float a = d.x * d.x + d.y * d.y + d.z * d.z;
         float b = 2 * (d.x * x0 + d.y * y0 + d.z * z0);
         float c = x0 * x0 + y0 * y0 + z0 * z0 - 1;
 
-        if ((b * b - 4 * a * c) < 0)
+        //if ((b * b - 4 * a * c) < 0)
+        //{
+        //    Debug.Log((b * b - 4 * a * c));
+        //    Debug.Log("no intersection");
+        //    return new Vector3[0];
+        //}
+
+
+        if (closestPoint.magnitude + epsilon >= 1)
         {
-            Debug.Log((b * b - 4 * a * c));
-            Debug.Log("no intersection");
-            return new Vector3[0];
+            float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            intersections = new Vector3[] { new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z) };
         }
+        else
+        {
+            float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
 
-        float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
-        float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
-        Vector3[] intersections = {
-            new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
-            new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
-        };
-
+            intersections = new Vector3[] {
+                new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
+                new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
+            };
+        }
+        
         return intersections;
     }
 
@@ -681,21 +734,50 @@ public class SphericalGeometryFactory
         float b = 2 * (d.x * x0 + d.y * y0 + d.z * z0);
         float c = x0 * x0 + y0 * y0 + z0 * z0 - 1;
 
-        if ((b * b - 4 * a * c) < 0)
+        Vector3 closestPoint = new Vector3(x0, y0, z0);
+
+        Vector3[] intersections = new Vector3[0];
+
+        if (closestPoint.magnitude - epsilon >= 1)
         {
-            Debug.Log((b * b - 4 * a * c));
-            Debug.Log("no intersection");
-            return new Vector3[0];
+            return intersections;
         }
 
-        float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
-        float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
-        Vector3[] intersections = {
-            new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
-            new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
-        };
+
+        //if ((b * b - 4 * a * c) < 0)
+        //{
+        //    Debug.Log((b * b - 4 * a * c));
+        //    Debug.Log("no intersection");
+        //    return new Vector3[0];
+        //}
+
+        if (closestPoint.magnitude + epsilon >= 1)
+        {
+            float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            intersections = new Vector3[] { new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z) };
+        }
+        else
+        {
+            float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+            float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
+
+            intersections = new Vector3[] {
+                new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
+                new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
+            };
+        }
 
         return intersections;
+
+
+        //float p1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a);
+        //float p2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a);
+        //Vector3[] intersections = {
+        //    new Vector3(x0 + p1 * d.x, y0 + p1 * d.y, z0 + p1 * d.z),
+        //    new Vector3(x0 + p2 * d.x, y0 + p2 * d.y, z0 + p2 * d.z)
+        //};
+
+        //return intersections;
     }
 
     public float Determinant(float[,] matrix, int n)

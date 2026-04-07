@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public record GreatCircleSegmentDto : MonoBehaviour
+public record GreatCircleSegmentDto
 {
     public Guid id { get; set; }
     public Guid EndPoint1 { get; set; }

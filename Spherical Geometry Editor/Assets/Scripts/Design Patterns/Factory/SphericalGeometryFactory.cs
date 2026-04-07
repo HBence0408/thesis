@@ -98,9 +98,7 @@ public class SphericalGeometryFactory
 
     public SmallCircle CreateSmallCircle(Vector3 point1Pos, Vector3 point2Pos)
     {
-        Debug.Log("small circle create");
         GameObject smallCircle = MonoBehaviour.Instantiate(SmallCirclePrefab);
-        Debug.Log(" instantiate");
         smallCircle.transform.position = new Vector3(0, 0, 0);
         SmallCircle script = smallCircle.GetComponent<SmallCircle>();
         ParametricCurveMeshGenerator.Instance.CreateSmallCircleMesh(point1Pos, point2Pos, script.CreateMesh);

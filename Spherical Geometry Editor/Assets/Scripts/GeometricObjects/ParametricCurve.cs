@@ -32,6 +32,32 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         }
     }
 
+    public Guid ControllPoint1 => point1.Id;
+    public Vector3 ControllPoint1Pos => point1.Position;
+
+    public Guid ControllPoint2 => point2.Id;
+    public Vector3 ControllPoint2Pos => point2.Position;
+
+    public Color Color => color;
+
+    public bool IsActive => isActive;
+
+    public List<Guid> Observers
+    {
+        get
+        {
+            List<Guid> observerIds = new List<Guid>();
+            foreach (IObserver o in observers)
+            {
+                if (o is IGeometryObject)
+                {
+                    observerIds.Add(((IGeometryObject)(o)).Id);
+                }
+            }
+            return observerIds;
+        }
+    }
+
     public void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsOnCurve, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center)
     {
         Mesh mesh = new Mesh();
@@ -88,7 +114,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         } 
     }
 
-    public bool IsActive => isActive;
+
 
     public abstract void OnChanged();
 

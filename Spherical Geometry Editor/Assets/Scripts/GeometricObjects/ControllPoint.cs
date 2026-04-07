@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObject
 {
@@ -23,7 +24,26 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
         }
     }
 
+    public Color Color => color;
+
+    public Vector3 Position => transform.position;
+
     public bool IsActive => isActive;
+
+    public List<Guid> Observers {         
+        get
+        {
+            List<Guid> observerIds = new List<Guid>();
+            foreach (IObserver o in observers)
+            {
+                if (o is IGeometryObject)
+                {
+                    observerIds.Add(((IGeometryObject)(o)).Id);
+                }
+            }
+            return observerIds;
+        }
+    }
 
     public virtual void Reposition(Vector3 vector3) { }
 

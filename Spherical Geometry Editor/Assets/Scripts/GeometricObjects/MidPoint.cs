@@ -1,3 +1,4 @@
+using System;
 using System.Security.Cryptography;
 using UnityEngine;
 
@@ -5,6 +6,12 @@ public class MidPoint : ControllPoint, IObserver
 {
     private ControllPoint point1;
     private ControllPoint point2;
+
+    public Guid ControllPoint1 => point1.Id;
+    public Vector3 ControllPoint1Pos => point1.transform.position;
+
+    public Guid ControllPoint2 => point2.Id;
+    public Vector3 ControllPoint2Pos => point2.transform.position;
 
     public void SetPoints(ControllPoint point1, ControllPoint point2)
     {

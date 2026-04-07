@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GrabablePoint : ControllPoint
+public class GrabablePoint : ControllPoint, IMoveablePoint
 {
     public override void Reposition(Vector3 vector3)
     {

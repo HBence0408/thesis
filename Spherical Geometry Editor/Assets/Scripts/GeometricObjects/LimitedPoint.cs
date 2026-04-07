@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 
-public class LimitedPoint : GrabablePoint, IObserver
+public class LimitedPoint : ControllPoint, IObserver, IMoveablePoint
 {
     private ParametricCurve curve;
+
+    public Guid Curve => curve.Id;
 
     private void Start()
     {

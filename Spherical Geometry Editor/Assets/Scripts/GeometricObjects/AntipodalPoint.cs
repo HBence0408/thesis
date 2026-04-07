@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class AntipodalPoint : ControllPoint, IObserver
 {
     private ControllPoint point;
+    public Guid ControllPoint => point.Id;
 
     public void SetPoint(ControllPoint point)
     {

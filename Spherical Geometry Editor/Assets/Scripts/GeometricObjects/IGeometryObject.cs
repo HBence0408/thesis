@@ -5,6 +5,7 @@ public interface IGeometryObject
 {
     Guid Id { get; set; }
     bool IsActive { get; }
+    Color Color { get; }
 
     void SoftDelete();
     void HardDelete();

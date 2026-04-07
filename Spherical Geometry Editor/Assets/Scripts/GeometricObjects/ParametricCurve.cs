@@ -58,6 +58,11 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         }
     }
 
+    private void Awake()
+    {
+        meshRenderer.material.color = this.color;
+    }
+
     public void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsOnCurve, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center)
     {
         Mesh mesh = new Mesh();
@@ -222,5 +227,6 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
     public void SetColor(Color color)
     {
         this.color = color;
+        meshRenderer.material.color = this.color;
     }
 }

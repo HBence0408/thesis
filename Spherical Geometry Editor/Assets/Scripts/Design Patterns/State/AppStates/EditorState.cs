@@ -174,6 +174,7 @@ public class EditorState : AppState
     public void Color()
     {
         drawManager.Idle();
+        highlighter.HighlightEverythingState();
         appCore.SetColorPickState();
     }
 

@@ -45,37 +45,37 @@ public class ColorPickState : AppState
 
     private void SetToRed()
     {
-
+        drawManager.ColorRed();
         appCore.SetEditorState();
     }
 
     private void SetToBlue()
     {
-
+        drawManager.ColorBlue();
         appCore.SetEditorState();
     }
 
     private void SetToGreen()
     {
-
+        drawManager.ColorGreen();
         appCore.SetEditorState();
     }
 
     private void SetToBlack()
     {
-
+        drawManager.ColorBlack();
         appCore.SetEditorState();
     }
 
     private void SetToGrey()
     {
-
+        drawManager.ColorGrey();
         appCore.SetEditorState();
     }
 
     private void SetToMagenta()
     {
-
+        drawManager.ColorMagenta();
         appCore.SetEditorState();
     }
 

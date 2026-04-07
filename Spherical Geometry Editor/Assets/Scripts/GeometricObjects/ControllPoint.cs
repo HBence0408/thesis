@@ -45,6 +45,11 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
         }
     }
 
+    private void Awake()
+    {
+        meshRenderer.material.color = this.color;
+    }
+
     public virtual void Reposition(Vector3 vector3) { }
 
     public void Notify()
@@ -142,5 +147,6 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
     public void SetColor(Color color)
     {
         this.color = color;
+        meshRenderer.material.color = this.color;
     }
 }

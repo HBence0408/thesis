@@ -21,6 +21,12 @@ public class DrawManager
     private PlacePolePointsState placePolePointsState;
     private PlaceMidPointState placeMidPointState;
     private RightAngleGreatCircleDrawState rightAngleGreatCircleDrawState;
+    private ColorState blackColoringState;
+    private ColorState greyColoringState;
+    private ColorState blueColoringState;
+    private ColorState redColoringState;
+    private ColorState greenColoringState;
+    private ColorState magentaColoringState;
 
     public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repoitory)
     {
@@ -40,6 +46,12 @@ public class DrawManager
         placePolePointsState = new PlacePolePointsState(this, factory, commandInvoker, repository);
         placeMidPointState = new PlaceMidPointState(this, factory, commandInvoker, repository);
         rightAngleGreatCircleDrawState = new RightAngleGreatCircleDrawState(this, factory, commandInvoker, repository);
+        blackColoringState = new ColorState(this, commandInvoker, Color.black);
+        greyColoringState = new ColorState(this, commandInvoker, new Color(0.3f, 0.3f, 0.3f, 1) );
+        blueColoringState = new ColorState(this, commandInvoker, Color.blue);
+        redColoringState = new ColorState(this, commandInvoker, Color.red);
+        greenColoringState = new ColorState(this, commandInvoker, Color.green);
+        magentaColoringState = new ColorState(this, commandInvoker, Color.magenta);
 
         currentState = idleState;
     }
@@ -142,5 +154,35 @@ public class DrawManager
     public void DrawRightAngleGreatCircle()
     {
         SetState(rightAngleGreatCircleDrawState);
+    }
+
+    public void ColorBlack()
+    {
+        SetState(blackColoringState);
+    }
+
+    public void ColorGrey()
+    {
+        SetState(greyColoringState);
+    }
+
+    public void ColorBlue()
+    {
+        SetState(blueColoringState);
+    }
+
+    public void ColorRed()
+    {
+        SetState(redColoringState);
+    }
+
+    public void ColorGreen()
+    {
+        SetState(greenColoringState);
+    }
+
+    public void ColorMagenta()
+    {
+        SetState(magentaColoringState);
     }
 }

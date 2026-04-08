@@ -2,22 +2,23 @@ using UnityEngine;
 
 public class SaveState : AppState
 {
-    SaveManager saveManager;
+    private SaveManager saveManager;
+    private string fileName = "";
 
-    public SaveState(AppCore appCore, SaveManager saveManager) : base(appCore)
+    public SaveState(AppCore appCore, SaveManager saveManager, string fileName) : base(appCore)
     {
         this.saveManager = saveManager;
+        this.fileName = fileName;
     }
 
     public override void OnEnter()
     {
-        saveManager.Save("teszt");
+        saveManager.Save(fileName);
         appCore.SetEditorState();
     }
 
     public override void OnExit()
     {
-        //throw new System.NotImplementedException();
+        
     }
-
 }

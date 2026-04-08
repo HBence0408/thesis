@@ -77,7 +77,7 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         this.center = center;
     }
     
-    public void AddContollPoints(ControllPoint point1, ControllPoint point2)
+    public void AddControllPoints(ControllPoint point1, ControllPoint point2)
     {
         this.point1 = point1;
         this.point2 = point2;
@@ -166,14 +166,14 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
         }
     }
 
-    public void SoftDelete()
+    public void SoftDelete(Action<Guid> delete)
     {
         foreach (IObserver o in observers)
         {
             if (o is IGeometryObject)
             {
-                ((IGeometryObject)(o)).SoftDelete();
-                Debug.Log("soft deleting observer");
+                ((IGeometryObject)(o)).SoftDelete(delete);
+                delete(((IGeometryObject)(o)).Id);
             }
         }
         isActive = false;
@@ -187,18 +187,20 @@ public abstract class ParametricCurve : MonoBehaviour, IObserver, IObservable, I
             if (o is IGeometryObject)
             {
                 ((IGeometryObject)(o)).HardDelete();
+                
             }
         }
         Destroy(this.gameObject);
     }
 
-    public void Restore()
+    public void Restore(Action<IGeometryObject> restore)
     {
         foreach (IObserver o in observers)
         {
             if (o is IGeometryObject)
             {
-                ((IGeometryObject)(o)).Restore();
+                ((IGeometryObject)(o)).Restore(restore);
+                restore(((IGeometryObject)(o)));
             }
             o.OnChanged();
         }

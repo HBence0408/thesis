@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class GreatCircleSegment : ParametricCurve
 {
+    private ParametricCurveMeshGenerator meshGenerator;
+
     public override void OnChanged()
     {
-        ParametricCurveMeshGenerator.Instance.CreateGreatCircleSegmentMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
+        meshGenerator.CreateGreatCircleSegmentMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
         Notify();
     }
 
@@ -31,5 +33,10 @@ public class GreatCircleSegment : ParametricCurve
         {
             return endpoints[0].normalized;
         }
+    }
+
+    public void SetMeshGenerator(ParametricCurveMeshGenerator meshGenerator)
+    {
+        this.meshGenerator = meshGenerator;
     }
 }

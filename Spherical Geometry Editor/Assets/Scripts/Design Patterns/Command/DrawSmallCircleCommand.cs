@@ -20,21 +20,21 @@ public class DrawSmallCircleCommand : ICommand
     public void Execute()
     {
         smallCircle = factory.CreateSmallCircle(point1.transform.position.normalized, point2.transform.position.normalized);
-        smallCircle.AddContollPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+        smallCircle.AddControllPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
         isExecuted = true;
         repository.Store(smallCircle);
     }
 
     public void ReExecute()
     {
-        smallCircle.Restore();
+        smallCircle.Restore(repository.Store);
         isExecuted = true;
         repository.Store(smallCircle);
     }
 
     public void UnExecute()
     {
-        smallCircle.SoftDelete();
+        smallCircle.SoftDelete(repository.Delete);
         isExecuted = false;
         repository.Delete(smallCircle.Id);
     }

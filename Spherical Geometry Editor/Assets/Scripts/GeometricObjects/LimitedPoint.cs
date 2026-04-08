@@ -9,13 +9,17 @@ public class LimitedPoint : ControllPoint, IObserver, IMoveablePoint
 
     private void Start()
     {
-        Reposition(this.transform.position);
+        if (curve != null)
+        {
+            Reposition(this.transform.position);
+        }
     }
 
     public void SetCurve(ParametricCurve curve)
     {
         Debug.Log(curve);
         this.curve = curve;
+        curve.Subscirbe(this);
     }
 
     public override void Reposition(Vector3 newPos)

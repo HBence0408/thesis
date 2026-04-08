@@ -25,22 +25,20 @@ public class PlaceMidPointCommand : ICommand
 
         pointScript = factory.CreateMidpoint(chordM.normalized);
         pointScript.SetPoints(point1, point2);
-        point1.Subscirbe(pointScript);
-        point2.Subscirbe(pointScript);
         repository.Store(pointScript);
         isExecuted = true;
     }
 
     public void UnExecute()
     {
-        pointScript.SoftDelete();
+        pointScript.SoftDelete(repository.Delete);
         repository.Delete(pointScript.Id);
         isExecuted = false;
     }
 
     public void ReExecute()
     {
-        pointScript.Restore();
+        pointScript.Restore(repository.Store);
         repository.Store(pointScript);
         isExecuted = true;
     }

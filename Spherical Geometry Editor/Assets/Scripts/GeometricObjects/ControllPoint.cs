@@ -94,13 +94,14 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
        this.gameObject.SetActive(false);
     }
 
-    public void SoftDelete()
+    public void SoftDelete(Action<Guid> delete)
     {
         foreach (IObserver o in observers)
         {
             if (o is IGeometryObject)
             {
-                ((IGeometryObject)(o)).SoftDelete();
+                ((IGeometryObject)(o)).SoftDelete(delete);
+                delete(((IGeometryObject)(o)).Id);
             }
         }
         isActive = false;
@@ -119,13 +120,14 @@ public abstract class ControllPoint : MonoBehaviour, IObservable, IGeometryObjec
         Destroy(this.gameObject);
     }
 
-    public void Restore()
+    public void Restore(Action<IGeometryObject> restore)
     {
         foreach (IObserver o in observers)
         {
             if (o is IGeometryObject)
             {
-                ((IGeometryObject)(o)).Restore();
+                ((IGeometryObject)(o)).Restore(restore);
+                restore(((IGeometryObject)(o)));
             }
             o.OnChanged();
         }

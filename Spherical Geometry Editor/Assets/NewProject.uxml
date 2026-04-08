@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; position: absolute; height: 1076px; width: 1916px; top: 0%; right: 0%; bottom: 0%; left: 0%;">
+        <ui:TextField label="File Name:" name="NewFileNameField" style="position: absolute; top: 30%; left: 0%; height: 206px; width: 1889px; font-size: 50px; -unity-text-align: middle-center; right: 0%; bottom: 0;" />
+    </ui:VisualElement>
+    <ui:Button text="Create New Project" name="CreateButton" style="position: absolute; top: 584px; left: 0%; height: 256px; width: 1910px; font-size: 50px; right: 0%; bottom: 0%;" />
+</ui:UXML>

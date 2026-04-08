@@ -9,6 +9,7 @@ public class AntipodalPoint : ControllPoint, IObserver
     public void SetPoint(ControllPoint point)
     {
         this.point = point;
+        point.Subscirbe(this);
     }
 
     public void OnChanged()

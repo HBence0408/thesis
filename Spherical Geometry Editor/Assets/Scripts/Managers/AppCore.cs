@@ -26,17 +26,29 @@ public class AppCore : MonoBehaviour
     private SphericalGeometryFactory factory;
     private CommandInvoker commandInvoker;
     private SaveManager saveManager;
+    private Linker linker;
+    private SphericalGeometryLoadFactory sphericalGeometryLoadFactory;
+    private LoadManager loadManager;
+    private Mapper mapper;
+    private ParametricCurveMeshGenerator meshGenerator;
+    private MainMenu mainMenu;
+    private NewProjectMenu newProjectMenu;
 
     private EditorState editorState;
     private ColorPickState colorPickState;
     private EscapeMenuState escapeMenuState;
     private SaveState saveState;
-    private Mapper mapper;
+    private LoadState loadState;
 
+    private string fileToLoad = "";
+    private string currentFile = "";
+    
     public static AppCore Instance;
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (Instance == null)
@@ -50,6 +62,9 @@ public class AppCore : MonoBehaviour
         }
         
     }
+
+    //MainMenuScene
+    //NewFileNameField
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -65,15 +80,38 @@ public class AppCore : MonoBehaviour
             repoitory = new Repository();
             highlighter = new Highlighter();
             mapper = new Mapper();
+            meshGenerator = new ParametricCurveMeshGenerator();
+            sphericalGeometryLoadFactory = new SphericalGeometryLoadFactory(meshGenerator, GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
+            linker = new Linker(repoitory);
+            loadManager = new LoadManager(repoitory, sphericalGeometryLoadFactory, linker);
             saveManager = new SaveManager(repoitory, mapper);
-            factory = new SphericalGeometryFactory(GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
+            factory = new SphericalGeometryFactory(meshGenerator,GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
             drawManager = new DrawManager(factory, commandInvoker, repoitory);
             editorState = new EditorState(this, inputHandler, sideMenu, drawManager, commandInvoker, cameraMovement, highlighter);
             colorPickState = new ColorPickState(this, sideMenu, drawManager, colorMenu);
             escapeMenuState = new EscapeMenuState(this, sideMenu, escapeMenu);
-            saveState = new SaveState(this, saveManager);
-            SetState(editorState);
-            Debug.Log("AppCore initialized in EditorScene.");
+            saveState = new SaveState(this, saveManager, currentFile);
+            loadState = new LoadState(this, loadManager, fileToLoad);
+
+            if (fileToLoad != string.Empty)
+            {
+                SetState(loadState);
+                Debug.Log("AppCore initialized in EditorScene with file to load: " + fileToLoad);
+            }
+            else
+            {
+                SetState(editorState);
+                Debug.Log("AppCore initialized in EditorScene.");
+            }
+            
+        }
+
+        if (scene.name == "MainMenuScene")
+        {
+            mainMenu = FindFirstObjectByType<MainMenu>();
+            newProjectMenu = FindFirstObjectByType<NewProjectMenu>();
+            MainMenuState mainMenuState = new MainMenuState(this, mainMenu, newProjectMenu);
+            SetState(mainMenuState);
         }
     }
 
@@ -87,6 +125,11 @@ public class AppCore : MonoBehaviour
         currentState = state;
 
         currentState.OnEnter();
+    }
+
+    public void SetFileToLoad(string filePath)
+    {
+        fileToLoad = filePath;
     }
 
     public void SetEditorState()
@@ -121,5 +164,18 @@ public class AppCore : MonoBehaviour
         {
             SetState(saveState);
         }
+    }
+
+    public void SetLoadState()
+    {
+        if (colorPickState != null)
+        {
+            SetState(loadState);
+        }
+    }
+
+    public void SetCurrentFileName(string fileName)
+    {
+        currentFile = fileName;
     }
 }

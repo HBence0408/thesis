@@ -16,7 +16,9 @@ public class MidPoint : ControllPoint, IObserver
     public void SetPoints(ControllPoint point1, ControllPoint point2)
     {
         this.point1 = point1;
+        point1.Subscirbe(this);
         this.point2 = point2;
+        point2.Subscirbe(this);
     }
 
     public void OnChanged()

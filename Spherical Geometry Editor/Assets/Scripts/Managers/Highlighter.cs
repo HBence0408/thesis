@@ -7,7 +7,7 @@ public class Highlighter
     private GenericHighlightState<ParametricCurve> curvesHighlightState;
     private GenericHighlightState<IGeometryObject> everythingHighlightState;
     private GenericHighlightState<GreatCircle> greatCirclesHighlightState;
-    private GenericHighlightState<GrabablePoint> moveAblePointsHighlightState;
+    private GenericHighlightState<IMoveablePoint> moveAblePointsHighlightState;
 
     public Highlighter()
     {
@@ -15,7 +15,7 @@ public class Highlighter
         curvesHighlightState = new GenericHighlightState<ParametricCurve>();
         everythingHighlightState = new GenericHighlightState<IGeometryObject>();
         greatCirclesHighlightState = new GenericHighlightState<GreatCircle>();
-        moveAblePointsHighlightState = new GenericHighlightState<GrabablePoint>();
+        moveAblePointsHighlightState = new GenericHighlightState<IMoveablePoint>();
         currentState = everythingHighlightState;
         currentState.OnEnter();
     }
@@ -32,36 +32,43 @@ public class Highlighter
 
     public void HighlightEverythingState()
     {
-        curvesHighlightState.OnExit();
+        currentState.OnExit();
         currentState = everythingHighlightState;
         currentState.OnEnter();
     }
 
     public void HighlightControllPointsState()
     {
-        curvesHighlightState.OnExit();
+        currentState.OnExit();
         currentState = controllPointsHighlightState;
         currentState.OnEnter();
     }
 
     public void HighlightCurvesState()
     {
-        curvesHighlightState.OnExit();
+        currentState.OnExit();
         currentState = curvesHighlightState;
         currentState.OnEnter();
     }
 
     public void HighlightMoveAblePointsState()
     {
-        curvesHighlightState.OnExit();
+        currentState.OnExit();
         currentState = moveAblePointsHighlightState;
         currentState.OnEnter();
     }
 
     public void HighlightGreatCirclesState() 
     {
-        curvesHighlightState.OnExit();
+        currentState.OnExit();
         currentState = greatCirclesHighlightState;
         currentState.OnEnter();
     }
+
+    //public void HighlightRightAngleableCurvesState()
+    //{
+    //    currentState.OnExit();
+    //    currentState = greatCirclesHighlightState;
+    //    currentState.OnEnter();
+    //}
 }

@@ -7,9 +7,9 @@ public interface IGeometryObject
     bool IsActive { get; }
     Color Color { get; }
 
-    void SoftDelete();
+    void SoftDelete(Action<Guid> delete);
     void HardDelete();
-    void Restore();
+    void Restore(Action<IGeometryObject> restore);
     void Highlight();
     void UnHighlight();
     void SetColor(Color color);

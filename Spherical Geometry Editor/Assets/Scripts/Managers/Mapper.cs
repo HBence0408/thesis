@@ -174,7 +174,8 @@ public class Mapper
             IsActive = point.IsActive,
             Observers = point.Observers,
             Curve1 = point.Curve1,
-            Curve2 = point.Curve2
+            Curve2 = point.Curve2,
+            IntersectionType = point.IntersectionType,
         };
     }
 

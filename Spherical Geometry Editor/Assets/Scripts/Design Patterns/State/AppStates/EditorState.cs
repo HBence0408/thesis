@@ -169,8 +169,8 @@ public class EditorState : AppState
 
     public void DrawRightAngleGreatCircle()
     {
-        drawManager.DrawRightAngleGreatCircle();
-      //  highlighter.HighlightGreatCirclesState();
+       drawManager.DrawRightAngleGreatCircle();
+       highlighter.HighlightGreatCirclesState();
     }
 
     public void Color()

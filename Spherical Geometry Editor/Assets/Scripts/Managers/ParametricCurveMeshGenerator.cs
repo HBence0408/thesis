@@ -3,39 +3,39 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ParametricCurveMeshGenerator : MonoBehaviour
+public class ParametricCurveMeshGenerator 
 {
-    [SerializeField] private int subdivisions = 10;
-    [SerializeField] private int extrudes = 3;
+    [SerializeField] private int subdivisions = 100;
+    [SerializeField] private int extrudes = 50;
     [SerializeField] private float radius = 1;
 	//[SerializeField] private GameObject parametricCurvePrefab;
 	//[SerializeField] private ParametricCurve parametricCurveScript;
-    private static ParametricCurveMeshGenerator instance;
+    //private static ParametricCurveMeshGenerator instance;
    // [SerializeField] private GameObject pointTest;
     [SerializeField] private float tubeWidth = 0.01f;
 
     public delegate void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center);
 
-    public static ParametricCurveMeshGenerator Instance
-	{
-		get 
-		{
-			return instance; 
-		}
-	}
+ //   public static ParametricCurveMeshGenerator Instance
+	//{
+	//	get 
+	//	{
+	//		return instance; 
+	//	}
+	//}
 
-    private void Awake()
-    {
-		if (instance == null)
-		{
-			instance = this;
-		}
-		else
-		{
-			Debug.LogWarning("multiple ParametricCurveMeshGenerator singleton, deleting self");
-			Destroy(this.gameObject);
-		}
-    }
+  //  private void Awake()
+  //  {
+		//if (instance == null)
+		//{
+		//	instance = this;
+		//}
+		//else
+		//{
+		//	Debug.LogWarning("multiple ParametricCurveMeshGenerator singleton, deleting self");
+		//	Destroy(this.gameObject);
+		//}
+  //  }
 
 	public void CreateGreatCircleMesh(Vector3 point1, Vector3 point2, CreateMesh callback)
 	{

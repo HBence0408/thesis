@@ -23,8 +23,6 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
 
         for (int i = 0; i < intersections.Length; i++)
         {
-            greatCircleSegment.Subscirbe(intersections[i]);
-            greatCircle.Subscirbe(intersections[i]);
             repository.Store(intersections[i]);
         }
         isExecuted = true;
@@ -34,7 +32,7 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
     {
         for (int i = 0; i < intersections.Length; i++)
         {
-            intersections[i].Restore();
+            intersections[i].Restore(repository.Store);
             repository.Store(intersections[i]);
         }
         isExecuted = true;
@@ -44,7 +42,7 @@ public class GreatCircleGreatCircleSegmentIntersectCommand : ICommand
     {
         for (int i = 0; i < intersections.Length; i++)
         {
-            intersections[i].SoftDelete();
+            intersections[i].SoftDelete(repository.Delete);
             repository.Delete(intersections[i].Id);
         }
         isExecuted = false;

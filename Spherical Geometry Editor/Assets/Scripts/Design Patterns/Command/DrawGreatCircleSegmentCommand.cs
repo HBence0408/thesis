@@ -21,21 +21,21 @@ public class DrawGreatCircleSegmentCommand : ICommand
     {
 
         greatCircleSegment = factory.CreateGreatCircleSegment(point1.transform.position.normalized, point2.transform.position.normalized);
-        greatCircleSegment.AddContollPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
+        greatCircleSegment.AddControllPoints(point1.GetComponent<ControllPoint>(), point2.GetComponent<ControllPoint>());
         isExecuted = true;
         repository.Store(greatCircleSegment);
     }
 
     public void ReExecute()
     {
-        greatCircleSegment.Restore();
+        greatCircleSegment.Restore(repository.Store);
         isExecuted = true;
         repository.Store(greatCircleSegment);
     }
 
     public void UnExecute()
     {
-        greatCircleSegment.SoftDelete();
+        greatCircleSegment.SoftDelete(repository.Delete);
         isExecuted = false;
         repository.Delete(greatCircleSegment.Id);
     }

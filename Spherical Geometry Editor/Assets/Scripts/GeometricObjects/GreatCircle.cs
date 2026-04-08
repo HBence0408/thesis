@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GreatCircle : ParametricCurve
 {
+    private ParametricCurveMeshGenerator meshGenerator;
+
     public override Vector3 GetClosestPoint(Vector3 pos)
     {
         float distance = normaleOfPlane.x * pos.x + normaleOfPlane.y * pos.y + normaleOfPlane.z * pos.z - (normaleOfPlane.x * center.x + normaleOfPlane.y * center.y + normaleOfPlane.z * center.z);
@@ -11,7 +13,12 @@ public class GreatCircle : ParametricCurve
 
     public override void OnChanged()
     {
-        ParametricCurveMeshGenerator.Instance.CreateGreatCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
+        meshGenerator.CreateGreatCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
         Notify();
+    }
+
+    public void SetMeshGenerator(ParametricCurveMeshGenerator meshGenerator)
+    {
+        this.meshGenerator = meshGenerator;
     }
 }

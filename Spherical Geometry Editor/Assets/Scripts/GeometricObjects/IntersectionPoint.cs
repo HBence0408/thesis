@@ -6,12 +6,14 @@ using UnityEngine;
 public class IntersectionPoint : ControllPoint, IObserver
 {
     public delegate Vector3 RecalculatePositionDelegate(ParametricCurve curve1, ParametricCurve curve2);
-    ParametricCurve curve1;
-    ParametricCurve curve2;
-    RecalculatePositionDelegate recalculatePosition;
+    private ParametricCurve curve1;
+    private ParametricCurve curve2;
+    private RecalculatePositionDelegate recalculatePosition;
+    private IntersectionType intersectionType;
 
     public Guid Curve1 =>  curve1.Id;
     public Guid Curve2 =>  curve2.Id;
+    public IntersectionType IntersectionType => intersectionType;
 
     public void OnChanged()
     {
@@ -33,10 +35,13 @@ public class IntersectionPoint : ControllPoint, IObserver
         }
     }
 
-    public void SetRecalculate(ParametricCurve curve1, ParametricCurve curve2, RecalculatePositionDelegate recalculate)
+    public void SetRecalculate(IntersectionType intersectionType, ParametricCurve curve1, ParametricCurve curve2, RecalculatePositionDelegate recalculate)
     {
+        this.intersectionType = intersectionType;
         this.curve1 = curve1;
+        curve1.Subscirbe(this);
         this.curve2 = curve2;
+        curve2.Subscirbe(this);
         this.recalculatePosition = recalculate;
     }
 

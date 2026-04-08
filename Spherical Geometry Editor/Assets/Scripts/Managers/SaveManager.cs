@@ -25,7 +25,7 @@ public class SaveManager
             GrabablePoints = mapper.Map(repository.GetByType<GrabablePoint>().ToArray()),
             GreatCircles = mapper.Map(repository.GetByType<GreatCircle>().ToArray()),
             GreatCircleSegments = mapper.Map(repository.GetByType<GreatCircleSegment>().ToArray()),
-            IntersectPoints = mapper.Map(repository.GetByType<IntersectionPoint>().ToArray()),
+            IntersectionPoints = mapper.Map(repository.GetByType<IntersectionPoint>().ToArray()),
             LimitedPoints = mapper.Map(repository.GetByType<LimitedPoint>().ToArray()),
             MidPoints = mapper.Map(repository.GetByType<MidPoint>().ToArray()),
             PolePoints = mapper.Map(repository.GetByType<PolePoint>().ToArray()),

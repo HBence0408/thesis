@@ -12,6 +12,7 @@ public class PolePoint : ControllPoint, IObserver
     public void SetCurve(ParametricCurve curve, bool sign)
     {
         this.curve = curve;
+        curve.Subscirbe(this);
         this.sign = sign;
     }
 

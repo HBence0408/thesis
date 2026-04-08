@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; position: absolute; height: 155px; width: 1912px;">
+        <ui:VisualElement name="New" style="flex-grow: 1;">
+            <ui:Button text="New Project" name="NewButton" style="height: 156px; width: 1900px; font-size: 50px;" />
+        </ui:VisualElement>
+        <ui:ScrollView style="height: 898px; width: 1914px; position: absolute; top: 177px;">
+            <ui:VisualElement name="holder" style="flex-grow: 1; position: absolute; height: 773px; width: 1904px; top: 45px;" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

@@ -27,7 +27,7 @@ public class PlacePointCommand : ICommand
 
     public void UnExecute()
     {
-        pointScript.SoftDelete();
+        pointScript.SoftDelete(repository.Delete);
         repository.Delete(pointScript.Id);
         isExecuted = false;
     }
@@ -39,7 +39,7 @@ public class PlacePointCommand : ICommand
 
     public void ReExecute()
     {
-        pointScript.Restore();
+        pointScript.Restore(repository.Store);
         repository.Store(pointScript);
         isExecuted = true;
     }

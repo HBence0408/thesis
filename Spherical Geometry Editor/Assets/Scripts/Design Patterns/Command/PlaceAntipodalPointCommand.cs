@@ -17,13 +17,12 @@ public class PlaceAntipodalPointCommand : ICommand
     {
         pointScript = factory.CreateAntipodalpoint(-point.transform.position.normalized);
         pointScript.SetPoint(point);
-        point.Subscirbe(pointScript);
         repository.Store(pointScript);
         isExecuted = true;
     }
     public void UnExecute()
     {
-        pointScript.SoftDelete();
+        pointScript.SoftDelete(repository.Delete);
         repository.Delete(pointScript.Id);
         isExecuted = false;
     }
@@ -33,7 +32,7 @@ public class PlaceAntipodalPointCommand : ICommand
     }
     public void ReExecute()
     {
-        pointScript.Restore();
+        pointScript.Restore(repository.Store);
         repository.Store(pointScript);
         isExecuted = true;
     }

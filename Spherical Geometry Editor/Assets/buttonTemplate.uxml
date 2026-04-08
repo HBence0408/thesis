@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Button text="Button" style="font-size: 25px; height: 84px; width: 1898px;">
+        <Bindings>
+            <ui:DataBinding property="text" data-source-path="Name" binding-mode="ToTarget" />
+        </Bindings>
+    </ui:Button>
+</ui:UXML>

@@ -31,10 +31,10 @@ public class PlacePolesCommand : ICommand
 
     public void UnExecute()
     {
-        point1Script.SoftDelete();
+        point1Script.SoftDelete(repository.Delete);
         repository.Delete(point1Script.Id);
 
-        point2Script.SoftDelete();
+        point2Script.SoftDelete(repository.Delete);
         repository.Delete(point2Script.Id);
 
         isExecuted = false;
@@ -47,10 +47,10 @@ public class PlacePolesCommand : ICommand
 
     public void ReExecute()
     {
-        point1Script.Restore();
+        point1Script.Restore(repository.Store);
         repository.Store(point1Script);
 
-        point2Script.Restore();
+        point2Script.Restore(repository.Store);
         repository.Store(point2Script);
 
         isExecuted = true;

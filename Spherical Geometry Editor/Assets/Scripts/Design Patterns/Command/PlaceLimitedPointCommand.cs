@@ -23,7 +23,6 @@ public class PlaceLimitedPointCommand : ICommand
         pointScript = factory.CreateLimitedpoint(pos);
         pointScript.transform.position = pos;
         pointScript.SetCurve(curve);
-        curve.Subscirbe(pointScript);
         repository.Store(pointScript);
         isExecuted = true;
     }
@@ -35,14 +34,14 @@ public class PlaceLimitedPointCommand : ICommand
 
     public void UnExecute()
     {
-        pointScript.SoftDelete();
+        pointScript.SoftDelete(repository.Delete);
         repository.Delete(pointScript.Id);
         isExecuted = false;
     }
 
     public void ReExecute()
     {
-        pointScript.Restore();
+        pointScript.Restore(repository.Store);
         repository.Store(pointScript);
         isExecuted = true;
     }

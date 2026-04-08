@@ -1,16 +1,39 @@
 using UnityEngine;
 
-public class LoadState : MonoBehaviour
+public class LoadState : AppState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private LoadManager loadManager;
+    private string fileName;
+
+    public LoadState(AppCore appCore, LoadManager loadManager, string fileName) : base(appCore)
     {
-        
+        this.loadManager = loadManager;
+        this.fileName = fileName;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnEnter()
     {
-        
+        if (fileName != string.Empty)
+        {
+            try
+            {
+               loadManager.Load(fileName);
+            }
+            catch (System.Exception e)
+            {
+
+                Debug.LogError(e.Message);
+                appCore.SetEditorState();
+            }
+
+            
+        }
+
+        appCore.SetEditorState();
+    }
+
+    public override void OnExit()
+    {
+        fileName = string.Empty;
     }
 }

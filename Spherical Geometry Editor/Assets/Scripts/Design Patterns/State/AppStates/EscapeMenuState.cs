@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class EscapeMenuState : AppState
 {
@@ -33,7 +34,7 @@ public class EscapeMenuState : AppState
 
     private void Back()
     {
-
+        appCore.SetEditorState();
     }
 
     private void Save()
@@ -43,6 +44,6 @@ public class EscapeMenuState : AppState
 
     private void Quit()
     {
-
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

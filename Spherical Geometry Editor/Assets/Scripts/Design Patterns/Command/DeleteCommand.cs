@@ -14,21 +14,21 @@ public class DeleteCommand : ICommand
 
     public void Execute()
     {
-        geometryObject.SoftDelete();
+        geometryObject.SoftDelete(repository.Delete);
         isExecuted = true;
         repository.Delete(geometryObject.Id);
     }
 
     public void ReExecute()
     {
-        geometryObject.SoftDelete();
+        geometryObject.SoftDelete(repository.Delete);
         isExecuted = true;
         repository.Delete(geometryObject.Id);
     }
 
     public void UnExecute()
     {
-        geometryObject.Restore();
+        geometryObject.Restore(repository.Store);
         isExecuted= false;
         repository.Store(geometryObject);
     }

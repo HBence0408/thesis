@@ -12,7 +12,7 @@ public record SaveFile
     public GrabablePointDto[] GrabablePoints { get; set; }
     public GreatCircleDto[] GreatCircles { get; set; }
     public GreatCircleSegmentDto[] GreatCircleSegments { get; set; }
-    public IntersectionPointDto[] IntersectPoints { get; set; }
+    public IntersectionPointDto[] IntersectionPoints { get; set; }
     public LimitedPointDto[] LimitedPoints { get; set; }
     public MidPointDto[] MidPoints { get; set; }
     public PolePointDto[] PolePoints { get; set; }

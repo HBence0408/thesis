@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class SmallCircle : ParametricCurve
 {
+    private ParametricCurveMeshGenerator meshGenerator;
+
     public override Vector3 GetClosestPoint(Vector3 pos)
     {
 
@@ -36,7 +38,12 @@ public class SmallCircle : ParametricCurve
 
     public override void OnChanged()
     {
-        ParametricCurveMeshGenerator.Instance.CreateSmallCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
+        meshGenerator.CreateSmallCircleMesh(point1.transform.position.normalized, point2.transform.position.normalized, this.CreateMesh);
         Notify();
+    }
+
+    public void SetMeshGenerator(ParametricCurveMeshGenerator meshGenerator)
+    {
+        this.meshGenerator = meshGenerator;
     }
 }

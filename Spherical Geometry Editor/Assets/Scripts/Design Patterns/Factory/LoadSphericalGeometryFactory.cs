@@ -39,6 +39,7 @@ public class SphericalGeometryLoadFactory
         grabablePoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         GrabablePoint script = grabablePoint.GetComponent<GrabablePoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -48,6 +49,7 @@ public class SphericalGeometryLoadFactory
         limitedPoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         LimitedPoint script = limitedPoint.GetComponent<LimitedPoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -57,6 +59,7 @@ public class SphericalGeometryLoadFactory
         PolePoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         PolePoint script = PolePoint.GetComponent<PolePoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -66,6 +69,7 @@ public class SphericalGeometryLoadFactory
         ShadowPolePoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         ShadowPolePoint script = ShadowPolePoint.GetComponent<ShadowPolePoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -75,6 +79,7 @@ public class SphericalGeometryLoadFactory
         antipodalPoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         AntipodalPoint script = antipodalPoint.GetComponent<AntipodalPoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -84,6 +89,7 @@ public class SphericalGeometryLoadFactory
         midPoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         MidPoint script = midPoint.GetComponent<MidPoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -97,6 +103,7 @@ public class SphericalGeometryLoadFactory
         meshGenerator.CreateGreatCircleMesh(point1Pos, point2Pos, script.CreateMesh);
         script.SetMeshGenerator(meshGenerator);
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -110,6 +117,7 @@ public class SphericalGeometryLoadFactory
         meshGenerator.CreateSmallCircleMesh(point1Pos, point2Pos, script.CreateMesh);
         script.SetMeshGenerator(meshGenerator);
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -123,6 +131,7 @@ public class SphericalGeometryLoadFactory
         meshGenerator.CreateGreatCircleSegmentMesh(point1Pos, point2Pos, script.CreateMesh);
         script.SetMeshGenerator(meshGenerator);
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 
@@ -132,6 +141,7 @@ public class SphericalGeometryLoadFactory
         intersectionPoint.transform.position = new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z);
         IntersectionPoint script = intersectionPoint.GetComponent<IntersectionPoint>();
         script.Id = dto.id;
+        script.SetColor(new Color(dto.Color.R, dto.Color.G, dto.Color.B));
         return script;
     }
 

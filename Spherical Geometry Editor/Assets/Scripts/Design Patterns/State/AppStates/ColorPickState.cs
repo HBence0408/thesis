@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class ColorPickState : AppState
 {
-    private InputHandler inputHandler;
     private SideMenu sideMenu;
     private DrawManager drawManager;
-    private CommandInvoker commandInvoker;
     private ColorMenu colorMenu;
 
-    public ColorPickState(AppCore appCore,InputHandler inputHandler, SideMenu sideMenu, DrawManager drawManager, CommandInvoker commandInvoker, ColorMenu colorMenu) : base(appCore)
+    public ColorPickState(AppCore appCore, SideMenu sideMenu, DrawManager drawManager, ColorMenu colorMenu) : base(appCore)
     {
-        this.inputHandler = inputHandler;
         this.sideMenu = sideMenu;
         this.drawManager = drawManager;
-        this.commandInvoker = commandInvoker;
         this.colorMenu = colorMenu;
     }
 

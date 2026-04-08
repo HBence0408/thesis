@@ -33,6 +33,7 @@ public class EditorState : AppState
         inputHandler.OnEHoldDown += TiltRight;
         inputHandler.OnHover += CurrentlyHovered;
         inputHandler.OnNotHover += NotHover;
+        inputHandler.OnEscapeKeyDown += Escape;
 
         sideMenu.OnLineButtonClicked += DrawLine;
         sideMenu.OnCircleButtonClicked += DrawCircle;
@@ -63,6 +64,7 @@ public class EditorState : AppState
         inputHandler.OnEHoldDown -= TiltRight;
         inputHandler.OnHover -= CurrentlyHovered;
         inputHandler.OnNotHover -= NotHover;
+        inputHandler.OnEscapeKeyDown -= Escape;
 
 
         sideMenu.OnLineButtonClicked -= DrawLine;
@@ -217,5 +219,10 @@ public class EditorState : AppState
     public void NotHover()
     {
         highlighter.UnHighlight();
+    }
+
+    public void Escape()
+    {
+        appCore.SetEscapeMenuState();
     }
 }

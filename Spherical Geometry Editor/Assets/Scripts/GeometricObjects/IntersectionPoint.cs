@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class IntersectionPoint : ControllPoint, IObserver
     ParametricCurve curve1;
     ParametricCurve curve2;
     RecalculatePositionDelegate recalculatePosition;
+
+    public Guid Curve1 =>  curve1.Id;
+    public Guid Curve2 =>  curve2.Id;
 
     public void OnChanged()
     {

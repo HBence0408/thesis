@@ -14,6 +14,7 @@ public class InputHandler : MonoBehaviour
     public event Action OnQHoldDown;
     public event Action<IGeometryObject> OnHover;
     public event Action OnNotHover;
+    public event Action OnEscapeKeyDown;
 
     private void Update()
     {
@@ -53,6 +54,10 @@ public class InputHandler : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             OnEHoldDown?.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnEscapeKeyDown?.Invoke();
         }
 
         RaycastHit hit;

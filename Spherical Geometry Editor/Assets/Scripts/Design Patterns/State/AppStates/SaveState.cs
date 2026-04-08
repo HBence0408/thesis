@@ -1,16 +1,23 @@
 using UnityEngine;
 
-public class SaveState : MonoBehaviour
+public class SaveState : AppState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    SaveManager saveManager;
+
+    public SaveState(AppCore appCore, SaveManager saveManager) : base(appCore)
     {
-        
+        this.saveManager = saveManager;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnEnter()
     {
-        
+        saveManager.Save("teszt");
+        appCore.SetEditorState();
     }
+
+    public override void OnExit()
+    {
+        //throw new System.NotImplementedException();
+    }
+
 }

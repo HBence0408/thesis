@@ -177,5 +177,6 @@ public class AppCore : MonoBehaviour
     public void SetCurrentFileName(string fileName)
     {
         currentFile = fileName;
+        fileToLoad = string.Empty;
     }
 }

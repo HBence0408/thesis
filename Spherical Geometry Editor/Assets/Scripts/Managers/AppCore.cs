@@ -134,7 +134,7 @@ public class AppCore : MonoBehaviour
     public void SetFileToLoad(string filePath)
     {
         fileToLoad = filePath;
-        SetCurrentFileName(fileToLoad);
+        currentFile = fileToLoad;
     }
 
     public void SetEditorState()

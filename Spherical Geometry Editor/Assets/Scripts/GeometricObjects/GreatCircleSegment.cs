@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GreatCircleSegment : ParametricCurve
 {
-    private ParametricCurveMeshGenerator meshGenerator;
+    private IParametricCurveMeshGenerator meshGenerator;
 
     public override void OnChanged()
     {
@@ -35,7 +35,7 @@ public class GreatCircleSegment : ParametricCurve
         }
     }
 
-    public void SetMeshGenerator(ParametricCurveMeshGenerator meshGenerator)
+    public void SetMeshGenerator(IParametricCurveMeshGenerator meshGenerator)
     {
         this.meshGenerator = meshGenerator;
     }

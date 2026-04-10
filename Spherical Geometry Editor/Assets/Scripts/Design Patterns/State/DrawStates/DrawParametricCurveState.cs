@@ -6,18 +6,29 @@ public abstract class DrawParametricCurveState : DrawingState
 {
     protected List<GameObject> SelectedControllPoints = new List<GameObject>();
     protected int requiredControllPoints;
-    protected SphericalGeometryFactory factory;
-    protected CommandInvoker commandInvoker;
+    protected ISphericalGeometryFactory factory;
+    protected ICommandInvoker commandInvoker;
     protected IRepository repository;
 
-    public DrawParametricCurveState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager)
+    public DrawParametricCurveState(IDrawManager manager, ISphericalGeometryFactory factory, ICommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
         this.repository = repository;
     }
 
-    public override void OnLeftMouseUp()
+
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
+
+    public override void OnExit()
+    {
+        manager.OnDown += OnDown;
+    }
+
+    private void OnDown()
     {
         RaycastHit hit;
 

@@ -30,7 +30,7 @@ public class SideMenu : MonoBehaviour
     public event Action OnRedoButtonClicked;
     public event Action OnDeleteButtonClicked;
     public event Action OnAntipodalButtonClicked;
-    public event Action OnpoleButtonClicked;
+    public event Action OnPoleButtonClicked;
     public event Action OnMidPointButtonClicked;
     public event Action OnRightAngleButtonClicked;
     public event Action OnColorButtonClicked;
@@ -146,7 +146,7 @@ public class SideMenu : MonoBehaviour
 
     private void OnPoleButtonClick()
     {
-        OnpoleButtonClicked?.Invoke();
+        OnPoleButtonClicked?.Invoke();
     }
 
     public void OnMidPointButtonClick()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ParametricCurveMeshGenerator 
+public class ParametricCurveMeshGenerator : IParametricCurveMeshGenerator
 {
     [SerializeField] private int subdivisions = 100;
     [SerializeField] private int extrudes = 50;
@@ -14,7 +14,7 @@ public class ParametricCurveMeshGenerator
    // [SerializeField] private GameObject pointTest;
     [SerializeField] private float tubeWidth = 0.01f;
 
-    public delegate void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center);
+    //public delegate void CreateMesh(Vector3[] vertices, int[] triangles, Vector3[] pointsInCircle, Vector3 normalOfPlane, Vector3 u, Vector3 v, Vector3 center);
 
  //   public static ParametricCurveMeshGenerator Instance
 	//{

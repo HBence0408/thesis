@@ -3,10 +3,10 @@ using UnityEngine;
 public class ColorPickState : AppState
 {
     private SideMenu sideMenu;
-    private DrawManager drawManager;
+    private IDrawManager drawManager;
     private ColorMenu colorMenu;
 
-    public ColorPickState(AppCore appCore, SideMenu sideMenu, DrawManager drawManager, ColorMenu colorMenu) : base(appCore)
+    public ColorPickState(AppCore appCore, SideMenu sideMenu, IDrawManager drawManager, ColorMenu colorMenu) : base(appCore)
     {
         this.sideMenu = sideMenu;
         this.drawManager = drawManager;

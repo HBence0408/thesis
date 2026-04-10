@@ -6,11 +6,11 @@ public class PlacePointCommand : ICommand
 {
     private Vector3 pos;
     private ControllPoint pointScript;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     private IRepository repository;
     private bool isExecuted;
 
-    public PlacePointCommand(Vector3 pos, SphericalGeometryFactory factory, IRepository repository)
+    public PlacePointCommand(Vector3 pos, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.pos = pos.normalized;
         this.factory = factory;

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class SaveState : AppState
 {
-    private SaveManager saveManager;
+    private ISaveManager saveManager;
     private string fileName = "";
 
-    public SaveState(AppCore appCore, SaveManager saveManager, string fileName) : base(appCore)
+    public SaveState(AppCore appCore, ISaveManager saveManager, string fileName) : base(appCore)
     {
         this.saveManager = saveManager;
         this.fileName = fileName;

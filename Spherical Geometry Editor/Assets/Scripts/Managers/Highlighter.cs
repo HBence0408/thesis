@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Highlighter
+public class Highlighter : IHighlighter
 {
     private IHighlightState currentState;
     private GenericHighlightState<ControllPoint> controllPointsHighlightState;
@@ -64,11 +64,4 @@ public class Highlighter
         currentState = greatCirclesHighlightState;
         currentState.OnEnter();
     }
-
-    //public void HighlightRightAngleableCurvesState()
-    //{
-    //    currentState.OnExit();
-    //    currentState = greatCirclesHighlightState;
-    //    currentState.OnEnter();
-    //}
 }

@@ -6,18 +6,18 @@ public class IntersectDrawState : DrawingState
     public delegate GameObject CreatePointDelegate(GameObject prefab);
     private ParametricCurve intersectable1;
     private ParametricCurve intersectable2;
-    private SphericalGeometryFactory factory;
-    private CommandInvoker commandInvoker;
+    private ISphericalGeometryFactory factory;
+    private ICommandInvoker commandInvoker;
     private IRepository repository;
 
-    public IntersectDrawState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager)
+    public IntersectDrawState(IDrawManager manager, ISphericalGeometryFactory factory, ICommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
         this.repository = repository;
     }
 
-    public override void OnLeftMouseUp()
+    private void OnDown()
     {
 
         RaycastHit hit;
@@ -80,9 +80,14 @@ public class IntersectDrawState : DrawingState
         }
     }
 
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
+
     public override void OnExit()
     {
-        base.OnExit();
+        manager.OnDown -= OnDown;
         intersectable1 = null;
         intersectable2 = null;
     }

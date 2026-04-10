@@ -3,30 +3,15 @@ using UnityEngine;
 
 public abstract class DrawingState
 {
-    protected DrawManager manager;
-    private bool isActive;
+    protected IDrawManager manager;
 
-    public bool IsActive
-    {
-        get { return isActive; }
-    }
-
-    protected DrawingState(DrawManager manager)
+    protected DrawingState(IDrawManager manager)
     {
         this.manager  = manager;
     }
 
-    public virtual void OnEnter()
-    {
-        isActive = true;
-    }
+    public abstract void OnEnter();
 
-    public virtual void OnExit()
-    {
-        isActive = false;
-    }
+    public abstract void OnExit();
 
-    public virtual void OnLeftMouseUp() { }
-    public virtual void OnLeftMouseHold() { }
-    public virtual void OnLeftMouseDown() { }
 }

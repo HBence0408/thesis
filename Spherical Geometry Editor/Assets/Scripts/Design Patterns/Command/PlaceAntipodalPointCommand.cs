@@ -4,10 +4,10 @@ public class PlaceAntipodalPointCommand : ICommand
 {
     private ControllPoint point;
     private AntipodalPoint pointScript;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     private IRepository repository;
     private bool isExecuted;
-    public PlaceAntipodalPointCommand(ControllPoint point, SphericalGeometryFactory factory, IRepository repository)
+    public PlaceAntipodalPointCommand(ControllPoint point, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.point = point;
         this.factory = factory;

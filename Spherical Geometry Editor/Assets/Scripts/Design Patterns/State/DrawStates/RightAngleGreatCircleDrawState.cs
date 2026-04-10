@@ -6,19 +6,19 @@ public class RightAngleGreatCircleDrawState : DrawingState
 {
     private GameObject point;
     private GreatCircle greatCircle;
-    protected SphericalGeometryFactory factory;
-    protected CommandInvoker commandInvoker;
+    protected ISphericalGeometryFactory factory;
+    protected ICommandInvoker commandInvoker;
     protected IRepository repository;
     private ShadowPolePoint shadowPolePoint;
 
-    public RightAngleGreatCircleDrawState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker ,IRepository repository) : base(manager)
+    public RightAngleGreatCircleDrawState(IDrawManager manager, ISphericalGeometryFactory factory, ICommandInvoker commandInvoker ,IRepository repository) : base(manager)
     {
         this.repository = repository;
         this.factory = factory;
         this.commandInvoker = commandInvoker;
     }
 
-    public override void OnLeftMouseUp()
+    private void OnDown()
     {
         RaycastHit hit;
 
@@ -73,12 +73,16 @@ public class RightAngleGreatCircleDrawState : DrawingState
 
     }
 
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
 
     public override void OnExit()
     {
         point = null;
         greatCircle = null;
         shadowPolePoint = null;
-        base.OnExit();
+        manager.OnDown -= OnDown;
     }
 }

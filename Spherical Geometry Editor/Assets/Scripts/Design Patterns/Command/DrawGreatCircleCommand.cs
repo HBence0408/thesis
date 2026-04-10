@@ -6,11 +6,11 @@ public class DrawGreatCircleCommand :ICommand
     private GameObject point1;
     private GameObject point2;
     private GreatCircle greatCircle;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     private IRepository repository;
     private bool isExecuted;
 
-    public DrawGreatCircleCommand(GameObject point1, GameObject point2, SphericalGeometryFactory factory, IRepository repoitory)
+    public DrawGreatCircleCommand(GameObject point1, GameObject point2, ISphericalGeometryFactory factory, IRepository repoitory)
     { 
         this.point1 = point1;
         this.point2 = point2;

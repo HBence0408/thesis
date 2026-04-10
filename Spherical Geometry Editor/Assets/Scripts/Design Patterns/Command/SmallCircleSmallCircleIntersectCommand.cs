@@ -5,12 +5,12 @@ public class SmallCircleSmallCircleIntersectCommand : ICommand
 {
     SmallCircle smallCircle1;
     SmallCircle smallCircle2;
-    SphericalGeometryFactory factory;
+    ISphericalGeometryFactory factory;
     IntersectionPoint[] intersections;
     IRepository repository;
     bool isExecuted;
 
-    public SmallCircleSmallCircleIntersectCommand(SmallCircle smallCircle1, SmallCircle smallCircle2, SphericalGeometryFactory factory, IRepository repository)
+    public SmallCircleSmallCircleIntersectCommand(SmallCircle smallCircle1, SmallCircle smallCircle2, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.smallCircle1 = smallCircle1;
         this.smallCircle2 = smallCircle2;

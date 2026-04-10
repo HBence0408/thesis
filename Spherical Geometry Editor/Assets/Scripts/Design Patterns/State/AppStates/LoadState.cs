@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class LoadState : AppState
 {
-    private LoadManager loadManager;
+    private ILoadManager loadManager;
     private string fileName;
 
-    public LoadState(AppCore appCore, LoadManager loadManager, string fileName) : base(appCore)
+    public LoadState(AppCore appCore, ILoadManager loadManager, string fileName) : base(appCore)
     {
         this.loadManager = loadManager;
         this.fileName = fileName;

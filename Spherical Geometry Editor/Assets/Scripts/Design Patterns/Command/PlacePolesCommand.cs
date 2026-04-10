@@ -5,11 +5,11 @@ public class PlacePolesCommand : ICommand
     private GreatCircle greatCircle;
     private PolePoint point1Script;
     private PolePoint point2Script;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     private IRepository repository;
     private bool isExecuted;
 
-    public PlacePolesCommand(GreatCircle greatCircle, SphericalGeometryFactory factory, IRepository repository)
+    public PlacePolesCommand(GreatCircle greatCircle, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.greatCircle = greatCircle;
         this.factory = factory;

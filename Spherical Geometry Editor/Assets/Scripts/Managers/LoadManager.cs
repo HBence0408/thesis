@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadManager 
+public class LoadManager : ILoadManager
 {
     private IRepository repository;
-    private SphericalGeometryLoadFactory factory;
-    private Linker linker;
+    private ISphericalGeometryLoadFactory factory;
+    private ILinker linker;
 
-    public LoadManager(IRepository repository, SphericalGeometryLoadFactory factory, Linker linker)
+    public LoadManager(IRepository repository, ISphericalGeometryLoadFactory factory, ILinker linker)
     {
         this.factory = factory;
         this.linker = linker;

@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public class DrawManager
+public class DrawManager : IDrawManager
 {
-    private SphericalGeometryFactory factory;
-    private CommandInvoker commandInvoker;
+    private ISphericalGeometryFactory factory;
+    private ICommandInvoker commandInvoker;
     private IRepository repository;
 
     private DrawingState currentState;
@@ -28,7 +29,11 @@ public class DrawManager
     private ColorState greenColoringState;
     private ColorState magentaColoringState;
 
-    public DrawManager(SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repoitory)
+    public event Action OnDown;
+    public event Action OnUp;
+    public event Action OnHold;
+
+    public DrawManager(ISphericalGeometryFactory factory, ICommandInvoker commandInvoker, IRepository repoitory)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
@@ -70,17 +75,20 @@ public class DrawManager
 
     public void OnLeftMouseDown()
     {
-        currentState.OnLeftMouseDown();
+        //currentState.OnLeftMouseDown();
+        OnDown?.Invoke();
     }
 
     public void OnLeftMouseUp()
     {
-        currentState.OnLeftMouseUp();
+        //currentState.OnLeftMouseUp();
+        OnUp?.Invoke();
     }
 
     public void OnLeftMouseHold()
     {
-        currentState.OnLeftMouseHold();
+        //currentState.OnLeftMouseHold();
+        OnHold?.Invoke();
     }
 
     public void SetState(DrawingState state)

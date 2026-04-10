@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class PlaceMidPointState : DrawingState
 {
-    private SphericalGeometryFactory factory;
-    private CommandInvoker commandInvoker;
+    private ISphericalGeometryFactory factory;
+    private ICommandInvoker commandInvoker;
     private IRepository repository;
     private ControllPoint point1 = null;
     private ControllPoint point2 = null;
 
-    public PlaceMidPointState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager)
+    public PlaceMidPointState(IDrawManager manager, ISphericalGeometryFactory factory, ICommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
         this.repository = repository;
     }
 
-    public override void OnLeftMouseUp()
+    private void OnDown()
     {
 
         RaycastHit hit;
@@ -40,10 +40,15 @@ public class PlaceMidPointState : DrawingState
         }
     }
 
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
+
     public override void OnExit()
     {
         point1 = null;
         point2 = null;
-        base.OnExit();
+        manager.OnDown -= OnDown;
     }
 }

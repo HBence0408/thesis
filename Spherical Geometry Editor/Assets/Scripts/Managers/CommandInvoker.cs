@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommandInvoker 
+public class CommandInvoker : ICommandInvoker
 {
    // private Stack<ICommand> undoStack = new Stack<ICommand>();
 

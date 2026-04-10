@@ -5,11 +5,11 @@ public class PlaceMidPointCommand : ICommand
     private ControllPoint point1;
     private ControllPoint point2;
     private MidPoint pointScript;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     private IRepository repository;
     private bool isExecuted;
 
-    public PlaceMidPointCommand(ControllPoint point1, ControllPoint point2, SphericalGeometryFactory factory, IRepository repository)
+    public PlaceMidPointCommand(ControllPoint point1, ControllPoint point2, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.point1 = point1;
         this.point2 = point2;

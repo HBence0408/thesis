@@ -5,14 +5,14 @@ public class MoveState : DrawingState
 {
     private ControllPoint point = null;
     private Vector3? pos = null;
-    private CommandInvoker commandInvoker;
+    private ICommandInvoker commandInvoker;
 
-    public MoveState(DrawManager manager, CommandInvoker commandInvoker) : base(manager) 
+    public MoveState(IDrawManager manager, ICommandInvoker commandInvoker) : base(manager) 
     {
         this.commandInvoker = commandInvoker;
     }
 
-    public override void OnLeftMouseDown()
+    private void OnDown()
     {
         RaycastHit hit;
 
@@ -37,7 +37,7 @@ public class MoveState : DrawingState
         }
     }
 
-    public override void OnLeftMouseHold()
+    private void OnHold()
     {
         if (point != null && pos != null)
         {
@@ -72,7 +72,7 @@ public class MoveState : DrawingState
     }
     
 
-    public override void OnLeftMouseUp()
+    private void OnUp()
     {
             if (point is not null && pos is not null)
             {
@@ -83,9 +83,18 @@ public class MoveState : DrawingState
         }      
     }
 
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+        manager.OnUp += OnUp;
+        manager.OnHold += OnHold;
+    }
+
     public override void OnExit()
     {
-        base.OnExit();
+        manager.OnDown -= OnDown;
+        manager.OnUp -= OnUp;
+        manager.OnHold -= OnHold;
         point = null;
         pos = null;
     }

@@ -11,6 +11,4 @@ public record SmallCircleDto
     public Guid ControllPoint2 { get; set; }
     public Vector3Dto ControllPoint2Pos { get; set; }
     public ColorDto Color { get; set; }
-    public bool IsActive { get; set; }
-    public List<Guid> Observers { get; set; }
 }

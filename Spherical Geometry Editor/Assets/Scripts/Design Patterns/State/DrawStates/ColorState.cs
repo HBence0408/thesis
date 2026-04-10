@@ -3,15 +3,25 @@ using UnityEngine;
 public class ColorState : DrawingState
 {
     private Color color;
-    private CommandInvoker commandInvoker;
+    private ICommandInvoker commandInvoker;
 
-    public ColorState(DrawManager manager, CommandInvoker commandInvoker, Color color) : base(manager)
+    public ColorState(IDrawManager manager, ICommandInvoker commandInvoker, Color color) : base(manager)
     {
         this.commandInvoker = commandInvoker;
         this.color = color;
     }
 
-    public override void OnLeftMouseDown()
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
+
+    public override void OnExit()
+    {
+        manager.OnDown -= OnDown;
+    }
+
+    private void OnDown()
     {
 
         RaycastHit hit;
@@ -25,7 +35,6 @@ public class ColorState : DrawingState
                 commandInvoker.ExecuteCommand(command);
                 manager.SetState(this);
             }
-
         }
     }
 

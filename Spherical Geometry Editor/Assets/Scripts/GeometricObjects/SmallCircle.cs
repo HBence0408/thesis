@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SmallCircle : ParametricCurve
 {
-    private ParametricCurveMeshGenerator meshGenerator;
+    private IParametricCurveMeshGenerator meshGenerator;
 
     public override Vector3 GetClosestPoint(Vector3 pos)
     {
@@ -42,7 +42,7 @@ public class SmallCircle : ParametricCurve
         Notify();
     }
 
-    public void SetMeshGenerator(ParametricCurveMeshGenerator meshGenerator)
+    public void SetMeshGenerator(IParametricCurveMeshGenerator meshGenerator)
     {
         this.meshGenerator = meshGenerator;
     }

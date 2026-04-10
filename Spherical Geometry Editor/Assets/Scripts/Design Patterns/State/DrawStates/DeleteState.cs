@@ -4,16 +4,26 @@ using static UnityEditor.PlayerSettings;
 
 public class DeleteState : DrawingState
 {
-    private CommandInvoker commandInvoker;
+    private ICommandInvoker commandInvoker;
     private IRepository repository;
 
-    public DeleteState(DrawManager manager, CommandInvoker commandInvoker, IRepository repository) : base(manager)
+    public DeleteState(IDrawManager manager, ICommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.commandInvoker = commandInvoker;
         this.repository = repository;
     }
 
-    public override void OnLeftMouseDown()
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
+
+    public override void OnExit()
+    {
+        manager.OnDown += OnDown;
+    }
+
+    private void OnDown()
     {
         RaycastHit hit;
 

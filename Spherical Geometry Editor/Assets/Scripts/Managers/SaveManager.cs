@@ -5,12 +5,12 @@ using Newtonsoft;
 using Newtonsoft.Json;
 
 
-public class SaveManager 
+public class SaveManager : ISaveManager
 {
     private IRepository repository;
-    private Mapper mapper;
+    private IMapper mapper;
 
-    public SaveManager(IRepository repository, Mapper mapper)
+    public SaveManager(IRepository repository, IMapper mapper)
     {
         this.repository = repository;
         this.mapper = mapper;

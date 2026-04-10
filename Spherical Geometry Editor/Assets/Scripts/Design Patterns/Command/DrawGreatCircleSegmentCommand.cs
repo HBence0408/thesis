@@ -5,11 +5,11 @@ public class DrawGreatCircleSegmentCommand : ICommand
     private GameObject point1;
     private GameObject point2;
     private GreatCircleSegment greatCircleSegment;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     IRepository repository;
     private bool isExecuted;
 
-    public DrawGreatCircleSegmentCommand(GameObject point1, GameObject point2, SphericalGeometryFactory factory, IRepository repository)
+    public DrawGreatCircleSegmentCommand(GameObject point1, GameObject point2, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.point1 = point1;
         this.point2 = point2;

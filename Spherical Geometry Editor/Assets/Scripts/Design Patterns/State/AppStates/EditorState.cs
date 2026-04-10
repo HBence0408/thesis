@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class EditorState : AppState
 {
-    private InputHandler inputHandler;
+    private IInputHandler inputHandler;
     private SideMenu sideMenu;
-    private DrawManager drawManager;
-    private CommandInvoker commandInvoker;
+    private IDrawManager drawManager;
+    private ICommandInvoker commandInvoker;
     private CameraMovement cameraMovement;
-    private Highlighter highlighter;
+    private IHighlighter highlighter;
    // private ColorMenu colorMenu;
 
-    public EditorState(AppCore appCore, InputHandler inputHandler, SideMenu sideMenu, DrawManager drawManager, CommandInvoker commandInvoker, CameraMovement cameraMovement, Highlighter highlighter) : base(appCore)
+    public EditorState(AppCore appCore, IInputHandler inputHandler, SideMenu sideMenu, IDrawManager drawManager, ICommandInvoker commandInvoker, CameraMovement cameraMovement, IHighlighter highlighter) : base(appCore)
     {
         this.inputHandler = inputHandler;
         this.sideMenu = sideMenu;
@@ -45,7 +45,7 @@ public class EditorState : AppState
         sideMenu.OnRedoButtonClicked += Redo;
         sideMenu.OnDeleteButtonClicked += Delete;
         sideMenu.OnAntipodalButtonClicked += PlaceAntipodalPoint;
-        sideMenu.OnpoleButtonClicked += PlacePolePoints;
+        sideMenu.OnPoleButtonClicked += PlacePolePoints;
         sideMenu.OnMidPointButtonClicked += PlaceMidPoint;
         sideMenu.OnRightAngleButtonClicked += DrawRightAngleGreatCircle;
         sideMenu.OnColorButtonClicked += Color;
@@ -77,7 +77,7 @@ public class EditorState : AppState
         sideMenu.OnRedoButtonClicked -= Redo;
         sideMenu.OnDeleteButtonClicked -= Delete;
         sideMenu.OnAntipodalButtonClicked -= PlaceAntipodalPoint;
-        sideMenu.OnpoleButtonClicked -= PlacePolePoints;
+        sideMenu.OnPoleButtonClicked -= PlacePolePoints;
         sideMenu.OnMidPointButtonClicked -= PlaceMidPoint;
         sideMenu.OnRightAngleButtonClicked -= DrawRightAngleGreatCircle;
         sideMenu.OnColorButtonClicked -= Color;
@@ -223,6 +223,7 @@ public class EditorState : AppState
 
     public void Escape()
     {
+        drawManager.Idle();
         appCore.SetEscapeMenuState();
     }
 }

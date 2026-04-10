@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class InputHandler : MonoBehaviour
+public class InputHandler : MonoBehaviour, IInputHandler
 {
     public event Action OnLeftMouseButtonDown;
     public event Action OnLeftMouseButtonUp;

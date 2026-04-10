@@ -5,11 +5,11 @@ public class DrawSmallCircleCommand : ICommand
     private GameObject point1;
     private GameObject point2;
     private SmallCircle smallCircle;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     IRepository repository;
     private bool isExecuted;
 
-    public DrawSmallCircleCommand(GameObject point1, GameObject point2, SphericalGeometryFactory factory, IRepository repository)
+    public DrawSmallCircleCommand(GameObject point1, GameObject point2, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.point1 = point1;
         this.point2 = point2;

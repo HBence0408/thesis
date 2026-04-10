@@ -8,11 +8,11 @@ public class AppCore : MonoBehaviour
     private InputHandler inputHandler;
     private static AppCore instance;
     private AppState currentState;
-    private DrawManager drawManager;
-    private IRepository repoitory;
+    private IDrawManager drawManager;
+    private IRepository repository;
     private ColorMenu colorMenu;
     private EscapeMenu escapeMenu;
-    private Highlighter highlighter;
+    private IHighlighter highlighter;
     [SerializeField] private GameObject GrabablePointPreafab;
     [SerializeField] private GameObject GreatCirclePrefab;
     [SerializeField] private GameObject GreatCircleSegmentPrefab;
@@ -23,14 +23,15 @@ public class AppCore : MonoBehaviour
     [SerializeField] private GameObject PolePointPrefab;
     [SerializeField] private GameObject ShadowPolePointPrefab;
     [SerializeField] private GameObject MidPointPrefab;
-    private SphericalGeometryFactory factory;
-    private CommandInvoker commandInvoker;
-    private SaveManager saveManager;
-    private Linker linker;
-    private SphericalGeometryLoadFactory sphericalGeometryLoadFactory;
-    private LoadManager loadManager;
-    private Mapper mapper;
-    private ParametricCurveMeshGenerator meshGenerator;
+    private ISphericalGeometryFactory factory;
+    private ICommandInvoker commandInvoker;
+    private ISaveManager saveManager;
+    private ILinker linker;
+    private ISphericalGeometryLoadFactory sphericalGeometryLoadFactory;
+    private ILoadManager loadManager;
+    private IMapper mapper;
+    private IParametricCurveMeshGenerator meshGenerator;
+    private IIntersectionCalculater intersectionCalculater;
     private MainMenu mainMenu;
     private NewProjectMenu newProjectMenu;
 
@@ -68,6 +69,11 @@ public class AppCore : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (instance != this)
+        {
+            return;
+        }
+
         if (scene.name == "EditorScene")
         {
             cameraMovement = FindFirstObjectByType<CameraMovement>();
@@ -77,16 +83,17 @@ public class AppCore : MonoBehaviour
             escapeMenu = FindFirstObjectByType<EscapeMenu>();
 
             commandInvoker = new CommandInvoker();
-            repoitory = new Repository();
+            repository = new Repository();
             highlighter = new Highlighter();
             mapper = new Mapper();
             meshGenerator = new ParametricCurveMeshGenerator();
+            intersectionCalculater = new IntersectionCalculater();
             sphericalGeometryLoadFactory = new SphericalGeometryLoadFactory(meshGenerator, GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
-            linker = new Linker(repoitory);
-            loadManager = new LoadManager(repoitory, sphericalGeometryLoadFactory, linker);
-            saveManager = new SaveManager(repoitory, mapper);
-            factory = new SphericalGeometryFactory(meshGenerator,GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
-            drawManager = new DrawManager(factory, commandInvoker, repoitory);
+            linker = new Linker(repository, intersectionCalculater);
+            loadManager = new LoadManager(repository, sphericalGeometryLoadFactory, linker);
+            saveManager = new SaveManager(repository, mapper);
+            factory = new SphericalGeometryFactory(intersectionCalculater, meshGenerator,GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
+            drawManager = new DrawManager(factory, commandInvoker, repository);
             editorState = new EditorState(this, inputHandler, sideMenu, drawManager, commandInvoker, cameraMovement, highlighter);
             colorPickState = new ColorPickState(this, sideMenu, drawManager, colorMenu);
             escapeMenuState = new EscapeMenuState(this, sideMenu, escapeMenu);
@@ -130,6 +137,7 @@ public class AppCore : MonoBehaviour
     public void SetFileToLoad(string filePath)
     {
         fileToLoad = filePath;
+        SetCurrentFileName(fileToLoad);
     }
 
     public void SetEditorState()

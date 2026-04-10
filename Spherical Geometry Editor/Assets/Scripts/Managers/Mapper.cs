@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mapper 
+public class Mapper : IMapper
 {
     public AntipodalPointDto Map(AntipodalPoint point)
     {
@@ -21,8 +21,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers,
             ControllPoint = point.ControllPoint
         };
     }
@@ -56,8 +54,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers
         };
     }
 
@@ -97,8 +93,6 @@ public class Mapper
                 G = greatCircle.Color.g,
                 B = greatCircle.Color.b,
             },
-            IsActive = greatCircle.IsActive,
-            Observers = greatCircle.Observers
         };
     }
 
@@ -138,8 +132,6 @@ public class Mapper
                 G = greatCircleSegment.Color.g,
                 B = greatCircleSegment.Color.b,
             },
-            IsActive = greatCircleSegment.IsActive,
-            Observers = greatCircleSegment.Observers
         };
     }
 
@@ -171,8 +163,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers,
             Curve1 = point.Curve1,
             Curve2 = point.Curve2,
             IntersectionType = point.IntersectionType,
@@ -207,8 +197,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers,
             Curve = point.Curve 
         };
     }
@@ -241,8 +229,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers,
             ControllPoint1 = point.ControllPoint1,
             ControllPoint2 = point.ControllPoint2
         };
@@ -276,8 +262,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers,
             Curve = point.Curve,
             sign = point.Sign
         };
@@ -311,8 +295,6 @@ public class Mapper
                 G = point.Color.g,
                 B = point.Color.b,
             },
-            IsActive = point.IsActive,
-            Observers = point.Observers,
             Curve = point.Curve,
             sign = point.Sign
         };
@@ -354,8 +336,6 @@ public class Mapper
                 G = smallCircle.Color.g,
                 B = smallCircle.Color.b,
             },
-            IsActive = smallCircle.IsActive,
-            Observers = smallCircle.Observers
         };
     }
 

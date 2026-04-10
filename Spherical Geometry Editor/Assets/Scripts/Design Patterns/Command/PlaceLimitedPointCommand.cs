@@ -5,12 +5,12 @@ public class PlaceLimitedPointCommand : ICommand
 {
     private Vector3 pos;
     private LimitedPoint pointScript;
-    private SphericalGeometryFactory factory;
+    private ISphericalGeometryFactory factory;
     private IRepository repository;
     private ParametricCurve curve;
     private bool isExecuted;
 
-    public PlaceLimitedPointCommand(Vector3 pos, ParametricCurve curve, SphericalGeometryFactory factory, IRepository repository)
+    public PlaceLimitedPointCommand(Vector3 pos, ParametricCurve curve, ISphericalGeometryFactory factory, IRepository repository)
     {
         this.pos = pos.normalized;
         this.factory = factory;

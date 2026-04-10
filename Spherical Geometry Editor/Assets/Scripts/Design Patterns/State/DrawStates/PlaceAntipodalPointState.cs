@@ -2,18 +2,28 @@ using UnityEngine;
 
 public class PlaceAntidotalPointState : DrawingState
 {
-    private SphericalGeometryFactory factory;
-    private CommandInvoker commandInvoker;
+    private ISphericalGeometryFactory factory;
+    private ICommandInvoker commandInvoker;
     private IRepository repository;
 
-    public PlaceAntidotalPointState(DrawManager manager, SphericalGeometryFactory factory, CommandInvoker commandInvoker, IRepository repository) : base(manager)
+    public PlaceAntidotalPointState(IDrawManager manager, ISphericalGeometryFactory factory, ICommandInvoker commandInvoker, IRepository repository) : base(manager)
     {
         this.factory = factory;
         this.commandInvoker = commandInvoker;
         this.repository = repository;
     }
 
-    public override void OnLeftMouseUp()
+    public override void OnEnter()
+    {
+        manager.OnDown += OnDown;
+    }
+
+    public override void OnExit()
+    {
+        manager.OnDown -= OnDown;
+    }
+
+    private void OnDown()
     {
 
         RaycastHit hit;

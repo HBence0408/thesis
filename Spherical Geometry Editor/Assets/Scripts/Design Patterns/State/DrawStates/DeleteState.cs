@@ -23,19 +23,24 @@ public class DeleteState : DrawingState
         manager.OnDown += OnDown;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-        RaycastHit hit;
+        //RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //if (Physics.Raycast(ray, out hit, 1000))
+        //{
+        //    IGeometryObject geometryObject;
+        //    if (ge)
+        //    {
+                
+        //    }
+        //}
+        if (geometryObject != null) 
         {
-            IGeometryObject geometryObject;
-            if (hit.transform.gameObject.TryGetComponent<IGeometryObject>(out geometryObject))
-            {
-                DeleteCommand command = new DeleteCommand(geometryObject, repository);
-                commandInvoker.ExecuteCommand(command);
-            }
+            DeleteCommand command = new DeleteCommand(geometryObject, repository);
+            commandInvoker.ExecuteCommand(command);
         }
+
     }
 }

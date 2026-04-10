@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.IO.LowLevel.Unsafe;
+using UnityEngine;
 
 public interface IDrawManager
 {
-    event Action OnDown;
-    event Action OnUp;
-    event Action OnHold;
+    public event Action<IGeometryObject, Vector3> OnDown;
+    public event Action<IGeometryObject, Vector3> OnUp;
+    public event Action<IGeometryObject, Vector3> OnHold;
 
-    public void OnLeftMouseDown();
+    public void OnLeftMouseDown(IGeometryObject geometryObject, Vector3 hitpoint);
 
-    public void OnLeftMouseUp();
+    public void OnLeftMouseUp(IGeometryObject geometryObject, Vector3 hitpoint);
 
-    public void OnLeftMouseHold();
+    public void OnLeftMouseHold(IGeometryObject geometryObject, Vector3 hitpoint);
 
     public void SetState(DrawingState state);
 

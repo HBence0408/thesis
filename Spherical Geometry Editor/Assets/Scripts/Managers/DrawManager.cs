@@ -29,9 +29,9 @@ public class DrawManager : IDrawManager
     private ColorState greenColoringState;
     private ColorState magentaColoringState;
 
-    public event Action OnDown;
-    public event Action OnUp;
-    public event Action OnHold;
+    public event Action<IGeometryObject, Vector3> OnDown;
+    public event Action<IGeometryObject, Vector3> OnUp;
+    public event Action<IGeometryObject, Vector3> OnHold;
 
     public DrawManager(ISphericalGeometryFactory factory, ICommandInvoker commandInvoker, IRepository repoitory)
     {
@@ -73,22 +73,22 @@ public class DrawManager : IDrawManager
     //TODO
     //eventek itt is?
 
-    public void OnLeftMouseDown()
+    public void OnLeftMouseDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
         //currentState.OnLeftMouseDown();
-        OnDown?.Invoke();
+        OnDown?.Invoke(geometryObject, hitpoint);
     }
 
-    public void OnLeftMouseUp()
+    public void OnLeftMouseUp(IGeometryObject geometryObject, Vector3 hitpoint)
     {
         //currentState.OnLeftMouseUp();
-        OnUp?.Invoke();
+        OnUp?.Invoke(geometryObject, hitpoint);
     }
 
-    public void OnLeftMouseHold()
+    public void OnLeftMouseHold(IGeometryObject geometryObject, Vector3 hitpoint)
     {
         //currentState.OnLeftMouseHold();
-        OnHold?.Invoke();
+        OnHold?.Invoke(geometryObject, hitpoint);
     }
 
     public void SetState(DrawingState state)

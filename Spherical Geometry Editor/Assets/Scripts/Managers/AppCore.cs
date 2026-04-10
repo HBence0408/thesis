@@ -69,10 +69,6 @@ public class AppCore : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (instance != this)
-        {
-            return;
-        }
 
         if (scene.name == "EditorScene")
         {
@@ -119,6 +115,7 @@ public class AppCore : MonoBehaviour
             newProjectMenu = FindFirstObjectByType<NewProjectMenu>();
             MainMenuState mainMenuState = new MainMenuState(this, mainMenu, newProjectMenu);
             SetState(mainMenuState);
+            Debug.Log("AppCore initialized in MainMenuScene.");
         }
     }
 

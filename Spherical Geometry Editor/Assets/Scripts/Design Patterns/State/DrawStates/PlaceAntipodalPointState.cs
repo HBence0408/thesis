@@ -23,21 +23,13 @@ public class PlaceAntidotalPointState : DrawingState
         manager.OnDown -= OnDown;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-
-        RaycastHit hit;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
-        {
-            ControllPoint point;
-            if (hit.collider.gameObject.TryGetComponent<ControllPoint>(out point))
+            if (geometryObject is ControllPoint)
             {
-                PlaceAntipodalPointCommand command = new PlaceAntipodalPointCommand(point, factory, repository);
+                PlaceAntipodalPointCommand command = new PlaceAntipodalPointCommand(geometryObject as ControllPoint, factory, repository);
                 commandInvoker.ExecuteCommand(command);
                 manager.SetState(this);
             }
-        }
     }
 }

@@ -24,26 +24,21 @@ public class PlacePointsState : DrawingState
         manager.OnDown -= OnDown;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
 
-        RaycastHit hit;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
-        {
-            if (hit.transform.TryGetComponent<ParametricCurve>(out ParametricCurve curve))
+            if (geometryObject is ParametricCurve)
             {
-                PlaceLimitedPointCommand command = new PlaceLimitedPointCommand(hit.point, curve, factory, repository);
+                PlaceLimitedPointCommand command = new PlaceLimitedPointCommand(hitpoint, geometryObject as ParametricCurve, factory, repository);
                 commandInvoker.ExecuteCommand(command);
                 manager.SetState(this);
             }
             else
             {
-                PlacePointCommand command = new PlacePointCommand(hit.point, factory, repository);
+                PlacePointCommand command = new PlacePointCommand(hitpoint, factory, repository);
                 commandInvoker.ExecuteCommand(command);
                 manager.SetState(this);
             }   
-        }
+        
     }
 }

@@ -17,23 +17,19 @@ public class IntersectDrawState : DrawingState
         this.repository = repository;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
 
-        RaycastHit hit;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
+        if (geometryObject != null && geometryObject is ParametricCurve)
         {
-
-            if (hit.transform.gameObject.tag == "intersectable" && intersectable1 == null)
+            ParametricCurve intersectable = geometryObject as ParametricCurve;
+            if (intersectable1 == null)
             {
-                // manager.SelectControllPoint(hit.transform.gameObject);
-                intersectable1 = hit.transform.gameObject.GetComponent<ParametricCurve>();
+                intersectable1 = intersectable;
             }
-            else if (hit.transform.gameObject.tag == "intersectable" && intersectable1 != null)
+            else if ( intersectable1 != null)
             {
-                intersectable2 = hit.transform.gameObject.GetComponent<ParametricCurve>();
+                intersectable2 = intersectable;
                 ICommand command = null;
                 if (intersectable1 is GreatCircle && intersectable2 is GreatCircle)
                 {

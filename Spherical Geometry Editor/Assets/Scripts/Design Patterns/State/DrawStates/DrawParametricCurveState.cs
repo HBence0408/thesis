@@ -25,29 +25,40 @@ public abstract class DrawParametricCurveState : DrawingState
 
     public override void OnExit()
     {
-        manager.OnDown += OnDown;
+        manager.OnDown -= OnDown;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-        RaycastHit hit;
+        //RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //if (Physics.Raycast(ray, out hit, 1000))
+        //{
+        //    Debug.Log(hit.transform.name);
+        //    Debug.Log("hit");
+
+        //    if (hit.transform.gameObject.tag == "point")
+        //    {
+        //        SelectedControllPoints.Add(hit.transform.gameObject);
+        //    }
+        //    else
+        //    {
+        //        PlacePointCommand command = new PlacePointCommand(hit.point,factory, repository);
+        //        commandInvoker.ExecuteCommand(command);
+        //        SelectedControllPoints.Add(command.GetPoint().gameObject);
+        //    }
+        //}
+
+        if (geometryObject is ControllPoint)
         {
-            Debug.Log(hit.transform.name);
-            Debug.Log("hit");
-
-            if (hit.transform.gameObject.tag == "point")
-            {
-                SelectedControllPoints.Add(hit.transform.gameObject);
-            }
-            else
-            {
-                PlacePointCommand command = new PlacePointCommand(hit.point,factory, repository);
-                commandInvoker.ExecuteCommand(command);
-                SelectedControllPoints.Add(command.GetPoint().gameObject);
-            }
+            SelectedControllPoints.Add(((ControllPoint)(geometryObject)).gameObject);
+        }
+        else 
+        {
+            PlacePointCommand command = new PlacePointCommand(hitpoint, factory, repository);
+            commandInvoker.ExecuteCommand(command);
+            SelectedControllPoints.Add(command.GetPoint().gameObject);
         }
 
         if (requiredControllPoints == SelectedControllPoints.Count)

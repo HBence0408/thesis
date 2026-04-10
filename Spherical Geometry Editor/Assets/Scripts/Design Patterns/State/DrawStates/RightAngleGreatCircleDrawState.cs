@@ -18,34 +18,28 @@ public class RightAngleGreatCircleDrawState : DrawingState
         this.commandInvoker = commandInvoker;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-        RaycastHit hit;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
-        {
-
-            if (hit.transform.TryGetComponent<GreatCircle>(out GreatCircle g) && greatCircle == null)
+            if (geometryObject is GreatCircle && greatCircle == null)
             {
                 // manager.SelectControllPoint(hit.transform.gameObject);
-                greatCircle = g;
+                greatCircle = geometryObject as GreatCircle;
             }
             else if(greatCircle != null)
             {
-                if (hit.transform.gameObject.tag == "point")
+                if (geometryObject is ControllPoint)
                 {
-                    point = hit.transform.gameObject;
+                    point = ((ControllPoint)(geometryObject)).gameObject;
                 }
-                else if (hit.transform.TryGetComponent<ParametricCurve>(out ParametricCurve curve))
+                else if (geometryObject is ParametricCurve)
                 {
-                    PlaceLimitedPointCommand pointCommand = new PlaceLimitedPointCommand(hit.point, curve, factory, repository);
+                    PlaceLimitedPointCommand pointCommand = new PlaceLimitedPointCommand(hitpoint, greatCircle, factory, repository);
                     commandInvoker.ExecuteCommand(pointCommand);
                     point = pointCommand.GetPoint().gameObject;
                 }
                 else
                 {
-                    PlacePointCommand pointCommand = new PlacePointCommand(hit.point, factory, repository);
+                    PlacePointCommand pointCommand = new PlacePointCommand(hitpoint, factory, repository);
                     commandInvoker.ExecuteCommand(pointCommand);
                     point = pointCommand.GetPoint().gameObject;
                 }
@@ -70,8 +64,6 @@ public class RightAngleGreatCircleDrawState : DrawingState
         //}
 
         
-
-    }
 
     public override void OnEnter()
     {

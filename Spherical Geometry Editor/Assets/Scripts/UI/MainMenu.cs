@@ -32,11 +32,16 @@ public class MainMenu : MonoBehaviour
     {
         ui = GetComponent<UIDocument>().rootVisualElement;
 
-        ui.Q<Button>("NewButton").clicked += OnNewButtonClicked;
+        ui.Q<Button>("NewButton").clicked += OnNewButtonClick;
 
         var holder = ui.Q<VisualElement>("holder");
 
         List<Button> buttons = new List<Button>();
+
+        if (module is null)
+        {
+            return;
+        }
 
         ui.dataSource = module;
 
@@ -56,6 +61,13 @@ public class MainMenu : MonoBehaviour
 
             holder.Add(instance);
         }
+    }
+
+
+    private void OnNewButtonClick()
+    {
+        Debug.Log("new button clicked");
+        OnNewButtonClicked?.Invoke();
     }
 
     public void Hide()

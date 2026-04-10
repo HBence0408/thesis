@@ -21,21 +21,28 @@ public class ColorState : DrawingState
         manager.OnDown -= OnDown;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
 
-        RaycastHit hit;
+        //RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //if (Physics.Raycast(ray, out hit, 1000))
+        //{
+        //    if (hit.transform.TryGetComponent<IGeometryObject>(out IGeometryObject obj))
+        //    {
+        //        ColorCommand command = new ColorCommand(color, obj);
+        //        commandInvoker.ExecuteCommand(command);
+        //        manager.SetState(this);
+        //    }
+        //}
+        if (geometryObject != null)
         {
-            if (hit.transform.TryGetComponent<IGeometryObject>(out IGeometryObject obj))
-            {
-                ColorCommand command = new ColorCommand(color, obj);
-                commandInvoker.ExecuteCommand(command);
-                manager.SetState(this);
-            }
+            ColorCommand command = new ColorCommand(color, geometryObject);
+            commandInvoker.ExecuteCommand(command);
+            manager.SetState(this);
         }
+
     }
 
 }

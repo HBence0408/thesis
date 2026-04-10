@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour, IInputHandler
 {
-    public event Action OnLeftMouseButtonDown;
-    public event Action OnLeftMouseButtonUp;
-    public event Action OnLeftMouseButtonHold;
+    public event Action<IGeometryObject, Vector3> OnLeftMouseButtonDown;
+    public event Action<IGeometryObject, Vector3> OnLeftMouseButtonUp;
+    public event Action<IGeometryObject, Vector3> OnLeftMouseButtonHold;
     public event Action OnWHoldDown;
     public event Action OnSHoldDown;
     public event Action OnDHoldDown;
@@ -15,20 +15,40 @@ public class InputHandler : MonoBehaviour, IInputHandler
     public event Action<IGeometryObject> OnHover;
     public event Action OnNotHover;
     public event Action OnEscapeKeyDown;
+    private IGeometryObject currentlyHovered;
 
     private void Update()
     {
+
+        RaycastHit hit;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 1000))
+        {
+            if (hit.collider.gameObject.TryGetComponent<IGeometryObject>(out IGeometryObject geometryObject))
+            {
+                OnHover?.Invoke(geometryObject);
+                currentlyHovered = geometryObject;
+            }
+            else
+            {
+                OnNotHover?.Invoke();
+                currentlyHovered = null;
+            }
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
-            OnLeftMouseButtonDown?.Invoke();
+            OnLeftMouseButtonDown?.Invoke(currentlyHovered,hit.point);
+            
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            OnLeftMouseButtonUp?.Invoke();
+            OnLeftMouseButtonUp?.Invoke(currentlyHovered, hit.point);
         }
         else if (Input.GetMouseButton(0))
         {
-            OnLeftMouseButtonHold?.Invoke();
+            OnLeftMouseButtonHold?.Invoke(currentlyHovered, hit.point);
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -60,19 +80,6 @@ public class InputHandler : MonoBehaviour, IInputHandler
             OnEscapeKeyDown?.Invoke();
         }
 
-        RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
-        {  
-            if (hit.collider.gameObject.TryGetComponent<IGeometryObject>(out IGeometryObject geometryObject))
-            {
-                OnHover?.Invoke(geometryObject);
-            }
-            else
-            {
-                OnNotHover?.Invoke();
-            }
-        }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-    public interface IInputHandler
+public interface IInputHandler
     {
-        public event Action OnLeftMouseButtonDown;
-        public event Action OnLeftMouseButtonUp;
-        public event Action OnLeftMouseButtonHold;
+        public event Action<IGeometryObject, Vector3> OnLeftMouseButtonDown;
+        public event Action<IGeometryObject, Vector3> OnLeftMouseButtonUp;
+        public event Action<IGeometryObject, Vector3> OnLeftMouseButtonHold;
         public event Action OnWHoldDown;
         public event Action OnSHoldDown;
         public event Action OnDHoldDown;

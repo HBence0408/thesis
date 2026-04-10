@@ -83,19 +83,19 @@ public class EditorState : AppState
         sideMenu.OnColorButtonClicked -= Color;
     }
 
-    private void OnLeftMouseDown()
+    private void OnLeftMouseDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-        drawManager.OnLeftMouseDown();
+        drawManager.OnLeftMouseDown(geometryObject, hitpoint);
     }
 
-    private void OnLeftMousenHold()
+    private void OnLeftMousenHold(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-        drawManager.OnLeftMouseHold();
+        drawManager.OnLeftMouseHold(geometryObject, hitpoint);
     }
 
-    private void OnLeftMouseUp()
+    private void OnLeftMouseUp(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-        drawManager.OnLeftMouseUp();
+        drawManager.OnLeftMouseUp(geometryObject, hitpoint);
     }
 
     private void DrawLine()

@@ -15,29 +15,23 @@ public class PlaceMidPointState : DrawingState
         this.repository = repository;
     }
 
-    private void OnDown()
+    private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
 
-        RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
-        {
-            Debug.Log("Hit: " + hit.transform.name);
-            
-            if (this.point1 == null && hit.transform.TryGetComponent<ControllPoint>(out ControllPoint point1))
+            if (this.point1 == null && geometryObject is ControllPoint)
             {
-                this.point1 = point1;
+                this.point1 = geometryObject as ControllPoint;
             }
-            else if(this.point2 == null && hit.transform.TryGetComponent<ControllPoint>(out ControllPoint point2))
+            else if(this.point2 == null && geometryObject is ControllPoint)
             {
-                this.point2 = point2;
+                this.point2 = geometryObject as ControllPoint;
 
                 PlaceMidPointCommand command = new PlaceMidPointCommand(this.point1, this.point2, factory, repository);
                 commandInvoker.ExecuteCommand(command);
                 manager.SetState(this);
             }
-        }
+        
     }
 
     public override void OnEnter()

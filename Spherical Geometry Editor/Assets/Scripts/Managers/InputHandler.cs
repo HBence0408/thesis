@@ -16,17 +16,14 @@ public class InputHandler : MonoBehaviour, IInputHandler
     public event Action OnNotHover;
     public event Action OnEscapeKeyDown;
     private IGeometryObject currentlyHovered;
-    private Vector3 lastValidHitPoint;
 
     private void Update()
     {
-
         RaycastHit hit;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 1000))
         {
-            lastValidHitPoint = hit.point;
             if (hit.collider.gameObject.TryGetComponent<IGeometryObject>(out IGeometryObject geometryObject))
             {
                 OnHover?.Invoke(geometryObject);
@@ -39,23 +36,24 @@ public class InputHandler : MonoBehaviour, IInputHandler
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && hit.point != null)
         {
-            OnLeftMouseButtonDown?.Invoke(currentlyHovered, lastValidHitPoint);
+            OnLeftMouseButtonDown?.Invoke(currentlyHovered, hit.point);
             
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && hit.point != null)
         {
-            OnLeftMouseButtonUp?.Invoke(currentlyHovered, lastValidHitPoint);
+            OnLeftMouseButtonUp?.Invoke(currentlyHovered, hit.point);
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0) && hit.point != null)
         {
-            OnLeftMouseButtonHold?.Invoke(currentlyHovered, lastValidHitPoint);
+            OnLeftMouseButtonHold?.Invoke(currentlyHovered, hit.point);
         }
 
         if (Input.GetKey(KeyCode.W))
         {
             OnWHoldDown?.Invoke();
+            Debug.Log(this.gameObject.name);
         }
         if (Input.GetKey(KeyCode.S))
         {
@@ -81,7 +79,5 @@ public class InputHandler : MonoBehaviour, IInputHandler
         {
             OnEscapeKeyDown?.Invoke();
         }
-
-
     }
 }

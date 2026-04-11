@@ -22,6 +22,8 @@ public class EditorState : AppState
 
     public override void OnEnter()
     {
+        Debug.Log("editor state on enter");
+
         inputHandler.OnLeftMouseButtonUp += OnLeftMouseUp;
         inputHandler.OnLeftMouseButtonDown += OnLeftMouseDown;
         inputHandler.OnLeftMouseButtonHold += OnLeftMousenHold;
@@ -183,6 +185,7 @@ public class EditorState : AppState
     public void MoveUp()
     {
         cameraMovement.MoveUp();
+        Debug.Log("cucc");
     }
 
     public void MoveDown()
@@ -224,6 +227,7 @@ public class EditorState : AppState
     public void Escape()
     {
         drawManager.Idle();
+        OnExit();
         appCore.SetEscapeMenuState();
     }
 }

@@ -24,6 +24,11 @@ public class Repository : IRepository
 
     public void Store(IGeometryObject geometryObject)
     {
+        if (entites.ContainsKey(geometryObject.Id))
+        {
+            return;
+        }
+
         entites.Add(geometryObject.Id, geometryObject);
         Debug.Log("added " + geometryObject.Id + " to repository");
     }

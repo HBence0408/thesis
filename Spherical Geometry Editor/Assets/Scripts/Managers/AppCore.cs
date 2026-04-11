@@ -50,11 +50,12 @@ public class AppCore : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+
 
         if (Instance == null)
         {
             Instance = this;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -157,7 +158,7 @@ public class AppCore : MonoBehaviour
     {
         //EscapeMenuState escapeMenuState = new EscapeMenuState(this, sideMenu, escapeMenu);
         //SetState(escapeMenuState);
-        if (colorPickState != null)
+        if (escapeMenuState != null)
         {
             SetState(escapeMenuState);
         }
@@ -165,7 +166,7 @@ public class AppCore : MonoBehaviour
 
     public void SetSaveState()
     {
-        if (colorPickState != null)
+        if (saveState != null)
         {
             SetState(saveState);
         }
@@ -173,7 +174,7 @@ public class AppCore : MonoBehaviour
 
     public void SetLoadState()
     {
-        if (colorPickState != null)
+        if (loadState != null)
         {
             SetState(loadState);
         }

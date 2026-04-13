@@ -19,7 +19,6 @@ public class IntersectDrawState : DrawingState
 
     private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
-
         if (geometryObject != null && geometryObject is ParametricCurve)
         {
             ParametricCurve intersectable = geometryObject as ParametricCurve;

@@ -74,6 +74,8 @@ public class Linker : ILinker
         GreatCircleSegment greatCircleSegment;
         SmallCircle smallCircle;
 
+        Debug.Log(dto.IntersectionType);
+
         switch (dto.IntersectionType)
         {
             case IntersectionType.GREATCIRCLE_GREATCIRCLE_A:
@@ -184,7 +186,7 @@ public class Linker : ILinker
 
                 intersectionPoint.SetRecalculate(IntersectionType.SMALLCIRCLE_GREATCIRCLE_A, greatCircle, smallCircle, (curve1, curve2) =>
                 {
-                    Vector3[] intersections = intersectionCalculater.CalculateIntersections(curve1 as GreatCircleSegment, curve2 as SmallCircle);
+                    Vector3[] intersections = intersectionCalculater.CalculateIntersections(curve1 as GreatCircle, curve2 as SmallCircle);
                     if (intersections.Length == 0)
                     {
                         return Vector3.zero;

@@ -6,8 +6,7 @@ public class AppCore : MonoBehaviour
     private CameraMovement cameraMovement;
     private SideMenu sideMenu;
     private InputHandler inputHandler;
-    private static AppCore instance;
-    private AppState currentState;
+    private IAppState currentState;
     private IDrawManager drawManager;
     private IRepository repository;
     private ColorMenu colorMenu;
@@ -45,12 +44,11 @@ public class AppCore : MonoBehaviour
     private string currentFile = "";
     
     public static AppCore Instance;
+    private static AppCore instance;
 
     private void Awake()
     {
         DontDestroyOnLoad(this);
-
-
 
         if (Instance == null)
         {
@@ -91,11 +89,11 @@ public class AppCore : MonoBehaviour
             saveManager = new SaveManager(repository, mapper);
             factory = new SphericalGeometryFactory(intersectionCalculater, meshGenerator,GrabablePointPreafab, IntersectPointPrefab, SmallCirclePrefab, GreatCirclePrefab, GreatCircleSegmentPrefab, LimitedPointPrefab, AntipodalPointPrefab, PolePointPrefab, MidPointPrefab, ShadowPolePointPrefab);
             drawManager = new DrawManager(factory, commandInvoker, repository);
-            editorState = new EditorState(this, inputHandler, sideMenu, drawManager, commandInvoker, cameraMovement, highlighter);
-            colorPickState = new ColorPickState(this, sideMenu, drawManager, colorMenu);
-            escapeMenuState = new EscapeMenuState(this, sideMenu, escapeMenu);
-            saveState = new SaveState(this, saveManager, currentFile);
-            loadState = new LoadState(this, loadManager, fileToLoad);
+            editorState = new EditorState( inputHandler, sideMenu, drawManager, commandInvoker, cameraMovement, highlighter);
+            colorPickState = new ColorPickState( sideMenu, drawManager, colorMenu);
+            escapeMenuState = new EscapeMenuState( sideMenu, escapeMenu);
+            saveState = new SaveState(saveManager, currentFile);
+            loadState = new LoadState(loadManager, fileToLoad);
 
             if (fileToLoad != string.Empty)
             {
@@ -114,13 +112,15 @@ public class AppCore : MonoBehaviour
         {
             mainMenu = FindFirstObjectByType<MainMenu>();
             newProjectMenu = FindFirstObjectByType<NewProjectMenu>();
-            MainMenuState mainMenuState = new MainMenuState(this, mainMenu, newProjectMenu);
+            MainMenuState mainMenuState = new MainMenuState(mainMenu, newProjectMenu);
             SetState(mainMenuState);
             Debug.Log("AppCore initialized in MainMenuScene.");
         }
     }
 
-    private void SetState(AppState state)
+
+
+    private void SetState(IAppState state)
     {
         if (currentState != null)
         {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EditorState : AppState
+public class EditorState : IAppState
 {
     private IInputHandler inputHandler;
     private SideMenu sideMenu;
@@ -8,9 +8,8 @@ public class EditorState : AppState
     private ICommandInvoker commandInvoker;
     private CameraMovement cameraMovement;
     private IHighlighter highlighter;
-   // private ColorMenu colorMenu;
 
-    public EditorState(AppCore appCore, IInputHandler inputHandler, SideMenu sideMenu, IDrawManager drawManager, ICommandInvoker commandInvoker, CameraMovement cameraMovement, IHighlighter highlighter) : base(appCore)
+    public EditorState(IInputHandler inputHandler, SideMenu sideMenu, IDrawManager drawManager, ICommandInvoker commandInvoker, CameraMovement cameraMovement, IHighlighter highlighter)
     {
         this.inputHandler = inputHandler;
         this.sideMenu = sideMenu;
@@ -20,7 +19,7 @@ public class EditorState : AppState
         this.highlighter = highlighter;
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
         Debug.Log("editor state on enter");
 
@@ -53,7 +52,7 @@ public class EditorState : AppState
         sideMenu.OnColorButtonClicked += Color;
     }
 
-    public override void OnExit()
+    public void OnExit()
     {
         inputHandler.OnLeftMouseButtonUp -= OnLeftMouseUp;
         inputHandler.OnLeftMouseButtonDown -= OnLeftMouseDown;
@@ -179,13 +178,12 @@ public class EditorState : AppState
     {
         drawManager.Idle();
         highlighter.HighlightEverythingState();
-        appCore.SetColorPickState();
+        AppCore.Instance.SetColorPickState();
     }
 
     public void MoveUp()
     {
         cameraMovement.MoveUp();
-        Debug.Log("cucc");
     }
 
     public void MoveDown()
@@ -215,7 +213,6 @@ public class EditorState : AppState
 
     public void CurrentlyHovered(IGeometryObject geometryObject)
     {
-        //Debug.Log(geometryObject.Id);
         highlighter.Highlight(geometryObject);
     }
 
@@ -228,6 +225,6 @@ public class EditorState : AppState
     {
         drawManager.Idle();
         OnExit();
-        appCore.SetEscapeMenuState();
+        AppCore.Instance.SetEscapeMenuState();
     }
 }

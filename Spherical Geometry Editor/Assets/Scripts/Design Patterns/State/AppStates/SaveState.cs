@@ -1,24 +1,21 @@
 using UnityEngine;
 
-public class SaveState : AppState
+public class SaveState : IAppState
 {
     private ISaveManager saveManager;
     private string fileName = "";
 
-    public SaveState(AppCore appCore, ISaveManager saveManager, string fileName) : base(appCore)
+    public SaveState(ISaveManager saveManager, string fileName)
     {
         this.saveManager = saveManager;
         this.fileName = fileName;
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
         saveManager.Save(fileName);
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
-    public override void OnExit()
-    {
-        
-    }
+    public void OnExit() { }
 }

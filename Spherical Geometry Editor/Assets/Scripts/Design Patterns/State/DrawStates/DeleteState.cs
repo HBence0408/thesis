@@ -20,7 +20,7 @@ public class DeleteState : DrawingState
 
     public override void OnExit()
     {
-        manager.OnDown += OnDown;
+        manager.OnDown -= OnDown;
     }
 
     private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)

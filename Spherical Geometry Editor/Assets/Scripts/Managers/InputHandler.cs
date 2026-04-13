@@ -22,8 +22,10 @@ public class InputHandler : MonoBehaviour, IInputHandler
         RaycastHit hit;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000))
+        if (Physics.Raycast(ray, out hit, 10))
         {
+            Debug.Log(hit.transform.gameObject.name);
+
             if (hit.collider.gameObject.TryGetComponent<IGeometryObject>(out IGeometryObject geometryObject))
             {
                 OnHover?.Invoke(geometryObject);
@@ -36,16 +38,16 @@ public class InputHandler : MonoBehaviour, IInputHandler
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && hit.point != null)
+        if (Input.GetMouseButtonDown(0) && hit.point != null && hit.point != Vector3.zero)
         {
+
             OnLeftMouseButtonDown?.Invoke(currentlyHovered, hit.point);
-            
         }
-        else if (Input.GetMouseButtonUp(0) && hit.point != null)
+        else if (Input.GetMouseButtonUp(0) && hit.point != null && hit.point != Vector3.zero)
         {
             OnLeftMouseButtonUp?.Invoke(currentlyHovered, hit.point);
         }
-        else if (Input.GetMouseButton(0) && hit.point != null)
+        else if (Input.GetMouseButton(0) && hit.point != null && hit.point != Vector3.zero)
         {
             OnLeftMouseButtonHold?.Invoke(currentlyHovered, hit.point);
         }

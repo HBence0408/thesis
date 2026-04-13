@@ -30,6 +30,7 @@ public abstract class DrawParametricCurveState : DrawingState
 
     private void OnDown(IGeometryObject geometryObject, Vector3 hitpoint)
     {
+
         //RaycastHit hit;
 
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

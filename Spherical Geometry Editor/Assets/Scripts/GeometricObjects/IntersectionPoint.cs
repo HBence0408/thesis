@@ -23,6 +23,10 @@ public class IntersectionPoint : ControllPoint, IObserver
         }
 
         Vector3 zero = new Vector3(0, 0, 0);
+
+        Debug.Log(curve1);
+        Debug.Log(curve2);
+
         Vector3 newPos = recalculatePosition(curve1, curve2).normalized;
         if (newPos == zero)
         {
@@ -43,6 +47,8 @@ public class IntersectionPoint : ControllPoint, IObserver
         this.curve2 = curve2;
         curve2.Subscirbe(this);
         this.recalculatePosition = recalculate;
+
+        
     }
 
     //public new void Destroy()

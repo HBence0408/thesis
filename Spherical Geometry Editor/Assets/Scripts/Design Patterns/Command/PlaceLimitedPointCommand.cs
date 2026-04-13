@@ -21,7 +21,6 @@ public class PlaceLimitedPointCommand : ICommand
     public void Execute()
     {
         pointScript = factory.CreateLimitedpoint(pos);
-        pointScript.transform.position = pos;
         pointScript.SetCurve(curve);
         repository.Store(pointScript);
         isExecuted = true;

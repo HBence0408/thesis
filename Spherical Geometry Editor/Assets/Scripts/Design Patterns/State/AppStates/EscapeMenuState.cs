@@ -2,19 +2,19 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class EscapeMenuState : AppState
+public class EscapeMenuState : IAppState
 {
 
     private SideMenu sideMenu;
     private EscapeMenu escapeMenu;
 
-    public EscapeMenuState(AppCore appCore, SideMenu sideMenu, EscapeMenu escapeMenu) : base(appCore)
+    public EscapeMenuState(SideMenu sideMenu, EscapeMenu escapeMenu)
     {
         this.sideMenu = sideMenu;
         this.escapeMenu = escapeMenu;
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
         sideMenu.Hide();
         escapeMenu.Reveal();
@@ -23,7 +23,7 @@ public class EscapeMenuState : AppState
         escapeMenu.OnQuitButtonClicked += Quit;
     }
 
-    public override void OnExit()
+    public void OnExit()
     {
         sideMenu.Reveal();
         escapeMenu.Hide();
@@ -34,12 +34,12 @@ public class EscapeMenuState : AppState
 
     private void Back()
     {
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void Save()
     {
-        appCore.SetSaveState();
+        AppCore.Instance.SetSaveState();
     }
 
     private void Quit()

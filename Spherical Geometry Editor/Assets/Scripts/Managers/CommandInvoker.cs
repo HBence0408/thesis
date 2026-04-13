@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class CommandInvoker : ICommandInvoker
 {
-   // private Stack<ICommand> undoStack = new Stack<ICommand>();
-
     private LinkedList<ICommand> commandHistory = new LinkedList<ICommand>();
     int maxHistorySize = 10;
     private Stack<ICommand> redoStack = new Stack<ICommand>();

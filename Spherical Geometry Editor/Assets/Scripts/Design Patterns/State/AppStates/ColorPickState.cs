@@ -1,19 +1,19 @@
 using UnityEngine;
 
-public class ColorPickState : AppState
+public class ColorPickState : IAppState
 {
     private SideMenu sideMenu;
     private IDrawManager drawManager;
     private ColorMenu colorMenu;
 
-    public ColorPickState(AppCore appCore, SideMenu sideMenu, IDrawManager drawManager, ColorMenu colorMenu) : base(appCore)
+    public ColorPickState(SideMenu sideMenu, IDrawManager drawManager, ColorMenu colorMenu)
     {
         this.sideMenu = sideMenu;
         this.drawManager = drawManager;
         this.colorMenu = colorMenu;
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
         sideMenu.Hide();
         colorMenu.Reveal();
@@ -26,7 +26,7 @@ public class ColorPickState : AppState
         colorMenu.OnCancelButtonClicked += Cancel;
     }
 
-    public override void OnExit()
+    public void OnExit()
     {
         sideMenu.Reveal();
         colorMenu.Hide();
@@ -42,41 +42,41 @@ public class ColorPickState : AppState
     private void SetToRed()
     {
         drawManager.ColorRed();
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void SetToBlue()
     {
         drawManager.ColorBlue();
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void SetToGreen()
     {
         drawManager.ColorGreen();
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void SetToBlack()
     {
         drawManager.ColorBlack();
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void SetToGrey()
     {
         drawManager.ColorGrey();
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void SetToMagenta()
     {
         drawManager.ColorMagenta();
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 
     private void Cancel()
     {
-        appCore.SetEditorState();
+        AppCore.Instance.SetEditorState();
     }
 }

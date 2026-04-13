@@ -1,38 +1,29 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LoadState : AppState
+public class LoadState : IAppState
 {
     private ILoadManager loadManager;
     private string fileName;
 
-    public LoadState(AppCore appCore, ILoadManager loadManager, string fileName) : base(appCore)
+    public LoadState(ILoadManager loadManager, string fileName)
     {
         this.loadManager = loadManager;
         this.fileName = fileName;
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
-        if (fileName != string.Empty)
+        if (fileName == string.Empty)
         {
-            try
-            {
-               loadManager.Load(fileName);
-            }
-            catch (System.Exception e)
-            {
-
-                Debug.LogError(e.Message);
-                appCore.SetEditorState();
-            }
-
-            
+            SceneManager.LoadScene("MainMenuScene");
         }
 
-        appCore.SetEditorState();
+        loadManager.Load(fileName);
+        AppCore.Instance.SetEditorState();
     }
 
-    public override void OnExit()
+    public void OnExit()
     {
         fileName = string.Empty;
     }
